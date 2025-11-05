@@ -1,7 +1,10 @@
-export default function Notifications() {
+import { useParams } from "react-router-dom";
+
+export default function UserProfile() {
+  const params = useParams();
   return (
     <>
-      <h1>Notifications</h1>
+      <h1>UserProfile - {params.id} - {params.username}</h1>
       <p>Học Lập Trình Để Đi Làm</p>
       <p>
         Điện thoại: 08 1919 8989 Email: contact@fullstack.edu.vn Địa chỉ: Số 1,

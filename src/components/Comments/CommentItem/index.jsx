@@ -7,23 +7,15 @@ import {
   Repeat2 as Repeat2Icon,
   Send as SendIcon,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 
-function PostItem({ userId, id, title, body }) {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate(`/@${userId}/post/${id}`);
-  };
+function CommentItem({ postId, id, name, body }) {
   const username = "user_" + Math.floor(Math.random() * 100);
   const urlImage =
     "https://picsum.photos/600/400?random=" + Math.floor(Math.random() * 10);
 
   return (
-    <Card
-      onClick={handleClick}
-      className="flex cursor-pointer flex-col rounded-none border-b p-3 md:p-6"
-    >
+    <Card className="flex cursor-pointer flex-col rounded-none border-b p-3 md:p-6">
       <div className="flex gap-2">
         <div>
           <Avatar className="size-9">
@@ -46,7 +38,7 @@ function PostItem({ userId, id, title, body }) {
               </div>
               {body && (
                 <div className="body mt-1 text-sm">
-                  {title}: {body}
+                  {name}: {body}
                 </div>
               )}
             </div>
@@ -56,8 +48,8 @@ function PostItem({ userId, id, title, body }) {
           </div>
 
           {urlImage && (
-            <div className="overflow-hidden rounded-lg">
-              <img src={urlImage} className="w-full" alt={""} />
+            <div className="overflow-hidden">
+              <img src={urlImage} className="max-h-20 w-auto" alt={""} />
             </div>
           )}
 
@@ -88,4 +80,4 @@ function PostItem({ userId, id, title, body }) {
   );
 }
 
-export default PostItem;
+export default CommentItem;

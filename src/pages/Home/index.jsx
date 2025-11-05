@@ -1,61 +1,56 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import ForYou from "../ForYou/ForYou";
 import Following from "../Following/Following";
+import PostItem from "@/components/PostItem/PostItem";
 
-const NavInHome = ({ page, setPage }) => {
-  return (
-    <div className=" flex items-center justify-center md:hidden">
-      <Button
-        onClick={() => setPage("forYou")}
-        className={`transition-all h-12 w-68 text-[#b8b8b8] flex-1 border-b-2 rounded-b-none rounded-t-none cursor-pointer  ${
-          page === "forYou" ? " border-black text-black" : ""
-        } `}
-        variant={"ghost"}
-      >
-        For you
-      </Button>
-      <Button
-        onClick={() => setPage("following")}
-        className={`transition-all h-12 w-68 text-[#b8b8b8] flex-1 border-b-2 rounded-b-none rounded-t-none cursor-pointer ${
-          page !== "forYou" ? " border-black text-black" : ""
-        } `}
-        variant={"ghost"}
-      >
-        Following
-      </Button>
-    </div>
-  );
-};
+import { mockPosts } from "@/mockDatas/mockPosts.js";
+
+import { NavLink } from "react-router";
+import NavigateInHome from "@/components/Navigation/NavigateInHome";
+import PostLists from "@/components/Posts/PostLists";
+import { useEffect, useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Home() {
-  const [page, setPage] = useState("forYou");
-  if (page === "forYou")
-    return (
-      <>
-        <div>
-          <div>
-            <NavInHome page={page} setPage={setPage} />
-          </div>
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-          <div>
-            <ForYou/>
-          </div>
-        </div>
-      </>
-    );
-  else {
-    return (
-      <>
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/posts",
+        );
+        if (!response.ok) throw new Error("Failed to fetch posts");
+
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        throw new error();
+      } finally {
+        setLoading(false);
+      }
+    };
+    setLoading(true);
+    fetchPosts();
+  }, []);
+
+  return (
+    <>
+      <div>
         <div>
-          <div>
-            <NavInHome page={page} setPage={setPage} />
-          </div>
-          <div>
-            <Following />
-          </div>
+          <NavigateInHome />
         </div>
-      </>
-    );
-  }
+        {loading ? (
+          <div className="flex h-dvh w-dvw items-center justify-center gap-4">
+            <Spinner />
+          </div>
+        ) : (
+          <div>
+            <PostLists posts={posts} />
+          </div>
+        )}
+      </div>
+    </>
+  );
 }

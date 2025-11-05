@@ -10,7 +10,7 @@ export default function Navigation() {
         <div className="hidden items-center md:flex md:flex-0 md:flex-col">
           <svg
             aria-label="Threads"
-            className="size-8 mt-3"
+            className="mt-3 size-8"
             fill="var(--barcelona-primary-icon)"
             height="100%"
             role="img"
@@ -29,13 +29,13 @@ export default function Navigation() {
                 child.isShowInNav && (
                   <NavLink
                     className={
-                      "group m-1 flex h-10.5 md:w-15 md:h-15 flex-1 items-center justify-center rounded-xl border-0 text-[rgb(184,184,184)] md:mt-[6px] md:mb-[6px] md:h-15 md:w-12 md:flex-none md:gap-1"
+                      "group hover:bg-[rgba(0,0,0,0.035)] m-1 flex h-10.5 flex-1 items-center justify-center rounded-xl border-0 text-[rgb(184,184,184)] md:mt-[6px] md:mb-[6px] md:h-15 md:w-12 md:w-15 md:flex-none md:gap-1"
                     }
                     key={index}
                     to={child.path}
                   >
                     <Icon
-                      className={`group-[.active]:text-black size-6 ${
+                      className={`size-6 group-[.active]:text-black ${
                         child.isFill ? "group-[.active]:fill-black" : ""
                       } `}
                     />
