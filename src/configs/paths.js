@@ -3,10 +3,12 @@ export const PATHS = {
   USER_PROFILE: "/:username",
   FOR_YOU: "/for_you",
   FOLLOWING: "/following",
-  GHOST_POSTS:"/ghost-posts",
+  GHOST_POSTS: "/ghost-posts",
   POST_DETAIL: "/:username/post/:id",
   SEARCH: "/search",
   ACTIVITY: "/activity",
   PROFILE: "/profile",
+  LOGIN: "/login",
+  REGISTER: "/register",
   NOT_FOUND: "*",
 };

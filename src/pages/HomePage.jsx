@@ -1,14 +1,18 @@
+import { useEffect, useState } from "react";
+
 import NavigateInHome from "@/components/Navigation/NavigateInHome";
 import PostLists from "@/components/Posts/PostLists";
-import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/useAuth";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchPosts = async () => {

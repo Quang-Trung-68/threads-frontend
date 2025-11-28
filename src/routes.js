@@ -19,6 +19,8 @@ import UserProfile from "@/pages/ProfilePage";
 import Following from "./pages/Following/Following";
 import GhostPosts from "./pages/GhostPosts";
 import ForYou from "./pages/ForYou/ForYou";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 
 export const ROUTES = [
   {
@@ -31,6 +33,7 @@ export const ROUTES = [
         isShowInNav: true,
         icon: HouseIcon,
         isFill: true,
+        private: true,
       },
       {
         path: PATHS.POST_DETAIL,
@@ -39,6 +42,7 @@ export const ROUTES = [
         isShowInNav: false,
         icon: null,
         isFill: null,
+        private: true,
       },
       {
         path: PATHS.USER_PROFILE,
@@ -106,6 +110,26 @@ export const ROUTES = [
       },
     ],
   },
+  {
+    layout: LAYOUTS.AUTH,
+    children: [
+      {
+        path: PATHS.LOGIN,
+        title: "Login",
+        element: Login,
+        isShowInNav: false,
+        private: false,
+      },
+      {
+        path: PATHS.REGISTER,
+        title: "Register",
+        element: Register,
+        isShowInNav: false,
+        private: false,
+      },
+    ],
+  },
+
   {
     layout: LAYOUTS.NO_LAYOUT,
     children: [

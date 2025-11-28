@@ -1,27 +1,48 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "@/App.css";
 import { ROUTES } from "@/routes";
-
+import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {ROUTES.map((rou, index) => {
-          const Layout = rou.layout;
-          return (
-            <Route key={index} element={<Layout />}>
-              {rou.children.map((child, index) => {
-                const Element = child.element;
-                return (
-                  <Route key={index} path={child.path} element={<Element />} />
-                );
-              })}
-            </Route>
-          );
-        })}
-      </Routes>
-    </Router>
+    <>
+      <ToastContainer />
+      <Router>
+        <Routes>
+          {ROUTES.map((router, index) => {
+            const Layout = router.layout;
+            return (
+              <Route key={index} element={<Layout />}>
+                {router.children.map((child, index) => {
+                  const Element = child.element;
+                  const isPrivate = child.private;
+                  if (!isPrivate)
+                    return (
+                      <Route
+                        key={index}
+                        path={child.path}
+                        element={<Element />}
+                      />
+                    );
+                  return (
+                    <Route
+                      key={index}
+                      path={child.path}
+                      element={
+                        <ProtectedRoute>
+                          <Element />
+                        </ProtectedRoute>
+                      }
+                    />
+                  );
+                })}
+              </Route>
+            );
+          })}
+        </Routes>
+      </Router>
+    </>
   );
 }
 
