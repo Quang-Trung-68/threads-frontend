@@ -6,13 +6,14 @@ import { Spinner } from "@/components/ui/spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Cookies from "js-cookie";
+import useAuth from "@/hooks/useAuth";
+import DragDropDashboard from "@/components/DragDropColumns/DragDropDashboard";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const user = JSON.parse(Cookies.get("userInfo"));
+  const { user } = useAuth();
   const { firstName, lastName } = user;
   useEffect(() => {
     const fetchPosts = async () => {
@@ -36,7 +37,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center">
+      {/* <div className="flex flex-col items-center justify-center">
         <div>
           <NavigateInHome />
         </div>
@@ -81,7 +82,8 @@ export default function Home() {
             <PostLists isPermitDetailPost={true} posts={posts} />
           </div>
         )}
-      </div>
+      </div> */}
+      <DragDropDashboard />
     </>
   );
 }

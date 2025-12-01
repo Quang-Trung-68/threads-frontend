@@ -10,7 +10,7 @@ const useAuth = () => {
     isFetching,
   } = useGetCurrentUserQuery();
   Cookies.set("userInfo", JSON.stringify(user || {}));
-  return { user, isLoading, isError, isSuccess };
+  return { user, isLoading, isError, isSuccess, isFetching };
 };
 
 export default useAuth;

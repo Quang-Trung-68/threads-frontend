@@ -147,6 +147,7 @@ export default function Register() {
             <button
               type="submit"
               className="mt-6 w-full cursor-pointer rounded-xl bg-black py-3 font-medium text-white transition-colors hover:bg-gray-800"
+              disabled={isLoading}
             >
               Sign up
             </button>

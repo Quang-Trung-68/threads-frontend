@@ -11,7 +11,6 @@ const baseQuery =
         data,
         params,
       });
-
       return { data: result.data };
     } catch (axiosError) {
       const err = axiosError;

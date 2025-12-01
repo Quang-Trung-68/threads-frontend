@@ -1,7 +1,7 @@
 // AuthLayout.jsx
 import { Outlet } from "react-router-dom";
 
-const AuthLayout = () => {
+export default function AuthLayout() {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white p-4">
       {/* Decorative Threads logos */}
@@ -65,6 +65,4 @@ const AuthLayout = () => {
       </div>
     </div>
   );
-};
-
-export default AuthLayout;
+}

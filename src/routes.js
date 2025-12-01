@@ -24,17 +24,31 @@ import Register from "./pages/Auth/Register";
 
 export const ROUTES = [
   {
-    layout: LAYOUTS.DEFAULT,
+    layout: LAYOUTS.HOME,
     children: [
       {
         path: PATHS.HOME,
         title: "Home",
         element: Home,
+        private: true,
         isShowInNav: true,
         icon: HouseIcon,
         isFill: true,
-        private: true,
       },
+    ],
+  },
+  {
+    layout: LAYOUTS.DEFAULT,
+    children: [
+      // {
+      //   path: PATHS.HOME,
+      //   title: "Home",
+      //   element: Home,
+      //   isShowInNav: true,
+      //   icon: HouseIcon,
+      //   isFill: true,
+      //   private: true,
+      // },
       {
         path: PATHS.POST_DETAIL,
         title: "Post Detail",
@@ -110,6 +124,7 @@ export const ROUTES = [
       },
     ],
   },
+
   {
     layout: LAYOUTS.AUTH,
     children: [
