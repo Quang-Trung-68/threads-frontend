@@ -1,5 +1,5 @@
 import { registerSchema } from "@/schemas";
-import { useRegisterMutation } from "@/services/auth";
+import { useRegisterMutation } from "@/services/authService";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";

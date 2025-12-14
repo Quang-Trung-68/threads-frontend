@@ -1,5 +1,5 @@
 import { loginSchema } from "@/schemas";
-import { useLoginMutation } from "@/services/auth";
+import { useLoginMutation } from "@/services/authService";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation, useNavigate } from "react-router";

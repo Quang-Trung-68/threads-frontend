@@ -4,20 +4,24 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/Common/ui/avatar";
-import {
-  Heart as LikeIcon,
-  MessageCircle as ReplyIcon,
-  Ellipsis as MoreIcon,
-  Repeat2 as Repeat2Icon,
-  Send as SendIcon,
-} from "lucide-react";
+import { Ellipsis as MoreIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Card } from "@/components/Common/ui/card";
 
 import ReplyModal from "@/components/Common/Modals/ReplyModal";
 import InteractionBar from "./InteractionBar";
+import { formatTime } from "@/utils/formatTime";
 
-function PostCard({ user, id, content, isPermitDetailPost }) {
+function PostCard({
+  user,
+  id,
+  content,
+  isPermitDetailPost,
+  likes_count,
+  replies_count,
+  reposts_and_quotes_count,
+  updated_at,
+  is_liked_by_auth,
+}) {
   const navigate = useNavigate();
   const handleToPostDetail = () => {
     // if (isPermitDetailPost) {
@@ -65,7 +69,9 @@ function PostCard({ user, id, content, isPermitDetailPost }) {
                   <div className="cursor-pointer font-semibold hover:underline">
                     {user.username}
                   </div>
-                  <div className="text-sm text-gray-500">{"10h"}</div>
+                  <div className="text-sm text-gray-500">
+                    {formatTime(updated_at)}
+                  </div>
                 </div>
                 {content && (
                   <div onClick={handleToPostDetail} className="body mt-1">
@@ -86,7 +92,14 @@ function PostCard({ user, id, content, isPermitDetailPost }) {
 
             {/* Interaction Bar */}
             <div>
-              <InteractionBar toggleReplyModal={toggleReplyModal} />
+              <InteractionBar
+                id={id}
+                likes_count={likes_count}
+                replies_count={replies_count}
+                reposts_and_quotes_count={reposts_and_quotes_count}
+                toggleReplyModal={toggleReplyModal}
+                is_liked_by_auth={is_liked_by_auth}
+              />
             </div>
           </div>
         </div>

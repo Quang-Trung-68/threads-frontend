@@ -3,7 +3,7 @@ import resetPasswordSchema from "@/schemas/resetPasswordSchema";
 import {
   useResetPasswordMutation,
   useValidateResetTokenQuery,
-} from "@/services/auth";
+} from "@/services/authService";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import NavigateInHome from "@/components/Layouts/Navigation/NavigateInHome";
 import {
   Avatar,
   AvatarFallback,
@@ -9,16 +8,17 @@ import {
 import { Input } from "@/components/Common/ui/input";
 import { Button } from "@/components/Common/ui/button";
 import useAuth from "@/hooks/useAuth";
-import { Instagram } from "lucide-react";
 import PostCard from "@/components/post/PostCard";
 
 import useInfiniteScroll from "react-infinite-scroll-hook";
 
-import { useGetFeedQuery } from "@/services/post";
+import { useGetFeedQuery } from "@/services/postService";
+import { Spinner } from "@/components/Common/ui/spinner";
+import { CreatePostModal } from "@/components/Common/Modals/CreatePostModal";
 
 export default function Home() {
   const [page, setPage] = useState(1);
-
+  const [refreshKey] = useState(() => Date.now());
 
   const { user } = useAuth();
   const {
@@ -26,7 +26,14 @@ export default function Home() {
     isLoading,
     isError,
     isFetching,
-  } = useGetFeedQuery({ type: "for_you", page, per_page: 10 });
+  } = useGetFeedQuery({ type: "for_you", page, per_page: 10, refreshKey });
+
+
+
+
+  const onHandlePost = () => {
+    CreatePostModal.open();
+  };
 
   const posts = postsData?.data ?? [];
   const pagination = postsData?.pagination;
@@ -43,9 +50,8 @@ export default function Home() {
     loading: isLoading,
     hasNextPage,
     onLoadMore: loadMore,
-    rootMargin: "0px 0px 100px 0px",
+    rootMargin: "0px 0px 800px 0px",
   });
-
 
   return (
     <div className="relative flex min-h-screen w-full">
@@ -82,57 +88,49 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Avatar + post button if logged in */}
+        {user && (
+          <div className="flex items-center justify-between border-2 bg-white p-5">
+            <div className="flex flex-1 items-center gap-2">
+              <div>
+                <Avatar className={"size-9"}>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@dqt_2309"
+                  />
+                  <AvatarFallback>QT</AvatarFallback>
+                </Avatar>
+              </div>
+              <div onClick={onHandlePost} className="flex-1">
+                <Input
+                  type={"text"}
+                  className={
+                    "border-0 p-0.5 text-gray-500 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+                  }
+                  placeholder={`What's news ?`}
+                />
+              </div>
+            </div>
+            <div onClick={onHandlePost}>
+              <Button
+                variant="outline"
+                className={"cursor-pointer rounded-2xl font-semibold"}
+              >
+                Post
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Main Content - Flows naturally with window scroll */}
         <div className="relative z-0 flex min-h-screen w-full flex-col bg-white">
           {posts &&
             posts.map((post) => (
               <PostCard key={post.id} {...post} isPermitDetailPost={true} />
             ))}
-          {hasNextPage && (
-            <div ref={sentryRef} style={{ textAlign: "center", padding: 16 }}>
-              {isLoading && "Loading more..."}
-            </div>
-          )}
         </div>
+        {hasNextPage && <div ref={sentryRef}>{isLoading && <Spinner />}</div>}
       </div>
     </div>
   );
-}
-
-{
-  /* Avatar + post button if logged in */
-}
-{
-  /* <div className="flex items-center justify-between border-b bg-white p-5">
-<div className="flex flex-1 items-center gap-2">
-<div>
-  <Avatar className={"size-9"}>
-    <AvatarImage
-      src="https://github.com/shadcn.png"
-      alt="@dqt_2309"
-    />
-    <AvatarFallback>QT</AvatarFallback>
-  </Avatar>
-</div>
-<div className="flex-1">
-  <Input
-    type={"text"}
-    className={
-      "border-0 p-0.5 text-gray-500 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
-    }
-    placeholder={`Hi ${firstName} ${lastName}, What's news ?`}
-  />
-</div>
-</div>
-<div>
-<Button
-  variant="ghost"
-  className={
-    "cursor-pointer rounded-3xl bg-black font-semibold text-white hover:bg-gray-800"
-  }
->
-  Post
-</Button>
-</div>
-</div> */
 }

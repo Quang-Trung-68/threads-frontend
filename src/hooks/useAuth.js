@@ -1,4 +1,4 @@
-import { useGetCurrentUserQuery } from "@/services/auth";
+import { useGetCurrentUserQuery } from "@/services/authService";
 import Cookies from "js-cookie";
 
 const useAuth = () => {

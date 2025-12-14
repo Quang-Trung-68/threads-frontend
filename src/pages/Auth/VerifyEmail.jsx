@@ -1,5 +1,5 @@
 import { Spinner } from "@/components/Common/ui/spinner";
-import { useVerifyEmailMutation } from "@/services/auth";
+import { useVerifyEmailMutation } from "@/services/authService";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 

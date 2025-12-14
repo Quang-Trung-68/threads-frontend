@@ -1,4 +1,4 @@
-import { useForgotPasswordMutation } from "@/services/auth";
+import { useForgotPasswordMutation } from "@/services/authService";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router";
