@@ -14,7 +14,7 @@ import useInfiniteScroll from "react-infinite-scroll-hook";
 
 import { useGetFeedQuery } from "@/services/postService";
 import { Spinner } from "@/components/Common/ui/spinner";
-import { CreatePostModal } from "@/components/Common/Modals/CreatePostModal";
+import { CreatePostModal } from "@/components/post/CreatePostModal";
 
 export default function Home() {
   const [page, setPage] = useState(1);
@@ -24,12 +24,8 @@ export default function Home() {
   const {
     data: postsData,
     isLoading,
-    isError,
     isFetching,
   } = useGetFeedQuery({ type: "for_you", page, per_page: 10, refreshKey });
-
-
-
 
   const onHandlePost = () => {
     CreatePostModal.open();
@@ -53,14 +49,39 @@ export default function Home() {
     rootMargin: "0px 0px 800px 0px",
   });
 
+  // Navigation page
+  const handleToForYou = () => {};
+  const handleToFollowing = () => {};
+  const handleToGhostPosts = () => {};
+
   return (
     <div className="relative flex min-h-screen w-full">
       <div className="w-full">
         {/* Sticky Header Container */}
         <div className="sticky top-0 z-50">
           {/* Visible Header */}
-          <div className="flex items-center justify-center bg-[#FAFAFA] p-4 text-lg font-bold">
-            Home
+          <div className="flex items-center justify-center gap-4 bg-[#FAFAFA] p-4 text-lg font-bold">
+            <Button
+              variant={"ghost"}
+              className={"cursor-pointer text-[15px] font-semibold"}
+              onClick={handleToForYou}
+            >
+              For you
+            </Button>
+            <Button
+              variant={"ghost"}
+              className={"cursor-pointer text-[15px] font-semibold"}
+              onClick={handleToFollowing}
+            >
+              Following
+            </Button>
+            <Button
+              variant={"ghost"}
+              className={"cursor-pointer text-[15px] font-semibold"}
+              onClick={handleToGhostPosts}
+            >
+              Ghost posts
+            </Button>
           </div>
 
           {/* Visible Border connecting the masks */}

@@ -33,7 +33,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           <DropdownMenuCheckboxItem
             checked={isSaved}
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
             onCheckedChange={setIsSaved}
           >
@@ -49,7 +49,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           <DropdownMenuCheckboxItem
             checked={isInterested}
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
             onCheckedChange={setIsInterested}
           >
@@ -65,7 +65,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           <DropdownMenuSeparator />
           <DropdownMenuCheckboxItem
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
             <span>Mute</span>
@@ -75,7 +75,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
             <span>Restrict</span>
@@ -85,7 +85,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
             <span className="text-red-500">Block</span>
@@ -95,7 +95,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
             <span className="text-red-500">Report</span>
@@ -106,7 +106,7 @@ const PostOptionsDropdown = ({ id, children }) => {
           <DropdownMenuSeparator />
           <DropdownMenuCheckboxItem
             className={
-              "flex w-66 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
             <span>Copy link</span>

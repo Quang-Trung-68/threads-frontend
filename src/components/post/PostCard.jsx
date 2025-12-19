@@ -7,7 +7,6 @@ import {
 import { Ellipsis as MoreIcon, CirclePlus as FollowIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import ReplyModal from "@/components/Common/Modals/QuickReplyModal";
 import InteractionBar from "./InteractionBar";
 import { formatTime } from "@/utils/formatTime";
 import QuickReplyModal from "@/components/Common/Modals/QuickReplyModal";
@@ -25,8 +24,6 @@ function PostCard({
   is_liked_by_auth,
   is_reposted_by_auth,
 }) {
-  const copyImageNodeRef = useRef();
-
   const navigate = useNavigate();
   const handleToPostDetail = () => {
     // if (isPermitDetailPost) {
@@ -50,7 +47,7 @@ function PostCard({
 
   return (
     <div className="flex flex-col border-2 p-3 md:p-6">
-      <div ref={copyImageNodeRef}>
+      <div>
         <div className="flex gap-2">
           <div
             onClick={handleToUserProfile}
@@ -128,7 +125,6 @@ function PostCard({
                 toggleReplyModal={toggleReplyModal}
                 is_liked_by_auth={is_liked_by_auth}
                 is_reposted_by_auth={is_reposted_by_auth}
-                copyImageNodeRef={copyImageNodeRef}
               />
             </div>
           </div>

@@ -1,11 +1,12 @@
 import { ROUTES } from "@/routes";
 import { NavLink, useNavigate } from "react-router";
 import { Button } from "@/components/Common/ui/button";
-import { ChartBarIncreasing } from "lucide-react";
+import { ChartBarIncreasing, Menu, Pin } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import { useState } from "react";
 import LoginActionModal from "@/components/Common/Modals/LoginActionModal";
-import { CreatePostModal } from "@/components/Common/Modals/CreatePostModal";
+import { CreatePostModal } from "@/components/post/CreatePostModal";
+import UserOptionsDropdown from "@/components/Common/DropdownMenu/UserOptionsDropdown";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function Navigation() {
 
   return (
     <div className="z-100">
-      <nav className="fixed right-0 bottom-0 left-0 z-1 flex bg-white md:top-0 md:right-auto md:bottom-0 md:left-0 md:flex-col md:p-2">
+      <nav className="fixed right-0 bottom-0 left-0 z-50 flex bg-white md:top-0 md:right-auto md:bottom-0 md:left-0 md:flex-col md:p-2">
         <div
           onClick={navigateToHome}
           className="hidden items-center md:flex md:flex-0 md:flex-col"
@@ -103,10 +104,18 @@ export default function Navigation() {
         <div className="hidden items-center justify-end md:flex md:flex-0 md:flex-col">
           <Button
             variant={"ghost"}
-            className={"group mb-4 size-15 cursor-pointer"}
+            className={"group mb-2 size-15 cursor-pointer"}
           >
-            <ChartBarIncreasing className="size-6 text-[rgb(184,184,184)] group-[:hover]:text-black" />
+            <Pin className="size-6 text-[rgb(184,184,184)] group-[:hover]:text-black" />
           </Button>
+          <UserOptionsDropdown>
+            <Button
+              variant={"ghost"}
+              className={"group mb-2 size-15 cursor-pointer"}
+            >
+              <Menu className="size-6 text-[rgb(184,184,184)] group-[:hover]:text-black" />
+            </Button>
+          </UserOptionsDropdown>
         </div>
       </nav>
       <LoginActionModal

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/Common/ui/button";
 import { useState } from "react";
-import ReplyOptionsDropdown from "../../DropdownMenu/ReplyOptionsDropdown";
+import ReplyOptionsDropdown from "../Common/DropdownMenu/ReplyOptionsDropdown";
 
 const Modal = NiceModal.create(
   ({ username = "dqt_2309", onPost, onCancel }) => {
@@ -215,5 +215,10 @@ const Modal = NiceModal.create(
     );
   },
 );
+
+export const CreatePostModal = {
+  open: (props) => NiceModal.show(Modal, props),
+  close: () => NiceModal.hide(Modal),
+};
 
 export default Modal;

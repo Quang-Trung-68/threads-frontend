@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Navigation from "@/components/Layouts/Navigation";
 import LoginActonCard from "@/components/Common/Modals/LoginActonCard";
 import useAuth from "@/hooks/useAuth";
+import AddPostButton from "@/components/Common/AddPostButton";
 
 export default function DefaultLayout() {
   const { user, isLoading } = useAuth();
@@ -22,6 +23,8 @@ export default function DefaultLayout() {
       <div>
         <Navigation />
       </div>
+
+      {user && <AddPostButton />}
     </div>
   );
 }
