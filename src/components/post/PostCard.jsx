@@ -11,7 +11,7 @@ import InteractionBar from "./InteractionBar";
 import { formatTime } from "@/utils/formatTime";
 import QuickReplyModal from "@/components/Common/Modals/QuickReplyModal";
 import PostOptionsDropdown from "../Common/DropdownMenu/PostOptionsDropdown";
-import { useUnmuteMutation } from "@/services/postService";
+import { useUnmuteUserMutation } from "@/services/postService";
 
 function PostCard({
   user,
@@ -29,23 +29,21 @@ function PostCard({
 }) {
   const navigate = useNavigate();
   const [isMuted, setIsMuted] = useState(false);
-  const [unmuteApi, { isLoading: isUnmuteLoading }] = useUnmuteMutation();
+  const [isHidePost, setIsHidePost] = useState(false);
+  const [isRestrictUser, setIsRestrictUser] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [unmuteApi, { isLoading: isUnmuteLoading }] = useUnmuteUserMutation();
 
-  const handleToPostDetail = () => {
-    // if (isPermitDetailPost) {
-    //   navigate(`/@${userId}/post/${id}`);
-    // }
-  };
+  const handleToPostDetail = () => {};
 
-  const handleToUserProfile = () => {
-    // navigate(`/@${userId}`);
-  };
+  const handleToUserProfile = () => {};
 
   const urlImage =
     "https://picsum.photos/600/400?random=" + Math.floor(Math.random() * 10);
 
   const ReplyModalRef = useRef(null);
   const [isReplyOpen, setIsReplyOpen] = useState(false);
+
   const toggleReplyModal = () => {
     ReplyModalRef.current?.toggle();
     setIsReplyOpen((prev) => !prev);
@@ -53,6 +51,17 @@ function PostCard({
 
   const handleMuteSuccess = () => {
     setIsMuted(true);
+  };
+  const handleHidePostSuccess = () => {
+    setIsHidePost(true);
+  };
+
+  const handleRestrictUserSuccess = () => {
+    setIsRestrictUser(true);
+  };
+
+  const handleBlockSuccess = () => {
+    setIsBlocked(true);
   };
 
   const handleUnmute = async () => {
@@ -64,9 +73,15 @@ function PostCard({
     }
   };
 
-  if (isMuted) {
+  if (isBlocked) {
     return (
-      <div className="m-4 flex items-center justify-between rounded-2xl bg-gray-100 p-4 text-sm text-gray-500">
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+        <span>You have blocked {user.username}.</span>
+      </div>
+    );
+  } else if (isMuted) {
+    return (
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
         <span>
           Posts from {user.username} are muted. You can manage who you mute in
           settings on the mobile app.
@@ -74,16 +89,28 @@ function PostCard({
         <button
           onClick={handleUnmute}
           disabled={isUnmuteLoading}
-          className="cursor-pointer rounded-full border border-0 px-4 py-1 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
+          className="cursor-pointer rounded-full border-0 px-4 py-1 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
         >
           {isUnmuteLoading ? "Undoing..." : "Undo"}
         </button>
       </div>
     );
+  } else if (isHidePost) {
+    return (
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+        <span>This post has been hidden.</span>
+      </div>
+    );
+  } else if (isRestrictUser) {
+    return (
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+        <span>This user has been restricted.</span>
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col border-t-2 p-3 md:p-6">
+    <div className="flex flex-col border-y p-3 md:p-6">
       <div>
         <div className="flex gap-2">
           <div
@@ -139,8 +166,12 @@ function PostCard({
               <PostOptionsDropdown
                 id={id}
                 userId={user_id}
+                username={user.username}
                 is_saved_by_auth={is_saved_by_auth}
                 onMuteSuccess={handleMuteSuccess}
+                onHidePostSuccess={handleHidePostSuccess}
+                onRestrictUserSuccess={handleRestrictUserSuccess}
+                onBlockSuccess={handleBlockSuccess}
               >
                 <div className="flex size-8 items-center justify-center rounded-2xl hover:bg-gray-100">
                   <MoreIcon className="size-7 cursor-pointer p-1 text-gray-500" />

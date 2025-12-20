@@ -60,21 +60,55 @@ export const postApi = createApi({
         method: "POST",
       }),
     }),
-    save: builder.mutation({
+    savePost: builder.mutation({
       query: ({ id }) => ({
         url: `/api/posts/${id}/save`,
         method: "POST",
       }),
     }),
-    mute: builder.mutation({
+    muteUser: builder.mutation({
       query: ({ userId }) => ({
         url: `/api/users/${userId}/mute`,
         method: "POST",
       }),
     }),
-    unmute: builder.mutation({
+    unmuteUser: builder.mutation({
       query: ({ userId }) => ({
         url: `/api/users/${userId}/mute`,
+        method: "POST",
+        data: {
+          _method: "DELETE",
+        },
+      }),
+    }),
+    restrictUser: builder.mutation({
+      query: ({ userId }) => ({
+        url: `/api/users/${userId}/restrict`,
+        method: "POST",
+      }),
+    }),
+    hidePost: builder.mutation({
+      query: ({ id }) => ({
+        url: `/api/posts/${id}/hide`,
+        method: "POST",
+      }),
+    }),
+    reportPost: builder.mutation({
+      query: ({ id,data }) => ({
+        url: `/api/posts/${id}/report`,
+        method: "POST",
+        data,
+      }),
+    }),
+    blockUser: builder.mutation({
+      query: ({ userId }) => ({
+        url: `/api/users/${userId}/block`,
+        method: "POST",
+      }),
+    }),
+    unblockUser: builder.mutation({
+      query: ({ userId }) => ({
+        url: `/api/users/${userId}/block`,
         method: "POST",
         data: {
           _method: "DELETE",
@@ -88,7 +122,13 @@ export const {
   useGetFeedQuery,
   useLikePostMutation,
   useRepostMutation,
-  useSaveMutation,
-  useMuteMutation,
-  useUnmuteMutation,
+  useSavePostMutation,
+  useMuteUserMutation,
+  useUnmuteUserMutation,
+  useRestrictUserMutation,
+  useHidePostMutation,
+  useBlockUserMutation,
+  useUnblockUserMutation,
+  useReportPostMutation,
 } = postApi;
+

@@ -18,24 +18,39 @@ import {
   UserRoundX,
 } from "lucide-react";
 import {
-  useMuteMutation,
-  useSaveMutation,
-  useUnmuteMutation,
+  useHidePostMutation,
+  useMuteUserMutation,
+  useRestrictUserMutation,
+  useSavePostMutation,
+  useUnmuteUserMutation,
+  useBlockUserMutation,
+  useReportPostMutation,
 } from "@/services/postService";
+import { BlockUserModal } from "@/components/post/BlockUserModal";
+import { ReportPostModal } from "@/components/post/ReportPostModal";
+import { notifySooner } from "@/utils/notifySooner";
 
 const PostOptionsDropdown = ({
   id,
   userId,
+  username,
   is_saved_by_auth,
   children,
   onMuteSuccess,
+  onHidePostSuccess,
+  onRestrictUserSuccess,
+  onBlockSuccess,
 }) => {
   const [isSaved, setIsSaved] = useState(is_saved_by_auth);
   const [isInterested, setIsInterested] = useState(false);
-  // id: this is id of post that we can interaction
-  const [saveApi, { isLoading: isSaveLoading }] = useSaveMutation();
 
-  const [muteApi, { isLoading: isMuteLoading }] = useMuteMutation();
+  const [saveApi, { isLoading: isSaveLoading }] = useSavePostMutation();
+  const [muteApi, { isLoading: isMuteLoading }] = useMuteUserMutation();
+  const [hidePostApi, { isLoading: isHidePostLoading }] = useHidePostMutation();
+  const [restrictUserApi, { isLoading: isRestrictUserLoading }] =
+    useRestrictUserMutation();
+  const [blockApi, { isLoading: isBlockLoading }] = useBlockUserMutation();
+  const [reportApi, { isLoading: isReportLoading }] = useReportPostMutation();
 
   const handleToggleSave = async () => {
     const previousState = isSaved;
@@ -54,6 +69,57 @@ const PostOptionsDropdown = ({
     } catch (error) {
       console.error("Mute failed:", error);
     }
+  };
+
+  const handleHidePost = async () => {
+    try {
+      await hidePostApi({ id }).unwrap();
+      onHidePostSuccess?.();
+    } catch (error) {
+      console.error("Hide post failed:", error);
+    }
+  };
+
+  const handleRestrictUser = async () => {
+    try {
+      await restrictUserApi({ userId }).unwrap();
+      onRestrictUserSuccess?.();
+    } catch (error) {
+      console.error("Restrict user failed:", error);
+    }
+  };
+
+  const handleBlockAction = async () => {
+    try {
+      await blockApi({ userId }).unwrap();
+      onBlockSuccess?.();
+    } catch (error) {
+      console.error("Block failed:", error);
+    }
+  };
+
+  const handleOpenBlockModal = () => {
+    BlockUserModal.open({
+      username,
+      onBlock: handleBlockAction,
+    });
+  };
+
+  const handleReportAction = async (data) => {
+    try {
+      await reportApi({ id, data }).unwrap();
+    } catch (error) {
+      console.error("Report failed:", error);
+      const { data } = error;
+      notifySooner.error(data.message);
+    }
+  };
+
+  const handleOpenReportModal = () => {
+    ReportPostModal.open({
+      postId: id,
+      onReport: handleReportAction,
+    });
   };
 
   return (
@@ -83,7 +149,8 @@ const PostOptionsDropdown = ({
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
-            onCheckedChange={setIsInterested}
+            onCheckedChange={handleHidePost}
+            disabled={isHidePostLoading}
           >
             <span>Not interested</span>
             <span className="flex items-center justify-center">
@@ -111,6 +178,8 @@ const PostOptionsDropdown = ({
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
+            onSelect={handleRestrictUser}
+            disabled={isRestrictUserLoading}
           >
             <span>Restrict</span>
             <span className="flex items-center justify-center">
@@ -121,6 +190,8 @@ const PostOptionsDropdown = ({
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
+            onSelect={handleOpenBlockModal}
+            disabled={isBlockLoading}
           >
             <span className="text-red-500">Block</span>
             <span className="flex items-center justify-center">
@@ -131,6 +202,8 @@ const PostOptionsDropdown = ({
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
+            onSelect={handleOpenReportModal}
+            disabled={isReportLoading}
           >
             <span className="text-red-500">Report</span>
             <span className="flex items-center justify-center text-red-500">

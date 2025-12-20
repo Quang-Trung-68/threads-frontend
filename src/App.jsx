@@ -9,7 +9,16 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <Toaster richColors position="top-right" />
+      <Toaster
+        richColors
+        position="bottom-center"
+        toastOptions={{
+          classNames: {
+            title: "text-lg font-medium",
+            description: "text-lg text-muted-foreground",
+          },
+        }}
+      />
       <Router>
         <Routes>
           {ROUTES.map((router, index) => {
