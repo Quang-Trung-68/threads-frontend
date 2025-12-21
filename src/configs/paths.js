@@ -12,6 +12,7 @@ export const PATHS = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   USER_PROFILE: "/:username",
-  POST_DETAIL: "/:username/post/:id",
+  POST_DETAIL: "/:username/post/:postId",
+  EMBED: "/:username/post/:postId/embed",
   NOT_FOUND: "*",
 };

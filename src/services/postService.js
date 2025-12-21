@@ -48,6 +48,12 @@ export const postApi = createApi({
       },
       providesTags: ["Post"],
     }),
+    getSinglePost: builder.query({
+      query: ({ postId }) => ({
+        url: `api/posts/${postId}`,
+      }),
+      transformResponse: (response) => response.data,
+    }),
     likePost: builder.mutation({
       query: ({ id }) => ({
         url: `/api/posts/${id}/like`,
@@ -94,7 +100,7 @@ export const postApi = createApi({
       }),
     }),
     reportPost: builder.mutation({
-      query: ({ id,data }) => ({
+      query: ({ id, data }) => ({
         url: `/api/posts/${id}/report`,
         method: "POST",
         data,
@@ -120,6 +126,7 @@ export const postApi = createApi({
 
 export const {
   useGetFeedQuery,
+  useGetSinglePostQuery,
   useLikePostMutation,
   useRepostMutation,
   useSavePostMutation,
@@ -131,4 +138,3 @@ export const {
   useUnblockUserMutation,
   useReportPostMutation,
 } = postApi;
-

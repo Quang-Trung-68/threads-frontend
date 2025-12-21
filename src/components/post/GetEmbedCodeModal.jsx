@@ -27,7 +27,6 @@ import threadsIcon from "@assets/threads-icon.svg";
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { truncateTextByWidth } from "@/utils/truncateTextByWidth";
 
-// Mock Interaction Bar specifically for the image preview
 const PreviewInteractionBar = ({
   likes_count,
   replies_count,

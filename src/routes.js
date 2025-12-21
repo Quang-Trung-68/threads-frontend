@@ -23,6 +23,7 @@ import Register from "@/pages/Auth/Register";
 import ForgotPassword from "@/pages/Auth/ForgotPassword";
 import VerifyEmail from "@/pages/Auth/VerifyEmail";
 import ResetPassword from "./pages/Auth/ResetPassword";
+import Embed from "./pages/Embed";
 
 export const ROUTES = [
   {
@@ -157,7 +158,18 @@ export const ROUTES = [
       },
     ],
   },
-
+  {
+    layout: LAYOUTS.EMBED,
+    children: [
+      {
+        path: PATHS.EMBED,
+        title: "Embed",
+        element: Embed,
+        isShowInNav: false,
+      },
+    ],
+  },
+  ,
   {
     layout: LAYOUTS.NO_LAYOUT,
     children: [

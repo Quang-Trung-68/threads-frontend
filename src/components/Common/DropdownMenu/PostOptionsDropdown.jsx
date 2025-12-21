@@ -9,10 +9,14 @@ import { useState } from "react";
 import {
   BookmarkCheck,
   BookmarkX,
+  ChevronRight,
   Eye,
   EyeOff,
+  FilePenLine,
   Link,
   MessageCircleWarning,
+  SquareChartGantt,
+  Trash,
   UserLock,
   UserRoundMinus,
   UserRoundX,
@@ -22,13 +26,13 @@ import {
   useMuteUserMutation,
   useRestrictUserMutation,
   useSavePostMutation,
-  useUnmuteUserMutation,
   useBlockUserMutation,
   useReportPostMutation,
 } from "@/services/postService";
 import { BlockUserModal } from "@/components/post/BlockUserModal";
 import { ReportPostModal } from "@/components/post/ReportPostModal";
 import { notifySooner } from "@/utils/notifySooner";
+import useAuth from "@/hooks/useAuth";
 
 const PostOptionsDropdown = ({
   id,
@@ -43,6 +47,9 @@ const PostOptionsDropdown = ({
 }) => {
   const [isSaved, setIsSaved] = useState(is_saved_by_auth);
   const [isInterested, setIsInterested] = useState(false);
+
+  const { user } = useAuth();
+  const isAuth = userId === user.id || false;
 
   const [saveApi, { isLoading: isSaveLoading }] = useSavePostMutation();
   const [muteApi, { isLoading: isMuteLoading }] = useMuteUserMutation();
@@ -122,11 +129,126 @@ const PostOptionsDropdown = ({
     });
   };
 
+  if (!isAuth)
+    return (
+      <>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+          <DropdownMenuContent className={"w-fit rounded-3xl border-2 p-2"}>
+            <DropdownMenuCheckboxItem
+              checked={isSaved}
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+              onCheckedChange={handleToggleSave}
+              disabled={isSaveLoading}
+            >
+              <span>{!isSaved ? "Save" : "Unsave"}</span>
+              <span className="flex items-center justify-center">
+                {!isSaved ? (
+                  <BookmarkCheck className="size-5" />
+                ) : (
+                  <BookmarkX className="size-5" />
+                )}
+              </span>
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={isInterested}
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+              onCheckedChange={handleHidePost}
+              disabled={isHidePostLoading}
+            >
+              <span>Not interested</span>
+              <span className="flex items-center justify-center">
+                {!isInterested ? (
+                  <Eye className="size-5" />
+                ) : (
+                  <EyeOff className="size-5" />
+                )}
+              </span>
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuCheckboxItem
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+              onSelect={handleMute}
+              disabled={isMuteLoading}
+            >
+              <span>Mute</span>
+              <span className="flex items-center justify-center">
+                <UserRoundMinus className="size-5" />
+              </span>
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+              onSelect={handleRestrictUser}
+              disabled={isRestrictUserLoading}
+            >
+              <span>Restrict</span>
+              <span className="flex items-center justify-center">
+                <UserRoundX className="size-5" />
+              </span>
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+              onSelect={handleOpenBlockModal}
+              disabled={isBlockLoading}
+            >
+              <span className="text-red-500">Block</span>
+              <span className="flex items-center justify-center">
+                <UserLock className="size-5 text-red-500" />
+              </span>
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+              onSelect={handleOpenReportModal}
+              disabled={isReportLoading}
+            >
+              <span className="text-red-500">Report</span>
+              <span className="flex items-center justify-center text-red-500">
+                <MessageCircleWarning className="size-5" />
+              </span>
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuCheckboxItem
+              className={
+                "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+            >
+              <span>Copy link</span>
+              <span className="flex items-center justify-center">
+                <Link className="size-5" />
+              </span>
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </>
+    );
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
         <DropdownMenuContent className={"w-fit rounded-3xl border-2 p-2"}>
+          <DropdownMenuCheckboxItem
+            className={
+              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+            }
+          >
+            <span>Insights</span>
+            <span className="flex items-center justify-center">
+              <SquareChartGantt className="size-5" />
+            </span>
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuSeparator />
           <DropdownMenuCheckboxItem
             checked={isSaved}
             className={
@@ -145,20 +267,13 @@ const PostOptionsDropdown = ({
             </span>
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
-            checked={isInterested}
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
-            onCheckedChange={handleHidePost}
-            disabled={isHidePostLoading}
           >
-            <span>Not interested</span>
+            <span>Reply options</span>
             <span className="flex items-center justify-center">
-              {!isInterested ? (
-                <Eye className="size-5" />
-              ) : (
-                <EyeOff className="size-5" />
-              )}
+              <ChevronRight className="size-5 text-gray-400" />
             </span>
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
@@ -166,48 +281,20 @@ const PostOptionsDropdown = ({
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
-            onSelect={handleMute}
-            disabled={isMuteLoading}
           >
-            <span>Mute</span>
+            <span>Edit</span>
             <span className="flex items-center justify-center">
-              <UserRoundMinus className="size-5" />
+              <FilePenLine className="size-5" />
             </span>
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
-            onSelect={handleRestrictUser}
-            disabled={isRestrictUserLoading}
           >
-            <span>Restrict</span>
+            <span className="text-red-500">Delete</span>
             <span className="flex items-center justify-center">
-              <UserRoundX className="size-5" />
-            </span>
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            className={
-              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
-            }
-            onSelect={handleOpenBlockModal}
-            disabled={isBlockLoading}
-          >
-            <span className="text-red-500">Block</span>
-            <span className="flex items-center justify-center">
-              <UserLock className="size-5 text-red-500" />
-            </span>
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            className={
-              "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
-            }
-            onSelect={handleOpenReportModal}
-            disabled={isReportLoading}
-          >
-            <span className="text-red-500">Report</span>
-            <span className="flex items-center justify-center text-red-500">
-              <MessageCircleWarning className="size-5" />
+              <Trash className="size-5 text-red-500" />
             </span>
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
