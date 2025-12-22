@@ -9,9 +9,9 @@ export default function AddPostButton() {
   return (
     <div
       onClick={handleClick}
-      className="fixed right-6 bottom-6 z-50 hidden md:flex w-20 h-18 cursor-pointer items-center justify-center rounded-2xl border border-[rgba(0,0,0,0.08)] bg-white shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl"
+      className="fixed right-6 bottom-6 z-50 hidden md:flex w-20 h-18 cursor-pointer items-center justify-center rounded-2xl border border-border bg-card shadow-xl transition-all duration-300 hover:scale-110 hover:shadow-2xl"
     >
-      <Plus size={28} className="text-black" strokeWidth={2.5} />
+      <Plus size={28} className="text-foreground" strokeWidth={2.5} />
     </div>
   );
 }

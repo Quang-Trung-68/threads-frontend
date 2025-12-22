@@ -81,13 +81,13 @@ function PostCard({
 
   if (isBlocked) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
         <span>You have blocked {user.username}.</span>
       </div>
     );
   } else if (isMuted) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
         <span>
           Posts from {user.username} are muted. You can manage who you mute in
           settings on the mobile app.
@@ -95,7 +95,7 @@ function PostCard({
         <button
           onClick={handleUnmute}
           disabled={isUnmuteLoading}
-          className="cursor-pointer rounded-full border-0 px-4 py-1 text-gray-500 hover:bg-gray-100 disabled:opacity-50"
+          className="cursor-pointer rounded-full border-0 px-4 py-1 text-muted-foreground hover:bg-muted disabled:opacity-50"
         >
           {isUnmuteLoading ? "Undoing..." : "Undo"}
         </button>
@@ -103,20 +103,20 @@ function PostCard({
     );
   } else if (isHidePost) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
         <span>This post has been hidden.</span>
       </div>
     );
   } else if (isRestrictUser) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-gray-100 p-3 text-sm text-gray-500 md:p-6">
+      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
         <span>This user has been restricted.</span>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col border-y p-3 md:p-6">
+    <div className="flex flex-col border-y border-border p-3 md:p-6">
       <div>
         <div className="flex gap-2">
           <div className="flex flex-col items-center gap-2">
@@ -131,7 +131,7 @@ function PostCard({
                 <AvatarFallback>{user.username}</AvatarFallback>
               </Avatar>
               <div
-                className="absolute -right-1 -bottom-1 flex cursor-pointer items-center justify-center rounded-full border-2 border-white bg-black p-[2px] text-white hover:bg-gray-800"
+                className="absolute -right-1 -bottom-1 flex cursor-pointer items-center justify-center rounded-full border-2 border-background bg-foreground p-[2px] text-background hover:bg-foreground/90"
                 onClick={(e) => {
                   e.stopPropagation();
                   // TODO: Implement follow/unfollow logic
@@ -141,7 +141,7 @@ function PostCard({
               </div>
             </div>
 
-            {isReplyOpen && <div className="w-[3px] flex-1 bg-gray-200" />}
+            {isReplyOpen && <div className="w-[3px] flex-1 bg-border" />}
           </div>
 
           <div className="flex flex-1 flex-col gap-2">
@@ -152,11 +152,11 @@ function PostCard({
                 <div className="flex items-center gap-2">
                   <div
                     onClick={handleUserProfile}
-                    className="cursor-pointer font-semibold hover:underline"
+                    className="cursor-pointer font-semibold hover:underline text-foreground"
                   >
                     {user.username}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-muted-foreground">
                     {formatTime(updated_at)}
                   </div>
                 </div>
@@ -176,8 +176,8 @@ function PostCard({
                 onRestrictUserSuccess={handleRestrictUserSuccess}
                 onBlockSuccess={handleBlockSuccess}
               >
-                <div className="flex size-8 items-center justify-center rounded-2xl hover:bg-gray-100">
-                  <MoreIcon className="size-7 cursor-pointer p-1 text-gray-500" />
+                <div className="flex size-8 items-center justify-center rounded-2xl hover:bg-muted">
+                  <MoreIcon className="size-7 cursor-pointer p-1 text-muted-foreground" />
                 </div>
               </PostOptionsDropdown>
             </div>

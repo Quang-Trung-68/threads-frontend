@@ -38,16 +38,16 @@ export default function GhostPosts() {
   });
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-[rgb(250,250,250)]">
+    <div className="relative flex min-h-screen w-full flex-col bg-background">
       <div className="flex w-full flex-col">
         {/* Sticky Header Container */}
-        <div className="sticky top-0 z-50 bg-[#FAFAFA]">
+        <div className="sticky top-0 z-50 bg-background">
           {/* Visible Header Navigation */}
           {user ? (
             <FeedHeader />
           ) : (
-            <div className="flex items-center justify-center gap-4 bg-[#FAFAFA] p-4 text-lg font-bold">
-              <span className="text-[15px] font-bold text-black">Ghost posts</span>
+            <div className="flex items-center justify-center gap-4 bg-background p-4 text-lg font-bold">
+              <span className="text-[15px] font-bold text-foreground">Ghost posts</span>
             </div>
           )}
 
@@ -60,7 +60,7 @@ export default function GhostPosts() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
@@ -70,14 +70,14 @@ export default function GhostPosts() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
         </div>
 
         {/* Main Content - Flows naturally with window scroll */}
-        <div className="relative z-0 flex min-h-screen w-full flex-col bg-white">
+        <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}

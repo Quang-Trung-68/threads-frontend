@@ -84,20 +84,20 @@ export default function UserProfile() {
 
   return (
     <>
-      <div className="relative flex min-h-screen w-full flex-col bg-[rgb(250,250,250)]">
+      <div className="relative flex min-h-screen w-full flex-col bg-background">
         <div className="flex w-full flex-col">
           {/* Sticky Header + Card Top Cap */}
           {/* The entire block is sticky to create the 'Fixed Frame' effect while keeping native scroll */}
           {/* Sticky Header Container */}
-          <div className="sticky top-0 z-50 bg-[#FAFAFA]">
+          <div className="sticky top-0 z-50 bg-background">
             {/* 1. Header Title Bar */}
             <div className="flex items-center justify-between p-4 text-lg font-bold">
               <div className="w-10"></div>
-              <span className="text-[15px] font-bold text-black">Profile</span>
+              <span className="text-[15px] font-bold text-foreground">Profile</span>
               <div className="flex w-10 justify-end">
                 <div className="flex bg-transparent hover:bg-transparent">
-                  <div className="cursor-pointer rounded-full bg-transparent p-2 transition-all hover:bg-gray-200">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-black pb-2 text-xl font-bold tracking-widest text-black">
+                  <div className="cursor-pointer rounded-full bg-transparent p-2 transition-all hover:bg-muted">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-foreground pb-2 text-xl font-bold tracking-widest text-foreground">
                       ...
                     </div>
                   </div>
@@ -114,7 +114,7 @@ export default function UserProfile() {
                 className="h-full w-full"
                 style={{
                   background:
-                    "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                    "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
                 }}
               />
             </div>
@@ -124,14 +124,14 @@ export default function UserProfile() {
                 className="h-full w-full"
                 style={{
                   background:
-                    "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                    "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
                 }}
               />
             </div>
           </div>
 
           {/* Main Content - Flows naturally with window scroll */}
-          <div className="relative z-0 flex min-h-screen w-full flex-col bg-white">
+          <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
             {/* Left Border Line */}
             <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
             {/* Right Border Line */}
@@ -143,7 +143,7 @@ export default function UserProfile() {
                   <div className="text-3xl leading-tight font-bold">
                     {userData?.name || "User Name"}
                   </div>
-                  <div className="text-base font-normal text-black">
+                  <div className="text-base font-normal text-foreground">
                     {userData?.username || "username"}
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function UserProfile() {
                   </div>
 
                   {/* Social Icons - Shown for both? Images show them for "My Profile", "Other User" shows specific icons too */}
-                  <div className="flex gap-4 text-black">
+                  <div className="flex gap-4 text-foreground">
                     <Instagram className="size-6 cursor-pointer" />
                     <SquareKanban className="size-6 cursor-pointer" />{" "}
                     {/* Just using existing icons */}
@@ -196,19 +196,19 @@ export default function UserProfile() {
                   // My Profile View
                   <Button
                     variant="outline"
-                    className="w-full cursor-pointer rounded-xl border border-gray-300 py-2 text-[15px] text-black hover:bg-gray-50"
+                    className="w-full cursor-pointer rounded-xl border border-border py-2 text-[15px] text-foreground hover:bg-accent"
                   >
                     Edit profile
                   </Button>
                 ) : (
                   // Other User View
                   <>
-                    <Button className="flex-1 cursor-pointer rounded-xl bg-black py-2 text-[15px] text-white hover:bg-gray-900">
+                    <Button className="flex-1 cursor-pointer rounded-xl bg-foreground py-2 text-[15px] text-background hover:bg-foreground/90">
                       Follow
                     </Button>
                     <Button
                       variant="outline"
-                      className="flex-1 cursor-pointer rounded-xl border border-gray-300 py-2 text-[15px] text-black hover:bg-gray-50"
+                      className="flex-1 cursor-pointer rounded-xl border border-border py-2 text-[15px] text-foreground hover:bg-accent"
                     >
                       Mention
                     </Button>
@@ -220,24 +220,24 @@ export default function UserProfile() {
               <div className="flex items-center justify-between pt-2">
                 <Button
                   onClick={() => handleNavigation("threads")}
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-black bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "threads" ? "border-black text-black" : "border-b-gray-200 text-gray-500"}`}
+                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "threads" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                 >
                   Threads
                 </Button>
                 <Button
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-black bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "replies" ? "border-black text-black" : "border-b-gray-200 text-gray-500"}`}
+                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "replies" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("replies")}
                 >
                   Replies
                 </Button>
                 <Button
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-black bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "media" ? "border-black text-black" : "border-b-gray-200 text-gray-500"}`}
+                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "media" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("media")}
                 >
                   Media
                 </Button>
                 <Button
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-black bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "reposts" ? "border-black text-black" : "border-b-gray-200 text-gray-500"}`}
+                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "reposts" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("reposts")}
                 >
                   Reposts
@@ -276,7 +276,7 @@ export default function UserProfile() {
                       <Button
                         onClick={() => CreatePostModal.open()}
                         variant="outline"
-                        className="cursor-pointer rounded-xl border border-gray-300 px-5 font-bold text-black hover:bg-gray-50"
+                        className="cursor-pointer rounded-xl border border-border px-5 font-bold text-foreground hover:bg-accent"
                       >
                         Post
                       </Button>
@@ -293,54 +293,54 @@ export default function UserProfile() {
 
                       <div className="grid grid-cols-3 gap-2 overflow-x-auto pb-2">
                         {/* Card 1 */}
-                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                          <div className="rounded-full border border-gray-100 bg-white p-3 shadow-sm">
-                            <UserPlus className="size-6 text-black" />
+                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-border bg-muted p-4">
+                          <div className="rounded-full border border-border bg-background p-3 shadow-sm">
+                            <UserPlus className="size-6 text-foreground" />
                           </div>
                           <div className="flex flex-col items-center gap-1 text-center">
                             <span className="text-sm font-bold">
                               Follow 10 profiles
                             </span>
-                            <span className="text-xs leading-tight text-gray-500">
+                            <span className="text-xs leading-tight text-muted-foreground">
                               Fill your feed with threads that interest you.
                             </span>
                           </div>
-                          <Button className="h-8 w-full rounded-xl bg-black text-sm font-bold text-white">
+                          <Button className="h-8 w-full rounded-xl bg-foreground text-sm font-bold text-background">
                             See profiles
                           </Button>
                         </div>
 
                         {/* Card 2 */}
-                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                          <div className="rounded-full border border-gray-100 bg-white p-3 shadow-sm">
-                            <Camera className="size-6 text-black" />
+                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-border bg-muted p-4">
+                          <div className="rounded-full border border-border bg-background p-3 shadow-sm">
+                            <Camera className="size-6 text-foreground" />
                           </div>
                           <div className="flex flex-col items-center gap-1 text-center">
                             <span className="text-sm font-bold">
                               Add profile photo
                             </span>
-                            <span className="text-xs leading-tight text-gray-500">
+                            <span className="text-xs leading-tight text-muted-foreground">
                               Make it easier for people to recognize you.
                             </span>
                           </div>
-                          <Button className="h-8 w-full rounded-xl bg-black text-sm font-bold text-white">
+                          <Button className="h-8 w-full rounded-xl bg-foreground text-sm font-bold text-background">
                             Add
                           </Button>
                         </div>
 
                         {/* Card 3 */}
-                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-4">
-                          <div className="rounded-full border border-gray-100 bg-white p-3 shadow-sm">
-                            <PenLine className="size-6 text-black" />
+                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-border bg-muted p-4">
+                          <div className="rounded-full border border-border bg-background p-3 shadow-sm">
+                            <PenLine className="size-6 text-foreground" />
                           </div>
                           <div className="flex flex-col items-center gap-1 text-center">
                             <span className="text-sm font-bold">Add bio</span>
-                            <span className="text-xs leading-tight text-gray-500">
+                            <span className="text-xs leading-tight text-muted-foreground">
                               Introduce yourself and tell people what you're
                               into.
                             </span>
                           </div>
-                          <Button className="h-8 w-full rounded-xl bg-black text-sm font-bold text-white">
+                          <Button className="h-8 w-full rounded-xl bg-foreground text-sm font-bold text-background">
                             Add
                           </Button>
                         </div>

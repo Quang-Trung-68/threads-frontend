@@ -136,13 +136,13 @@ const InteractionBar = ({
 
   return (
     <>
-      <div className="flex gap-4 text-gray-600">
+      <div className="flex gap-4 text-muted-foreground">
         <div
           onClick={handleLikeCount}
-          className={`likes_count flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 hover:bg-gray-100 ${
+          className={`likes_count flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 hover:bg-accent ${
             interactionsCount.is_liked_by_auth
               ? "text-red-500"
-              : "hover:bg-gray-100"
+              : "hover:bg-accent"
           }`}
         >
           <LikeIcon
@@ -156,20 +156,20 @@ const InteractionBar = ({
             e.stopPropagation();
             toggleReplyModal();
           }}
-          className="replies_count flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 hover:bg-gray-100 hover:text-blue-500"
+          className="replies_count flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 hover:bg-accent hover:text-blue-500"
         >
           <ReplyIcon className="size-4.5" />
           <span className="text-sm">{interactionsCount.replies_count}</span>
         </div>
 
-        <div className="replies_count rounded-2xl p-1 hover:bg-gray-100">
+        <div className="replies_count rounded-2xl p-1 hover:bg-accent">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <span
                 className={`flex cursor-pointer items-center gap-1 rounded-2xl p-1 ${
                   interactionsCount.is_reposted_by_auth
                     ? "text-green-500"
-                    : "hover:bg-gray-100"
+                    : "hover:bg-accent"
                 }`}
               >
                 <Repeat2Icon className="size-4.5" />
@@ -209,7 +209,7 @@ const InteractionBar = ({
           </DropdownMenu>
         </div>
 
-        <div className="flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 hover:bg-gray-100 hover:text-purple-500">
+        <div className="flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 hover:bg-accent hover:text-purple-500">
           <ShareDropdown
             id={id}
             user={user}

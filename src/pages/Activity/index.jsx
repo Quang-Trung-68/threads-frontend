@@ -65,14 +65,14 @@ export default function Activity() {
   ];
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-[rgb(250,250,250)]">
+    <div className="relative flex min-h-screen w-full flex-col bg-background">
       <div className="flex w-full flex-col">
         {/* Sticky Header Container */}
-        <div className="sticky top-0 z-50 bg-[#FAFAFA]">
+        <div className="sticky top-0 z-50 bg-background">
           {/* Header Title Bar */}
           <div className="flex items-center justify-between p-4 text-lg font-bold">
             <div className="w-10"></div>
-            <span className="text-[15px] font-bold text-black">Activity</span>
+            <span className="text-[15px] font-bold text-foreground">Activity</span>
             <div className="w-10"></div>
           </div>
 
@@ -85,7 +85,7 @@ export default function Activity() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
@@ -95,14 +95,14 @@ export default function Activity() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="relative z-0 flex min-h-screen w-full flex-col bg-white">
+        <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}
@@ -112,16 +112,16 @@ export default function Activity() {
             {activities.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start justify-between border-b border-gray-100 p-4 last:border-0 hover:bg-gray-50 transition-colors"
+                className="flex items-start justify-between border-b border-border p-4 last:border-0 hover:bg-accent transition-colors"
               >
                 <div className="flex items-start gap-3">
                   <div className="relative">
-                    <Avatar className="size-10 border border-gray-200">
+                    <Avatar className="size-10 border border-border">
                       <AvatarImage src={item.user.avatar} />
                       <AvatarFallback>{item.user.username[0].toUpperCase()}</AvatarFallback>
                     </Avatar>
                     {/* Icon Badge */}
-                    <div className={`absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white text-white ${
+                    <div className={`absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background text-white ${
                         item.type === 'like' ? 'bg-pink-500' :
                         item.type === 'follow' ? 'bg-purple-500' :
                         item.type === 'reply' ? 'bg-blue-500' : 'bg-green-500'
@@ -135,23 +135,23 @@ export default function Activity() {
                   
                   <div className="flex flex-col gap-1">
                     <div className="text-sm">
-                      <span className="font-semibold text-black">{item.user.username}</span>{" "}
-                      <span className="text-gray-500">{item.content}</span>
-                      <span className="ml-2 text-gray-400 text-xs">{item.time}</span>
+                      <span className="font-semibold text-foreground">{item.user.username}</span>{" "}
+                      <span className="text-muted-foreground">{item.content}</span>
+                      <span className="ml-2 text-muted-foreground/60 text-xs">{item.time}</span>
                     </div>
                     {item.message && (
-                        <div className="text-sm text-gray-500 line-clamp-2">
+                        <div className="text-sm text-muted-foreground line-clamp-2">
                             {item.message}
                         </div>
                     )}
-                  </div>
                 </div>
+              </div>
 
-                {item.type === 'follow' ? (
-                     <Button variant="outline" className="h-8 rounded-lg px-4 text-xs font-semibold">
-                     Follow
-                   </Button>
-                ) : null}
+              {item.type === 'follow' ? (
+                   <Button variant="outline" className="h-8 rounded-lg px-4 text-xs font-semibold text-foreground border-border hover:bg-accent">
+                   Follow
+                 </Button>
+              ) : null}
               </div>
             ))}
              

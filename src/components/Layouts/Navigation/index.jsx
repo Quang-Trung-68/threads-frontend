@@ -62,15 +62,15 @@ export default function Navigation() {
 
   return (
     <div className="z-100">
-      <nav className="fixed right-0 bottom-0 left-0 z-50 flex bg-white md:top-0 md:right-auto md:bottom-0 md:left-0 md:flex-col md:p-2">
+      <nav className="fixed right-0 bottom-0 left-0 z-50 flex bg-background md:top-0 md:right-auto md:bottom-0 md:left-0 md:flex-col md:p-2">
         <div
           onClick={navigateToHome}
           className="hidden items-center md:flex md:flex-0 md:flex-col"
         >
           <svg
             aria-label="Threads"
-            className="mt-3 size-8 cursor-pointer transition-all hover:scale-110"
-            fill="var(--barcelona-primary-icon)"
+            className="mt-3 size-8 cursor-pointer transition-all hover:scale-110 text-foreground"
+            fill="currentColor"
             height="100%"
             role="img"
             viewBox="0 0 192 192"
@@ -90,15 +90,15 @@ export default function Navigation() {
                 child.isShowInNav && (
                   <NavLink
                     className={
-                      "group m-1 flex h-10.5 flex-1 items-center justify-center rounded-xl border-0 text-[rgb(184,184,184)] hover:bg-[rgba(0,0,0,0.035)] md:mt-[6px] md:mb-[6px] md:h-15 md:w-12 md:w-15 md:flex-none md:gap-1"
+                      "group m-1 flex h-10.5 flex-1 items-center justify-center rounded-xl border-0 text-muted-foreground/60 hover:bg-accent md:mt-[6px] md:mb-[6px] md:h-15 md:w-12 md:w-15 md:flex-none md:gap-1"
                     }
                     key={index}
                     to={child.path}
                     onClick={(event) => handleUserAuth(event, isPrivate, path)}
                   >
                     <Icon
-                      className={`size-6 group-[.active]:text-black ${
-                        child.isFill ? "group-[.active]:fill-black" : ""
+                      className={`size-6 group-[.active]:text-foreground ${
+                        child.isFill ? "group-[.active]:fill-foreground" : ""
                       } `}
                     />
                   </NavLink>
@@ -112,14 +112,14 @@ export default function Navigation() {
             variant={"ghost"}
             className={"group mb-2 size-15 cursor-pointer"}
           >
-            <Pin className="size-6 text-[rgb(184,184,184)] group-[:hover]:text-black" />
+            <Pin className="size-6 text-muted-foreground/60 group-[:hover]:text-foreground" />
           </Button>
           <UserOptionsDropdown>
             <Button
               variant={"ghost"}
               className={"group mb-2 size-15 cursor-pointer"}
             >
-              <Menu className="size-6 text-[rgb(184,184,184)] group-[:hover]:text-black" />
+              <Menu className="size-6 text-muted-foreground/60 group-[:hover]:text-foreground" />
             </Button>
           </UserOptionsDropdown>
         </div>

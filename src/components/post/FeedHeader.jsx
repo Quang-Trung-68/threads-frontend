@@ -11,7 +11,7 @@ export default function FeedHeader() {
   const isGhostActive = location.pathname === PATHS.GHOST_POSTS;
 
   return (
-    <div className="flex items-center justify-center gap-1 bg-[#FAFAFA] p-2 text-center text-lg font-bold">
+    <div className="flex items-center justify-center gap-1 bg-background p-2 text-center text-lg font-bold">
       <NavLink
         className={({ isActive, isPending }) =>
           isPending ? "pending" : isActive ? "isActive" : ""
@@ -21,7 +21,7 @@ export default function FeedHeader() {
         <Button
           variant={"ghost"}
           className={`h-auto cursor-pointer px-4 py-2 text-[15px] font-bold hover:bg-transparent ${
-            isForYouActive ? "text-black" : "text-gray-400 hover:text-black"
+            isForYouActive ? "text-foreground" : "text-muted-foreground/60 hover:text-foreground"
           }`}
         >
           For you
@@ -36,7 +36,7 @@ export default function FeedHeader() {
         <Button
           variant={"ghost"}
           className={`h-auto cursor-pointer px-4 py-2 text-[15px] font-bold hover:bg-transparent ${
-            isFollowingActive ? "text-black" : "text-gray-400 hover:text-black"
+            isFollowingActive ? "text-foreground" : "text-muted-foreground/60 hover:text-foreground"
           }`}
         >
           Following
@@ -51,7 +51,7 @@ export default function FeedHeader() {
         <Button
           variant={"ghost"}
           className={`h-auto cursor-pointer px-4 py-2 text-[15px] font-bold hover:bg-transparent ${
-            isGhostActive ? "text-black" : "text-gray-400 hover:text-black"
+            isGhostActive ? "text-foreground" : "text-muted-foreground/60 hover:text-foreground"
           }`}
         >
           Ghost posts

@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    // For debugging at development, disable when production
     build: {
       sourcemap: true,
     },

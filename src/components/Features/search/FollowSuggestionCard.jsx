@@ -17,13 +17,13 @@ const FollowSuggestionCard = ({
   return (
     <div className="flex items-start justify-between py-3">
       <div className="flex flex-1 items-start gap-3">
-        <Avatar className="size-10 border border-gray-100 mt-0.5">
+        <Avatar className="size-10 border border-border mt-0.5">
           <AvatarImage src={avatar_url} alt={username} />
           <AvatarFallback>{username?.[0]?.toUpperCase()}</AvatarFallback>
         </Avatar>
         <div className="flex flex-1 flex-col overflow-hidden">
           <div className="flex items-center gap-1 overflow-hidden">
-            <span className="truncate text-sm font-semibold text-black">
+            <span className="truncate text-sm font-semibold text-foreground">
               {username}
             </span>
             {verified && (
@@ -34,15 +34,15 @@ const FollowSuggestionCard = ({
               </span>
             )}
           </div>
-          <span className="truncate text-[14px] leading-tight text-gray-500">
+          <span className="truncate text-[14px] leading-tight text-muted-foreground">
             {name}
           </span>
           {bio && (
-            <p className="mt-1 line-clamp-1 text-sm text-[15px] leading-normal text-black">
+            <p className="mt-1 line-clamp-1 text-sm text-[15px] leading-normal text-foreground">
               {bio}
             </p>
           )}
-          <span className="mt-1 text-sm text-[15px] text-gray-500">
+          <span className="mt-1 text-sm text-[15px] text-muted-foreground">
             {followers_count} followers
           </span>
         </div>
@@ -52,8 +52,8 @@ const FollowSuggestionCard = ({
           variant={is_following ? "outline" : "default"}
           className={`h-[34px] rounded-xl px-5 text-sm font-bold ${
             is_following
-              ? "border-gray-300 text-black hover:bg-gray-50"
-              : "bg-black text-white hover:bg-gray-800"
+              ? "border-border text-foreground hover:bg-accent"
+              : "bg-foreground text-background hover:bg-foreground/90"
           }`}
         >
           {is_following ? "Following" : "Follow"}

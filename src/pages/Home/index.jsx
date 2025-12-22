@@ -59,17 +59,17 @@ export default function Home() {
   // const handleToGhostPosts = () => {};
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-[rgb(250,250,250)]">
+    <div className="relative flex min-h-screen w-full flex-col bg-background">
       <div className="flex w-full flex-col">
         {/* Sticky Header Container */}
         {/* The entire block is sticky to create the 'Fixed Frame' effect while keeping native scroll */}
-        <div className="sticky top-0 z-50 bg-[#FAFAFA]">
+        <div className="sticky top-0 z-50 bg-background">
           {/* Visible Header Navigation */}
           {user ? (
             <FeedHeader />
           ) : (
-            <div className="flex items-center justify-center gap-4 bg-[#FAFAFA] p-4 text-lg font-bold">
-              <span className="text-[15px] font-bold text-black">Home</span>
+            <div className="flex items-center justify-center gap-4 bg-background p-4 text-lg font-bold">
+              <span className="text-[15px] font-bold text-foreground">Home</span>
             </div>
           )}
 
@@ -82,7 +82,7 @@ export default function Home() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
@@ -92,14 +92,14 @@ export default function Home() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
         </div>
 
         {/* Main Content - Flows naturally with window scroll */}
-        <div className="relative z-0 flex min-h-screen w-full flex-col bg-white">
+        <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}
@@ -107,7 +107,7 @@ export default function Home() {
 
           {/* Avatar + post button if logged in */}
           {user && (
-            <div className="flex items-center justify-between border-2 bg-white p-5">
+            <div className="flex items-center justify-between border-2 bg-background p-5">
               <div className="flex flex-1 items-center gap-2">
                 <div>
                   <Avatar className={"size-9"}>
@@ -122,7 +122,7 @@ export default function Home() {
                   <Input
                     type={"text"}
                     className={
-                      "border-0 p-0.5 text-gray-500 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+                      "border-0 p-0.5 text-muted-foreground shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                     }
                     placeholder={`What's news ?`}
                   />

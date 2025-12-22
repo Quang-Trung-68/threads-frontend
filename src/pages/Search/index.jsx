@@ -44,13 +44,13 @@ export default function Search() {
   });
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-[rgb(250,250,250)]">
+    <div className="relative flex min-h-screen w-full flex-col bg-background">
       <div className="flex w-full flex-col">
         {/* Sticky Header Container */}
-        <div className="sticky top-0 z-50 bg-[#FAFAFA]">
+        <div className="sticky top-0 z-50 bg-background">
           {/* Header Title Bar */}
           <div className="flex items-center justify-center p-4 text-lg font-bold">
-            <span className="text-[15px] font-bold text-black">Search</span>
+            <span className="text-[15px] font-bold text-foreground">Search</span>
           </div>
 
           {/* Visible Border connecting the masks */}
@@ -62,7 +62,7 @@ export default function Search() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom right, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
@@ -72,14 +72,14 @@ export default function Search() {
               className="h-full w-full"
               style={{
                 background:
-                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), #FAFAFA calc(70% + 1px))",
+                  "radial-gradient(circle at bottom left, transparent 70%, var(--border) 70%, var(--border) calc(70% + 1px), var(--background) calc(70% + 1px))",
               }}
             />
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="relative z-0 flex min-h-screen w-full flex-col bg-white">
+        <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}
@@ -88,10 +88,10 @@ export default function Search() {
           <div className="flex flex-col p-4 px-6">
             {/* Search Bar */}
             <div className="relative mb-2">
-              <SearchIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <SearchIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search"
-                className="h-11 rounded-xl border-0 bg-gray-100 pl-10 text-[15px] focus-visible:ring-0"
+                className="h-11 rounded-xl border-0 bg-muted pl-10 text-[15px] focus-visible:ring-0"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -99,7 +99,7 @@ export default function Search() {
 
             <div className="mt-2 flex flex-col">
               {suggestions.length > 0 && (
-                <h3 className="mb-3 text-lg font-semibold text-gray-500">
+                <h3 className="mb-3 text-lg font-semibold text-muted-foreground">
                   Follow suggestions
                 </h3>
               )}
@@ -113,7 +113,7 @@ export default function Search() {
                   description="Try searching for something else."
                 />
               ) : (
-                <div className="flex flex-col divide-y divide-gray-100">
+                <div className="flex flex-col divide-y divide-border">
                   {suggestions.map((user) => (
                     <FollowSuggestionCard key={user.id} {...user} />
                   ))}
