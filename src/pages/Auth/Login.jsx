@@ -11,8 +11,11 @@ import { useEffect, useState } from "react";
 import { useDebouncedField } from "@/hooks/useDebouncedField";
 import { notifySooner } from "@/utils/notifySooner";
 import { PATHS } from "@/configs/paths";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+  const { t } = useTranslation(["auth", "common"]);
+
   const {
     register,
     handleSubmit,
@@ -42,10 +45,10 @@ export default function Login() {
       Cookies.set("access_token", response.data.access_token);
       Cookies.set("refresh_token", response.data.refresh_token);
       navigate(PATHS.HOME);
-      notifySooner.success("Login successfully!");
+      notifySooner.success(t("auth:loginSuccess"));
     } catch (error) {
       console.log(error);
-      notifySooner.error("Invalid credentials!");
+      notifySooner.error(t("auth:loginError"));
     }
   };
 
@@ -60,7 +63,7 @@ export default function Login() {
 
   return (
     <div className="text-foreground mb-8 text-center">
-      <h1 className="mb-8 text-2xl font-semibold">Login to your account</h1>
+      <h1 className="mb-8 text-2xl font-semibold">{t("auth:login")}</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Login */}
@@ -110,14 +113,14 @@ export default function Login() {
           className="bg-primary text-primary-foreground w-full cursor-pointer rounded-xl py-3 font-semibold hover:opacity-90 disabled:opacity-50"
           disabled={isLoading}
         >
-          Log in
+          {isLoading ? t("common:loading") : t("auth:login")}
         </button>
 
         <button
           onClick={onForgotPassword}
           className="text-muted-foreground hover:text-foreground cursor-pointer text-sm"
         >
-          Forgot password?
+          {t("auth:forgotPassword")}
         </button>
       </form>
 
@@ -140,7 +143,9 @@ export default function Login() {
             </svg>
           </div>
           <div className="text-left">
-            <div className="text-sm font-medium">Continue with Instagram</div>
+            <div className="text-sm font-medium">
+              {t("auth:continueWithInstagram")}
+            </div>
             <div className="text-muted-foreground text-sm">dqt_2309</div>
           </div>
         </div>
@@ -161,11 +166,13 @@ export default function Login() {
 
       <div className="mt-6">
         <button
-          onClick={() => navigate("/register")}
+          onClick={() => navigate(PATHS.REGISTER)}
           className="text-muted-foreground hover:text-foreground cursor-pointer text-sm"
         >
-          Don't have an account?{" "}
-          <span className="cursor-pointer font-medium">Sign up</span>
+          {t("auth:don'tHaveAccount")}{" "}
+          <span className="cursor-pointer font-medium">
+            {t("auth:register")}
+          </span>
         </button>
       </div>
     </div>

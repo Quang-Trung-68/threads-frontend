@@ -13,8 +13,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
 import { CreatePostModal } from "@/components/post/CreatePostModal";
 import { Input } from "@/components/Common/ui/input";
+import { useTranslation } from "react-i18next";
 
 export default function UserProfile() {
+  const { t } = useTranslation(["user", "common", "post"]);
   const location = useLocation();
   const navigate = useNavigate();
   const { username: paramUsername } = useParams(); // Get username from URL (expected format: @username)
@@ -88,7 +90,7 @@ export default function UserProfile() {
             {/* 1. Header Title Bar */}
             <div className="flex items-center justify-between p-4 text-lg font-bold">
               <div className="w-10"></div>
-              <span className="text-[15px] font-bold text-foreground">Profile</span>
+              <span className="text-[15px] font-bold text-foreground">{t("common:profile")}</span>
               <div className="flex w-10 justify-end">
                 <div className="flex bg-transparent hover:bg-transparent">
                   <div className="cursor-pointer rounded-full bg-transparent p-2 transition-all hover:bg-muted">
@@ -168,7 +170,7 @@ export default function UserProfile() {
                     {userData?.followers ? (
                       <span>{userData.followers} followers</span>
                     ) : (
-                      <span>No followers yet</span>
+                      <span>{t("common:noFollowersYet")}</span>
                     )}
                     {/* If there is a link */}
                     {/* {userData?.link && <span>{userData.link}</span>} */}
@@ -191,19 +193,19 @@ export default function UserProfile() {
                     variant="outline"
                     className="w-full cursor-pointer rounded-xl border border-border py-2 text-[15px] text-foreground hover:bg-accent"
                   >
-                    Edit profile
+                    {t("user:editProfile")}
                   </Button>
                 ) : (
                   // Other User View
                   <>
                     <Button className="flex-1 cursor-pointer rounded-xl bg-foreground py-2 text-[15px] text-background hover:bg-foreground/90">
-                      Follow
+                      {t("common:follow")}
                     </Button>
                     <Button
                       variant="outline"
                       className="flex-1 cursor-pointer rounded-xl border border-border py-2 text-[15px] text-foreground hover:bg-accent"
                     >
-                      Mention
+                      {t("common:mention")}
                     </Button>
                   </>
                 )}
@@ -215,25 +217,25 @@ export default function UserProfile() {
                   onClick={() => handleNavigation("threads")}
                   className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "threads" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                 >
-                  Threads
+                  {t("user:threads")}
                 </Button>
                 <Button
                   className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "replies" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("replies")}
                 >
-                  Replies
+                  {t("user:replies")}
                 </Button>
                 <Button
                   className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "media" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("media")}
                 >
-                  Media
+                  {t("user:media")}
                 </Button>
                 <Button
                   className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "reposts" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("reposts")}
                 >
-                  Reposts
+                  {t("user:reposts")}
                 </Button>
               </div>
 
@@ -259,7 +261,7 @@ export default function UserProfile() {
                             className={
                               "border-0 p-0.5 text-gray-500 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                             }
-                            placeholder={`What's new?`}
+                            placeholder={t("common:whatsNew")}
                           />
                         </div>
                       </div>
@@ -268,7 +270,7 @@ export default function UserProfile() {
                         variant="outline"
                         className="cursor-pointer rounded-xl border border-border px-5 font-bold text-foreground hover:bg-accent"
                       >
-                        Post
+                        {t("common:post")}
                       </Button>
                     </div>
 
@@ -276,9 +278,9 @@ export default function UserProfile() {
                     <div className="mt-2 flex flex-col gap-2 border-t-2 border-gray-200 py-4">
                       <div className="flex items-center justify-between">
                         <h3 className="px-1 text-base font-semibold text-gray-900">
-                          Finish your profile
+                          {t("user:finishProfile")}
                         </h3>
-                        <span className="text-sm text-gray-400">3 left</span>
+                        <span className="text-sm text-gray-400">3 {t("user:left")}</span>
                       </div>
 
                       <div className="grid grid-cols-3 gap-2 overflow-x-auto pb-2">
@@ -350,7 +352,7 @@ export default function UserProfile() {
                         {/* Show empty state or ghost posts implementation if available */}
                         {(!posts || posts.length === 0) && (
                           <div className="flex items-center justify-center p-8 text-gray-500">
-                            No threads yet.
+                            {t("post:noThreadsYet")}
                           </div>
                         )}
                         {posts.map((post) => (
@@ -372,7 +374,7 @@ export default function UserProfile() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center p-8 text-sm text-gray-500">
-                        No replies yet.
+                        {t("post:noRepliesYet")}
                       </div>
                     )}
                   </div>
@@ -385,7 +387,7 @@ export default function UserProfile() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center p-8 text-sm text-gray-500">
-                        No media yet.
+                        {t("post:noMediaYet")}
                       </div>
                     )}
                   </div>
@@ -398,7 +400,7 @@ export default function UserProfile() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center p-8 text-sm text-gray-500">
-                        No reposts yet.
+                        {t("post:noRepostsYet")}
                       </div>
                     )}
                   </div>

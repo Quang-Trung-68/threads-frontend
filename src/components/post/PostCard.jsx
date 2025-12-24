@@ -8,6 +8,7 @@ import { formatTime } from "@/utils/formatTime";
 import QuickReplyModal from "@/components/Common/Modals/QuickReplyModal";
 import PostOptionsDropdown from "../Common/DropdownMenu/PostOptionsDropdown";
 import { useUnmuteUserMutation } from "@/services/postService";
+import { useTranslation } from "react-i18next";
 
 function PostCard({
   user,
@@ -24,6 +25,7 @@ function PostCard({
   is_saved_by_auth,
   onDeleteSuccess,
 }) {
+  const { t } = useTranslation(["post", "common"]);
   const navigate = useNavigate();
   const [isMuted, setIsMuted] = useState(false);
   const [isHidePost, setIsHidePost] = useState(false);
@@ -79,35 +81,34 @@ function PostCard({
   if (isBlocked) {
     return (
       <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
-        <span>You have blocked {user.username}.</span>
+        <span>{t("post:youHaveBlocked", { username: user.username })}</span>
       </div>
     );
   } else if (isMuted) {
     return (
       <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
         <span>
-          Posts from {user.username} are muted. You can manage who you mute in
-          settings on the mobile app.
+          {t("post:postsMuted", { username: user.username })}
         </span>
         <button
           onClick={handleUnmute}
           disabled={isUnmuteLoading}
           className="cursor-pointer rounded-full border-0 px-4 py-1 text-muted-foreground hover:bg-muted disabled:opacity-50"
         >
-          {isUnmuteLoading ? "Undoing..." : "Undo"}
+          {isUnmuteLoading ? t("common:undoing") : t("common:undo")}
         </button>
       </div>
     );
   } else if (isHidePost) {
     return (
       <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
-        <span>This post has been hidden.</span>
+        <span>{t("post:postHidden")}</span>
       </div>
     );
   } else if (isRestrictUser) {
     return (
       <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
-        <span>This user has been restricted.</span>
+        <span>{t("post:userRestricted")}</span>
       </div>
     );
   }

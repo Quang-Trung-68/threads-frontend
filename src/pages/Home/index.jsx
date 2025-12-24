@@ -15,8 +15,10 @@ import FeedHeader from "@/components/post/FeedHeader";
 import EmptyState from "@/components/Common/EmptyState";
 
 import PostCardSkeleton from "@/components/post/PostCardSkeleton";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation(["feed", "common"]);
   const [page, setPage] = useState(1);
   const [refreshKey, setRefreshKey] = useState(() => Date.now());
 
@@ -71,7 +73,7 @@ export default function Home() {
             <FeedHeader />
           ) : (
             <div className="flex items-center justify-center gap-4 bg-background p-4 text-lg font-bold">
-              <span className="text-[15px] font-bold text-foreground">Home</span>
+              <span className="text-[15px] font-bold text-foreground">{t("feed:home")}</span>
             </div>
           )}
 
@@ -120,7 +122,7 @@ export default function Home() {
                     className={
                       "border-0 p-0.5 text-muted-foreground shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                     }
-                    placeholder={`What's news ?`}
+                    placeholder={t("common:whatsNews")}
                   />
                 </div>
               </div>
@@ -129,7 +131,7 @@ export default function Home() {
                   variant="outline"
                   className={"cursor-pointer rounded-2xl font-semibold"}
                 >
-                  Post
+                  {t("common:post")}
                 </Button>
               </div>
             </div>
@@ -142,8 +144,8 @@ export default function Home() {
               ))
             ) : posts.length === 0 ? (
               <EmptyState
-                title="No posts yet"
-                description="When someone you follow posts, their posts will appear here."
+                title={t("feed:noPostsYet")}
+                description={t("feed:postsWillAppearHere")}
               />
             ) : (
               posts.map((post) => (

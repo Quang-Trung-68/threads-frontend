@@ -7,8 +7,10 @@ import useInfiniteScroll from "react-infinite-scroll-hook";
 import FollowSuggestionCard from "@/components/Features/search/FollowSuggestionCard";
 import { Spinner } from "@/components/Common/ui/spinner";
 import EmptyState from "@/components/Common/EmptyState";
+import { useTranslation } from "react-i18next";
 
 export default function Search() {
+  const { t } = useTranslation(["feed", "user", "common"]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [refreshKey] = useState(() => Date.now());
@@ -50,7 +52,7 @@ export default function Search() {
         <div className="sticky top-0 z-50 bg-background">
           {/* Header Title Bar */}
           <div className="flex items-center justify-center p-4 text-lg font-bold">
-            <span className="text-[15px] font-bold text-foreground">Search</span>
+            <span className="text-[15px] font-bold text-foreground">{t("feed:search")}</span>
           </div>
 
           {/* Visible Border connecting the masks */}
@@ -90,7 +92,7 @@ export default function Search() {
             <div className="relative mb-2">
               <SearchIcon className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Search"
+                placeholder={t("feed:searchPlaceholder")}
                 className="h-11 rounded-xl border-0 bg-muted pl-10 text-[15px] focus-visible:ring-0"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -100,7 +102,7 @@ export default function Search() {
             <div className="mt-2 flex flex-col">
               {suggestions.length > 0 && (
                 <h3 className="mb-3 text-lg font-semibold text-muted-foreground">
-                  Follow suggestions
+                  {t("user:followSuggestions")}
                 </h3>
               )}
               {isLoading && suggestions.length === 0 ? (
@@ -109,8 +111,8 @@ export default function Search() {
                 </div>
               ) : suggestions.length === 0 && !isFetching ? (
                 <EmptyState
-                  title="No suggestions found"
-                  description="Try searching for something else."
+                  title={t("user:noSuggestionsFound")}
+                  description={t("user:trySearchingSomethingElse")}
                 />
               ) : (
                 <div className="flex flex-col divide-y divide-border">

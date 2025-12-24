@@ -1,8 +1,10 @@
 import { Button } from "@/components/Common/ui/button";
 import { PATHS } from "@/configs/paths";
 import { NavLink } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export default function FeedHeader() {
+  const { t } = useTranslation(["feed", "common"]);
 
   return (
     <div className="flex items-center justify-center gap-1 bg-background p-2 text-center text-lg font-bold">
@@ -19,7 +21,7 @@ export default function FeedHeader() {
                 : "text-muted-foreground/60 hover:text-foreground"
             }`}
           >
-            For you
+            {t("feed:forYou")}
           </Button>
         )}
       </NavLink>
@@ -36,7 +38,7 @@ export default function FeedHeader() {
                 : "text-muted-foreground/60 hover:text-foreground"
             }`}
           >
-            Following
+            {t("feed:following")}
           </Button>
         )}
       </NavLink>
@@ -51,7 +53,7 @@ export default function FeedHeader() {
               isActive ? "text-foreground" : "text-muted-foreground/60 hover:text-foreground"
             }`}
           >
-            Ghost posts
+            {t("feed:ghostPosts")}
           </Button>
         )}
       </NavLink>

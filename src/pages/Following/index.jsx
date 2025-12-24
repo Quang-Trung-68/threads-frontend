@@ -12,8 +12,10 @@ import FeedHeader from "@/components/post/FeedHeader";
 import EmptyState from "@/components/Common/EmptyState";
 
 import PostCardSkeleton from "@/components/post/PostCardSkeleton";
+import { useTranslation } from "react-i18next";
 
 export default function Following() {
+  const { t } = useTranslation(["feed", "common"]);
   const [page, setPage] = useState(1);
   const [refreshKey, setRefreshKey] = useState(() => Date.now());
 
@@ -62,7 +64,7 @@ export default function Following() {
             <FeedHeader />
           ) : (
             <div className="flex items-center justify-center gap-4 bg-background p-4 text-lg font-bold">
-              <span className="text-[15px] font-bold text-foreground">Home</span>
+              <span className="text-[15px] font-bold text-foreground">{t("feed:home")}</span>
             </div>
           )}
 
@@ -111,7 +113,7 @@ export default function Following() {
                     className={
                       "border-0 p-0.5 text-muted-foreground shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                     }
-                    placeholder={`What's news ?`}
+                    placeholder={t("common:whatsNews")}
                   />
                 </div>
               </div>
@@ -120,7 +122,7 @@ export default function Following() {
                   variant="outline"
                   className={"cursor-pointer rounded-2xl font-semibold"}
                 >
-                  Post
+                  {t("common:post")}
                 </Button>
               </div>
             </div>
@@ -133,8 +135,8 @@ export default function Following() {
               ))
             ) : posts.length === 0 ? (
               <EmptyState
-                title="No following posts yet"
-                description="Follow people to see their posts in this feed. Keep track of what matters to you."
+                title={t("feed:noFollowingPostsYet")}
+                description={t("feed:followPeopleToSee")}
               />
             ) : (
               posts.map((post) => (

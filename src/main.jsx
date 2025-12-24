@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import NiceModal from "@ebay/nice-modal-react";
 import { ThemeProvider } from "@/components/Common/ThemeProvider";
+import "./i18n/config";
 
 import "@/index.css";
 

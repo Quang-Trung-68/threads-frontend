@@ -22,6 +22,8 @@ import { useNavigate } from "react-router";
 import { PATHS } from "@/configs/paths";
 import Cookies from "js-cookie";
 import { DeleteAccountModal } from "@/components/Features/auth/DeleteAccountModal";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const UserOptionsDropdown = ({ children }) => {
   const { user } = useAuth();
@@ -63,8 +65,17 @@ const UserOptionsDropdown = ({ children }) => {
     { value: "system", icon: Monitor, label: "Auto" },
   ];
 
+  // i18n for language change
+  const { i18n, t } = useTranslation();
+  const [language, setLanguage] = useState(i18n.language);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setLanguage(lng);
+  };
+
   const ThemeSelector = () => (
-    <div className="flex items-center justify-around gap-2 p-1.5 w-55">
+    <div className="flex w-55 items-center justify-around gap-2 p-1.5">
       {themes.map(({ value, icon: Icon, label }) => {
         const isActive = theme === value;
         return (
@@ -107,7 +118,7 @@ const UserOptionsDropdown = ({ children }) => {
                   "w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
                 }
               >
-                Appearance
+                {t("common:appearance")}
               </DropdownMenuSubTrigger>
               <DropdownMenuPortal>
                 <DropdownMenuSubContent className={"rounded-3xl p-1"}>
@@ -121,7 +132,7 @@ const UserOptionsDropdown = ({ children }) => {
                 "w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
               }
             >
-              Report a problem
+              {t("common:reportAProblem")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
@@ -139,7 +150,7 @@ const UserOptionsDropdown = ({ children }) => {
                 "w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
               }
             >
-              Appearance
+              {t("common:appearance")}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent className={"rounded-3xl p-1"}>
@@ -147,15 +158,40 @@ const UserOptionsDropdown = ({ children }) => {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
+          <DropdownMenuSub className={"rounded-3xl"}>
+            <DropdownMenuSubTrigger
+              className={
+                "w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+              }
+            >
+              {t("common:language")}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent className={"rounded-3xl"}>
+                <DropdownMenuItem
+                  className={`w-40 rounded-xl px-3 py-3.5 text-[15px] font-semibold ${language === "en" ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:bg-muted/30"}`}
+                  onSelect={() => changeLanguage("en")}
+                >
+                  {t("common:english")}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className={`w-40 rounded-xl px-3 py-3.5 text-[15px] font-semibold ${language === "vi" ? "bg-muted text-foreground shadow-sm" : "text-muted-foreground hover:bg-muted/30"}`}
+                  onSelect={() => changeLanguage("vi")}
+                >
+                  {t("common:vietnamese")}
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
           <DropdownMenuItem
             className={"w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"}
           >
-            Insights
+            {t("common:insights")}
           </DropdownMenuItem>
           <DropdownMenuItem
             className={"w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"}
           >
-            Settings
+            {t("common:settings")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuSub className={"rounded-3xl"}>
@@ -164,7 +200,7 @@ const UserOptionsDropdown = ({ children }) => {
                 "w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
               }
             >
-              Feeds
+              {t("common:feeds")}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent className={"rounded-3xl"}>
@@ -173,21 +209,21 @@ const UserOptionsDropdown = ({ children }) => {
                     "w-40 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
                   }
                 >
-                  For you
+                  {t("common:forYou")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className={
                     "w-40 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
                   }
                 >
-                  Following
+                  {t("common:following")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className={
                     "w-40 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
                   }
                 >
-                  Ghost posts
+                  {t("common:ghostPosts")}
                   <DropdownMenuShortcut>
                     <Ghost className="size-5" />
                   </DropdownMenuShortcut>
@@ -198,18 +234,18 @@ const UserOptionsDropdown = ({ children }) => {
           <DropdownMenuItem
             className={"w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"}
           >
-            Saved
+            {t("common:saved")}
           </DropdownMenuItem>
           <DropdownMenuItem
             className={"w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"}
           >
-            Linked
+            {t("common:linked")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className={"w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"}
           >
-            Report a problem
+            {t("common:reportAProblem")}
           </DropdownMenuItem>
           <DropdownMenuSub className={"rounded-3xl"}>
             <DropdownMenuSubTrigger
@@ -217,7 +253,7 @@ const UserOptionsDropdown = ({ children }) => {
                 "w-50 rounded-xl px-3 py-3.5 text-[15px] font-semibold"
               }
             >
-              Account
+              {t("common:account")}
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent className={"rounded-3xl"}>
@@ -227,7 +263,7 @@ const UserOptionsDropdown = ({ children }) => {
                   }
                   onSelect={() => navigate(PATHS.USER_SETTINGS)}
                 >
-                  Change profile
+                  {t("common:changeProfile")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className={
@@ -236,7 +272,9 @@ const UserOptionsDropdown = ({ children }) => {
                   onSelect={handleDeleteAccount}
                   disable={isDeleteAccountLoading}
                 >
-                  <span className="text-red-500">Delete account</span>
+                  <span className="text-red-500">
+                    {t("common:deleteAccount")}
+                  </span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
@@ -246,7 +284,7 @@ const UserOptionsDropdown = ({ children }) => {
             onSelect={handleLogout}
             disable={isLogoutLoading}
           >
-            <span className="text-red-500">Log out</span>
+            <span className="text-red-500">{t("auth:logout")}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

@@ -11,8 +11,10 @@ import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { useNavigate } from "react-router";
 import { useUpdateProfileMutation } from "@/services/authService";
 import { notifySooner } from "@/utils/notifySooner";
+import { useTranslation } from "react-i18next";
 
 export default function UserSettings() {
+  const { t } = useTranslation(["user", "common"]);
 
     const [updateProfile, { isLoading: isUpdateProfileLoading }] = useUpdateProfileMutation();
 
@@ -58,9 +60,9 @@ export default function UserSettings() {
     }
     
    notifySooner.promise(updateProfile(formData), {
-    loading: "Updating profile...",
-    success: "Profile updated successfully",
-    error: "Failed to update profile"
+    loading: t("common:updatingProfile"),
+    success: t("common:profileUpdatedSuccess"),
+    error: t("common:profileUpdateError")
    })
   };
 
@@ -88,7 +90,7 @@ export default function UserSettings() {
         >
           <ChevronLeft size={24} />
         </Button>
-        <h1 className="text-2xl font-bold text-foreground">Edit profile</h1>
+        <h1 className="text-2xl font-bold text-foreground">{t("user:editProfile")}</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -113,17 +115,17 @@ export default function UserSettings() {
             className="text-sm font-medium text-blue-500 hover:underline cursor-pointer"
             onClick={() => document.querySelector('input[type="file"]').click()}
           >
-            Change photo
+            {t("user:changePhoto")}
           </button>
         </div>
 
         <div className="space-y-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
           {/* Name */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground">Name</label>
+            <label className="text-sm font-semibold text-foreground">{t("user:name")}</label>
             <Input
               {...register("name")}
-              placeholder="Your name"
+              placeholder={t("user:yourName")}
               className="rounded-xl border border-border bg-muted/30 focus:bg-background"
             />
             {errors.name && (
@@ -133,10 +135,10 @@ export default function UserSettings() {
 
           {/* Username */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground">Username</label>
+            <label className="text-sm font-semibold text-foreground">{t("user:username")}</label>
             <Input
               {...register("username")}
-              placeholder="username"
+              placeholder={t("user:username").toLowerCase()}
               className="rounded-xl border border-border bg-muted/30 focus:bg-background"
             />
             {errors.username && (
@@ -148,10 +150,10 @@ export default function UserSettings() {
 
           {/* Bio */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground">Bio</label>
+            <label className="text-sm font-semibold text-foreground">{t("user:bio")}</label>
             <Textarea
               {...register("bio")}
-              placeholder="Tell us about yourself"
+              placeholder={t("user:tellUsAboutYourself")}
               className="min-h-[120px] rounded-xl border border-border bg-muted/30 focus:bg-background"
             />
           </div>
@@ -160,9 +162,9 @@ export default function UserSettings() {
         {/* Account Privacy */}
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card p-6 shadow-sm">
           <div className="space-y-1">
-            <h3 className="font-semibold text-foreground">Private profile</h3>
+            <h3 className="font-semibold text-foreground">{t("user:privateProfile")}</h3>
             <p className="text-sm text-muted-foreground">
-              Only people you approve can see your threads and replies.
+              {t("user:privateProfileDesc")}
             </p>
           </div>
           <Controller
@@ -182,7 +184,7 @@ export default function UserSettings() {
           size="lg"
           className="w-full cursor-pointer rounded-xl py-6 text-base font-bold transition-all active:scale-[0.98]"
         >
-          Done
+          {t("common:done")}
         </Button>
       </form>
     </div>

@@ -10,8 +10,10 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useDebouncedField } from "@/hooks/useDebouncedField";
 import { notifySooner } from "@/utils/notifySooner";
-//
+import { useTranslation } from "react-i18next";
+
 export default function Register() {
+  const { t } = useTranslation(["auth", "common"]);
   const {
     register,
     handleSubmit,
@@ -35,12 +37,8 @@ export default function Register() {
       if (!response.error) {
         Cookies.set("access_token", response.data.access_token);
         Cookies.set("refresh_token", response.data.refresh_token);
-        setStatus(
-          "Register successfully, please check your email to verify your account!",
-        );
-        notifySooner.success(
-          "Register successfully, please check your email to verify your account!",
-        );
+        setStatus(t("auth:registerSuccess"));
+        notifySooner.success(t("auth:registerSuccess"));
       } else {
         const entries = Object.entries(response.error.data.errors);
         for (const [_, [key, value]] of Object.entries(entries)) {
@@ -48,7 +46,7 @@ export default function Register() {
         }
       }
     } catch (error) {
-      notifySooner.error("Error to register, please try again");
+      notifySooner.error(t("auth:registerError"));
       console.log(error);
     }
   };
@@ -68,7 +66,7 @@ export default function Register() {
       {/* Main register container */}
       <div className="z-10 w-full max-w-md">
         <div className="mb-2 text-center">
-          <h1 className="mb-8 text-2xl font-semibold">Register an account</h1>
+          <h1 className="mb-8 text-2xl font-semibold">{t("auth:registerAccount")}</h1>
           <div className="mb-8 text-sm text-blue-500 italic dark:text-blue-400">
             {status}
           </div>
@@ -81,7 +79,7 @@ export default function Register() {
             <div className="text-left">
               <input
                 type="text"
-                placeholder="Username"
+                placeholder={t("auth:username")}
                 {...register("username")}
                 autoComplete={"off"}
                 onChange={(e) => usernameChange(e.target.value)}
@@ -98,7 +96,7 @@ export default function Register() {
             <div className="text-left">
               <input
                 type="email"
-                placeholder="Email"
+                placeholder={t("auth:email")}
                 {...register("email")}
                 autoComplete={"off"}
                 onChange={(e) => emailChange(e.target.value)}
@@ -166,13 +164,13 @@ export default function Register() {
               className="bg-primary text-primary-foreground mt-6 w-full cursor-pointer rounded-xl py-3 font-semibold transition-colors hover:opacity-90 disabled:opacity-50"
               disabled={isLoading}
             >
-              Sign up
+              {isLoading ? t("common:loading") : t("auth:signUp")}
             </button>
           </form>
 
           <div className="my-6 flex items-center gap-4">
             <div className="bg-border h-px flex-1"></div>
-            <span className="text-muted-foreground text-sm">or</span>
+            <span className="text-muted-foreground text-sm">{t("auth:or")}</span>
             <div className="bg-border h-px flex-1"></div>
           </div>
 
@@ -189,7 +187,7 @@ export default function Register() {
               </div>
               <div className="text-left">
                 <div className="cursor-pointer text-sm font-medium">
-                  Continue with Instagram
+                  {t("auth:continueWithInstagram")}
                 </div>
                 <div className="text-muted-foreground text-sm">dqt_2309</div>
               </div>
@@ -215,7 +213,7 @@ export default function Register() {
               className="text-muted-foreground hover:text-foreground cursor-pointer text-sm"
             >
               <span className="cursor-pointer font-medium">
-                Already have an account? Log in
+                {t("auth:alreadyHaveAccount")} {t("auth:signIn")}
               </span>
             </button>
           </div>

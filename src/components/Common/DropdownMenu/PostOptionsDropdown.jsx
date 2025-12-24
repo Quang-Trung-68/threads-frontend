@@ -35,6 +35,7 @@ import { ReportPostModal } from "@/components/post/ReportPostModal";
 import { notifySooner } from "@/utils/notifySooner";
 import useAuth from "@/hooks/useAuth";
 import { copyToClipboard } from "@/utils/copyToClipboard";
+import { useTranslation } from "react-i18next";
 
 const PostOptionsDropdown = ({
   id,
@@ -48,6 +49,7 @@ const PostOptionsDropdown = ({
   onBlockSuccess,
   onDeleteSuccess,
 }) => {
+  const { t } = useTranslation(["post", "common"]);
   const [isSaved, setIsSaved] = useState(is_saved_by_auth);
   const [isInterested, setIsInterested] = useState(false);
 
@@ -96,7 +98,7 @@ const PostOptionsDropdown = ({
     try {
       const deletePromise = deletePostApi({ id }).unwrap();
       notifySooner.promise(deletePromise, {
-        success: "Deleted",
+        success: t("common:deleted"),
       });
       await deletePromise;
       onDeleteSuccess?.();
@@ -166,7 +168,7 @@ const PostOptionsDropdown = ({
               onCheckedChange={handleToggleSave}
               disabled={isSaveLoading}
             >
-              <span>{!isSaved ? "Save" : "Unsave"}</span>
+              <span>{!isSaved ? t("post:save") : t("post:unsave")}</span>
               <span className="flex items-center justify-center">
                 {!isSaved ? (
                   <BookmarkCheck className="size-5" />
@@ -183,7 +185,7 @@ const PostOptionsDropdown = ({
               onCheckedChange={handleHidePost}
               disabled={isHidePostLoading}
             >
-              <span>Not interested</span>
+              <span>{t("common:notInterested")}</span>
               <span className="flex items-center justify-center">
                 {!isInterested ? (
                   <Eye className="size-5" />
@@ -200,7 +202,7 @@ const PostOptionsDropdown = ({
               onSelect={handleMute}
               disabled={isMuteLoading}
             >
-              <span>Mute</span>
+              <span>{t("post:mute")}</span>
               <span className="flex items-center justify-center">
                 <UserRoundMinus className="size-5" />
               </span>
@@ -212,7 +214,7 @@ const PostOptionsDropdown = ({
               onSelect={handleRestrictUser}
               disabled={isRestrictUserLoading}
             >
-              <span>Restrict</span>
+              <span>{t("post:restrict")}</span>
               <span className="flex items-center justify-center">
                 <UserRoundX className="size-5" />
               </span>
@@ -224,7 +226,7 @@ const PostOptionsDropdown = ({
               onSelect={handleOpenBlockModal}
               disabled={isBlockLoading}
             >
-              <span className="text-red-500">Block</span>
+              <span className="text-red-500">{t("post:block")}</span>
               <span className="flex items-center justify-center">
                 <UserLock className="size-5 text-red-500" />
               </span>
@@ -236,7 +238,7 @@ const PostOptionsDropdown = ({
               onSelect={handleOpenReportModal}
               disabled={isReportLoading}
             >
-              <span className="text-red-500">Report</span>
+              <span className="text-red-500">{t("post:report")}</span>
               <span className="flex items-center justify-center text-red-500">
                 <MessageCircleWarning className="size-5" />
               </span>
@@ -248,7 +250,7 @@ const PostOptionsDropdown = ({
               }
               onSelect={handleCopyLink}
             >
-              <span>Copy link</span>
+              <span>{t("post:copyLink")}</span>
               <span className="flex items-center justify-center">
                 <Link className="size-5" />
               </span>
@@ -267,7 +269,7 @@ const PostOptionsDropdown = ({
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
-            <span>Insights</span>
+            <span>{t("post:insights")}</span>
             <span className="flex items-center justify-center">
               <SquareChartGantt className="size-5" />
             </span>
@@ -281,7 +283,7 @@ const PostOptionsDropdown = ({
             onCheckedChange={handleToggleSave}
             disabled={isSaveLoading}
           >
-            <span>{!isSaved ? "Save" : "Unsave"}</span>
+            <span>{!isSaved ? t("post:save") : t("post:unsave")}</span>
             <span className="flex items-center justify-center">
               {!isSaved ? (
                 <BookmarkCheck className="size-5" />
@@ -295,7 +297,7 @@ const PostOptionsDropdown = ({
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
-            <span>Reply options</span>
+            <span>{t("post:replyOptions")}</span>
             <span className="flex items-center justify-center">
               <ChevronRight className="size-5 text-gray-400" />
             </span>
@@ -306,7 +308,7 @@ const PostOptionsDropdown = ({
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
-            <span>Edit</span>
+            <span>{t("post:edit")}</span>
             <span className="flex items-center justify-center">
               <FilePenLine className="size-5" />
             </span>
@@ -318,7 +320,7 @@ const PostOptionsDropdown = ({
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }
           >
-            <span className="text-red-500">Delete</span>
+            <span className="text-red-500">{t("post:delete")}</span>
             <span className="flex items-center justify-center">
               <Trash className="size-5 text-red-500" />
             </span>
@@ -330,7 +332,7 @@ const PostOptionsDropdown = ({
             }
             onSelect={handleCopyLink}
           >
-            <span>Copy link</span>
+            <span>{t("post:copyLink")}</span>
             <span className="flex items-center justify-center">
               <Link className="size-5" />
             </span>

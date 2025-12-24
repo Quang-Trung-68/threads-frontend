@@ -6,8 +6,10 @@ import { useNavigate } from "react-router";
 import { useDebouncedField } from "@/hooks/useDebouncedField";
 import forgotPasswordSchema from "@/schemas/forgotPasswordSchema";
 import { notifySooner } from "@/utils/notifySooner";
+import { useTranslation } from "react-i18next";
 
 export default function ForgotPassword() {
+  const { t } = useTranslation(["auth", "common"]);
   const {
     register,
     handleSubmit,
@@ -26,10 +28,10 @@ export default function ForgotPassword() {
     try {
       const response = await forgotPasswordApi(credentials);
       console.log(response);
-      notifySooner.success("Send a email successfully!");
+      notifySooner.success(t("auth:sendEmailSuccess"));
     } catch (error) {
       console.log(error);
-      notifySooner.error("Error to send a verified email, please try again");
+      notifySooner.error(t("auth:sendEmailError"));
     }
   };
 
@@ -38,14 +40,14 @@ export default function ForgotPassword() {
 
   return (
     <div className="text-foreground mb-8 text-center">
-      <h1 className="mb-8 text-2xl font-semibold">Login to your account</h1>
+      <h1 className="mb-8 text-2xl font-semibold">{t("auth:forgotPassword")}</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Login */}
         <div className="text-left">
           <input
             type="text"
-            placeholder="Email..."
+            placeholder={t("auth:email")}
             defaultValue={"dt1234@gmail.com"}
             {...register("email")}
             onChange={(e) => emailChange(e.target.value)}
@@ -63,13 +65,13 @@ export default function ForgotPassword() {
           className="bg-primary text-primary-foreground w-full cursor-pointer rounded-xl py-3 font-semibold hover:opacity-90 disabled:opacity-50"
           disabled={isLoading}
         >
-          Send a verified email
+          {isLoading ? t("common:loading") : t("auth:sendVerifiedEmail")}
         </button>
       </form>
 
       <div className="my-6 flex items-center gap-4">
         <div className="bg-border h-px flex-1"></div>
-        <span className="text-muted-foreground text-sm">or</span>
+        <span className="text-muted-foreground text-sm">{t("auth:or")}</span>
         <div className="bg-border h-px flex-1"></div>
       </div>
 
@@ -86,7 +88,7 @@ export default function ForgotPassword() {
             </svg>
           </div>
           <div className="text-left">
-            <div className="text-sm font-medium">Continue with Instagram</div>
+            <div className="text-sm font-medium">{t("auth:continueWithInstagram")}</div>
             <div className="text-muted-foreground text-sm">dqt_2309</div>
           </div>
         </div>
@@ -110,8 +112,8 @@ export default function ForgotPassword() {
           onClick={() => navigate("/register")}
           className="text-muted-foreground hover:text-foreground cursor-pointer text-sm"
         >
-          Don't have an account?{" "}
-          <span className="cursor-pointer font-medium">Sign up</span>
+          {t("auth:dontHaveAccount")}{" "}
+          <span className="cursor-pointer font-medium">{t("auth:signUp")}</span>
         </button>
       </div>
     </div>
