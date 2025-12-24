@@ -49,6 +49,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
         const createPromise = createPostApi({
           content,
           reply_permission: replyQuote,
+          requires_reply_approval: reviewApprove,
         }).unwrap();
 
         notifySooner.promise(createPromise, {

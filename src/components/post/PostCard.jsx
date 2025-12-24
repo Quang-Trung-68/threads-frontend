@@ -33,7 +33,13 @@ function PostCard({
   const [isBlocked, setIsBlocked] = useState(false);
   const [unmuteApi, { isLoading: isUnmuteLoading }] = useUnmuteUserMutation();
 
-  const handleToPostDetail = () => {};
+  const handlePostDetail = () => {
+    navigate(`/@${user.username}/post/${id}`, {
+      state: {
+        id,
+      },
+    });
+  };
 
   const handleUserProfile = () => {
     navigate(`/@${user.username}`, {
@@ -80,20 +86,18 @@ function PostCard({
 
   if (isBlocked) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
+      <div className="bg-muted text-muted-foreground m-3 flex items-center justify-between rounded-2xl border-y p-3 text-sm md:p-6">
         <span>{t("post:youHaveBlocked", { username: user.username })}</span>
       </div>
     );
   } else if (isMuted) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
-        <span>
-          {t("post:postsMuted", { username: user.username })}
-        </span>
+      <div className="bg-muted text-muted-foreground m-3 flex items-center justify-between rounded-2xl border-y p-3 text-sm md:p-6">
+        <span>{t("post:postsMuted", { username: user.username })}</span>
         <button
           onClick={handleUnmute}
           disabled={isUnmuteLoading}
-          className="cursor-pointer rounded-full border-0 px-4 py-1 text-muted-foreground hover:bg-muted disabled:opacity-50"
+          className="text-muted-foreground hover:bg-muted cursor-pointer rounded-full border-0 px-4 py-1 disabled:opacity-50"
         >
           {isUnmuteLoading ? t("common:undoing") : t("common:undo")}
         </button>
@@ -101,27 +105,27 @@ function PostCard({
     );
   } else if (isHidePost) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
+      <div className="bg-muted text-muted-foreground m-3 flex items-center justify-between rounded-2xl border-y p-3 text-sm md:p-6">
         <span>{t("post:postHidden")}</span>
       </div>
     );
   } else if (isRestrictUser) {
     return (
-      <div className="m-3 flex items-center justify-between rounded-2xl border-y bg-muted p-3 text-sm text-muted-foreground md:p-6">
+      <div className="bg-muted text-muted-foreground m-3 flex items-center justify-between rounded-2xl border-y p-3 text-sm md:p-6">
         <span>{t("post:userRestricted")}</span>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col border-y border-border p-3 md:p-6">
+    <div className="border-border flex flex-col border-y p-3 md:p-6">
       <div>
         <div className="flex gap-2">
           <div className="flex flex-col items-center gap-2">
             <div className="relative">
               <UserAvatar user={user} className="size-9 cursor-pointer" />
               <div
-                className="absolute -right-1 -bottom-1 flex cursor-pointer items-center justify-center rounded-full border-2 border-background bg-foreground p-[2px] text-background hover:bg-foreground/90"
+                className="border-background bg-foreground text-background hover:bg-foreground/90 absolute -right-1 -bottom-1 flex cursor-pointer items-center justify-center rounded-full border-2 p-[2px]"
                 onClick={(e) => {
                   e.stopPropagation();
                   // TODO: Implement follow/unfollow logic
@@ -131,7 +135,7 @@ function PostCard({
               </div>
             </div>
 
-            {isReplyOpen && <div className="w-[3px] flex-1 bg-border" />}
+            {isReplyOpen && <div className="bg-border w-[3px] flex-1" />}
           </div>
 
           <div className="flex flex-1 flex-col gap-2">
@@ -142,16 +146,16 @@ function PostCard({
                 <div className="flex items-center gap-2">
                   <div
                     onClick={handleUserProfile}
-                    className="cursor-pointer font-semibold hover:underline text-foreground"
+                    className="text-foreground cursor-pointer font-semibold hover:underline"
                   >
                     {user.username}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     {formatTime(updated_at)}
                   </div>
                 </div>
                 {content && (
-                  <div onClick={handleToPostDetail} className="body mt-1">
+                  <div onClick={handlePostDetail} className="body mt-1">
                     {content}
                   </div>
                 )}
@@ -167,8 +171,8 @@ function PostCard({
                 onBlockSuccess={handleBlockSuccess}
                 onDeleteSuccess={onDeleteSuccess}
               >
-                <div className="flex size-8 items-center justify-center rounded-2xl hover:bg-muted">
-                  <MoreIcon className="size-7 cursor-pointer p-1 text-muted-foreground" />
+                <div className="hover:bg-muted flex size-8 items-center justify-center rounded-2xl">
+                  <MoreIcon className="text-muted-foreground size-7 cursor-pointer p-1" />
                 </div>
               </PostOptionsDropdown>
             </div>
@@ -199,6 +203,7 @@ function PostCard({
       </div>
 
       <QuickReplyModal
+        id={id}
         user={user}
         content={content}
         updated_at={updated_at}

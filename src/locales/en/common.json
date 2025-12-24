@@ -57,5 +57,13 @@
   "deleted": "Deleted",
   "updatingProfile": "Updating profile...",
   "profileUpdatedSuccess": "Profile updated successfully",
-  "profileUpdateError": "Failed to update profile"
+  "profileUpdateError": "Failed to update profile",
+  "endOfActivity": "End of activity",
+  "likedYourPost": "liked your post",
+  "startedFollowingYou": "started following you",
+  "repliedToYourThread": "replied to your thread",
+  "mentionedYou": "mentioned you in a post",
+  "likedYourReply": "liked your reply",
+  "viewOnThreads": "View on Threads",
+  "noContentProvided": "No content provided."
 }

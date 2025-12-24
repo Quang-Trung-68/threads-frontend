@@ -1,22 +1,27 @@
 import UserAvatar from "@/components/Common/ui/UserAvatar";
-import {
-  Heart as LikeIcon,
-  MessageCircle as ReplyIcon,
-  Ellipsis as MoreIcon,
-  Repeat2 as Repeat2Icon,
-  Send as SendIcon,
-} from "lucide-react";
+import { Ellipsis as MoreIcon } from "lucide-react";
 import { Card } from "@/components/Common/ui/card";
 import ReplyModal from "@/components/Common/Modals/QuickReplyModal";
+import { useRef } from "react";
+import InteractionBar from "@/components/post/InteractionBar";
 
-function CommentItem({ postId, userId, id, name, body, avatar_url }) {
+function CommentItem({
+  user,
+  content,
+  id,
+  updated_at,
+  likes_count,
+  replies_count,
+  reposts_and_quotes_count,
+  is_liked_by_auth,
+  is_reposted_by_auth,
+}) {
+  const { username, avatar_url } = user;
   // const navigate = useNavigate();
 
   // const handleToUserProfile = () => {
   //   navigate(`/@${userId}`);
   // };
-
-  const username = "user_" + Math.floor(Math.random() * 100);
   const urlImage =
     "https://picsum.photos/600/400?random=" + Math.floor(Math.random() * 10);
 
@@ -38,46 +43,27 @@ function CommentItem({ postId, userId, id, name, body, avatar_url }) {
                 <div className="font-semibold">{username}</div>
                 <div className="text-sm text-gray-500">{"10h"}</div>
               </div>
-              {body && (
-                <div className="body mt-1">
-                  {name}: {body}
-                </div>
-              )}
+              {content && <div className="body mt-1">{content}</div>}
             </div>
             <div>
               <MoreIcon className="size-5 text-gray-500" />
             </div>
           </div>
 
-          {urlImage && (
-            <div className="overflow-hidden">
-              <img src={urlImage} className="max-h-20 w-auto" alt={""} />
-            </div>
-          )}
-
-          <div className="interaction flex gap-4 text-gray-600">
-            <div className="flex cursor-pointer items-center gap-1 rounded-2xl p-2 hover:bg-gray-100 hover:text-red-500">
-              <LikeIcon className="size-4.5" />
-              <span className="text-sm">{22}</span>
-            </div>
-
-            <div
-              onClick={toggleReplyModal}
-              className="flex cursor-pointer items-center gap-1 rounded-2xl p-2 hover:bg-gray-100 hover:text-blue-500"
-            >
-              <ReplyIcon className="size-4.5" />
-              <span className="text-sm">{3}</span>
-            </div>
-
-            <div className="flex cursor-pointer items-center gap-1 rounded-2xl p-2 hover:bg-gray-100 hover:text-green-500">
-              <Repeat2Icon className="size-4.5" />
-              <span className="text-sm">{2}</span>
-            </div>
-
-            <div className="flex cursor-pointer items-center gap-1 rounded-2xl p-2 hover:bg-gray-100 hover:text-purple-500">
-              <SendIcon className="size-4.5" />
-              <span className="text-sm">{10}</span>
-            </div>
+          {/* Interaction Bar */}
+          <div>
+            <InteractionBar
+              id={id}
+              user={user}
+              content={content}
+              updated_at={updated_at}
+              likes_count={likes_count}
+              replies_count={replies_count}
+              reposts_and_quotes_count={reposts_and_quotes_count}
+              toggleReplyModal={toggleReplyModal}
+              is_liked_by_auth={is_liked_by_auth}
+              is_reposted_by_auth={is_reposted_by_auth}
+            />
           </div>
         </div>
       </div>

@@ -13,7 +13,7 @@ import {
   User as UserIcon,
   Search as SearchIcon,
 } from "lucide-react";
-import PostDetail from "@/pages/DefaultLayout/PostDetail";
+import PostDetail from "@/pages/PostDetail";
 import UserProfile from "@/pages/UserProfile";
 import Following from "@/pages/Following";
 import GhostPosts from "@/pages/GhostPosts";

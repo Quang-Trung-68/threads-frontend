@@ -14,6 +14,8 @@ import useAuth from "@/hooks/useAuth";
 import { CreatePostModal } from "@/components/post/CreatePostModal";
 import { Input } from "@/components/Common/ui/input";
 import { useTranslation } from "react-i18next";
+import { useFollowUserMutation } from "@/services/authService";
+import { notifySooner } from "@/utils/notifySooner";
 
 export default function UserProfile() {
   const { t } = useTranslation(["user", "common", "post"]);
@@ -21,6 +23,9 @@ export default function UserProfile() {
   const navigate = useNavigate();
   const { username: paramUsername } = useParams(); // Get username from URL (expected format: @username)
   const { user: currentUser } = useAuth(); // Get current authenticated user
+
+  const [followUserApi, { isLoading: isFollowUserLoading }] =
+    useFollowUserMutation();
 
   const activeTab = location.hash.slice(1) || "threads";
 
@@ -39,6 +44,22 @@ export default function UserProfile() {
 
   const userId = isAuth ? currentUser.id : location.state?.userId;
 
+  const handleFollowUser = async () => {
+    try {
+      const createPromise = followUserApi({ id: userId });
+
+      notifySooner.promise(createPromise, {
+        loading: "Loading...",
+        success: "Followed!",
+        error: "Errored to fetch...",
+      });
+
+      await createPromise;
+    } catch (error) {
+      console.error("Follow user failed:", error);
+    }
+  };
+
   // State
   const [userData, setUserData] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -46,7 +67,7 @@ export default function UserProfile() {
 
   // Mock data for "Other User" to ensure page works
   const MOCK_OTHER_USER = {
-    name: "Nhu Quynh",
+    name: "Name",
     username: targetUsername || "yoo.glass",
     bio: "yoo.glass", // From image
     avatar: "", // Empty for now, fallback will show
@@ -81,20 +102,22 @@ export default function UserProfile() {
 
   return (
     <>
-      <div className="relative flex min-h-screen w-full flex-col bg-background">
+      <div className="bg-background relative flex min-h-screen w-full flex-col">
         <div className="flex w-full flex-col">
           {/* Sticky Header + Card Top Cap */}
           {/* The entire block is sticky to create the 'Fixed Frame' effect while keeping native scroll */}
           {/* Sticky Header Container */}
-          <div className="sticky top-0 z-50 bg-background">
+          <div className="bg-background sticky top-0 z-50">
             {/* 1. Header Title Bar */}
             <div className="flex items-center justify-between p-4 text-lg font-bold">
               <div className="w-10"></div>
-              <span className="text-[15px] font-bold text-foreground">{t("common:profile")}</span>
+              <span className="text-foreground text-[15px] font-bold">
+                {t("common:profile")}
+              </span>
               <div className="flex w-10 justify-end">
                 <div className="flex bg-transparent hover:bg-transparent">
-                  <div className="cursor-pointer rounded-full bg-transparent p-2 transition-all hover:bg-muted">
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-foreground pb-2 text-xl font-bold tracking-widest text-foreground">
+                  <div className="hover:bg-muted cursor-pointer rounded-full bg-transparent p-2 transition-all">
+                    <div className="border-foreground text-foreground flex h-5 w-5 items-center justify-center rounded-full border-2 pb-2 text-xl font-bold tracking-widest">
                       ...
                     </div>
                   </div>
@@ -128,7 +151,7 @@ export default function UserProfile() {
           </div>
 
           {/* Main Content - Flows naturally with window scroll */}
-          <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
+          <div className="bg-background relative z-0 flex min-h-screen w-full flex-col">
             {/* Left Border Line */}
             <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
             {/* Right Border Line */}
@@ -140,17 +163,17 @@ export default function UserProfile() {
                   <div className="text-3xl leading-tight font-bold">
                     {userData?.name || "User Name"}
                   </div>
-                  <div className="text-base font-normal text-foreground">
+                  <div className="text-foreground text-base font-normal">
                     {userData?.username || "username"}
                   </div>
                 </div>
                 <div>
-                  <UserAvatar 
-                    user={{ 
-                      username: userData?.username, 
-                      avatar_url: userData?.avatar_url || userData?.avatar 
-                    }} 
-                    className="size-20" 
+                  <UserAvatar
+                    user={{
+                      username: userData?.username,
+                      avatar_url: userData?.avatar_url || userData?.avatar,
+                    }}
+                    className="size-20"
                   />
                 </div>
               </div>
@@ -177,7 +200,7 @@ export default function UserProfile() {
                   </div>
 
                   {/* Social Icons - Shown for both? Images show them for "My Profile", "Other User" shows specific icons too */}
-                  <div className="flex gap-4 text-foreground">
+                  <div className="text-foreground flex gap-4">
                     <Instagram className="size-6 cursor-pointer" />
                     <SquareKanban className="size-6 cursor-pointer" />{" "}
                     {/* Just using existing icons */}
@@ -191,19 +214,22 @@ export default function UserProfile() {
                   // My Profile View
                   <Button
                     variant="outline"
-                    className="w-full cursor-pointer rounded-xl border border-border py-2 text-[15px] text-foreground hover:bg-accent"
+                    className="border-border text-foreground hover:bg-accent w-full cursor-pointer rounded-xl border py-2 text-[15px]"
                   >
                     {t("user:editProfile")}
                   </Button>
                 ) : (
                   // Other User View
                   <>
-                    <Button className="flex-1 cursor-pointer rounded-xl bg-foreground py-2 text-[15px] text-background hover:bg-foreground/90">
+                    <Button
+                      onClick={handleFollowUser}
+                      className="bg-foreground text-background hover:bg-foreground/90 flex-1 cursor-pointer rounded-xl py-2 text-[15px]"
+                    >
                       {t("common:follow")}
                     </Button>
                     <Button
                       variant="outline"
-                      className="flex-1 cursor-pointer rounded-xl border border-border py-2 text-[15px] text-foreground hover:bg-accent"
+                      className="border-border text-foreground hover:bg-accent flex-1 cursor-pointer rounded-xl border py-2 text-[15px]"
                     >
                       {t("common:mention")}
                     </Button>
@@ -215,24 +241,24 @@ export default function UserProfile() {
               <div className="flex items-center justify-between pt-2">
                 <Button
                   onClick={() => handleNavigation("threads")}
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "threads" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
+                  className={`border-foreground flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "threads" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                 >
                   {t("user:threads")}
                 </Button>
                 <Button
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "replies" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
+                  className={`border-foreground flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "replies" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("replies")}
                 >
                   {t("user:replies")}
                 </Button>
                 <Button
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "media" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
+                  className={`border-foreground flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "media" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("media")}
                 >
                   {t("user:media")}
                 </Button>
                 <Button
-                  className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 border-foreground bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "reposts" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
+                  className={`border-foreground flex flex-1 cursor-pointer items-center justify-center rounded-none border-0 border-b-1 bg-transparent p-3 font-semibold hover:bg-transparent ${activeTab === "reposts" ? "border-foreground text-foreground" : "border-b-muted text-muted-foreground"}`}
                   onClick={() => handleNavigation("reposts")}
                 >
                   {t("user:reposts")}
@@ -245,12 +271,13 @@ export default function UserProfile() {
                     {/* Create Post Section */}
                     <div className="flex items-center justify-between py-2 pl-1">
                       <div className="flex flex-1 items-center gap-3">
-                        <UserAvatar 
-                          user={{ 
-                            username: userData?.username, 
-                            avatar_url: userData?.avatar_url || userData?.avatar 
-                          }} 
-                          className="size-9" 
+                        <UserAvatar
+                          user={{
+                            username: userData?.username,
+                            avatar_url:
+                              userData?.avatar_url || userData?.avatar,
+                          }}
+                          className="size-9"
                         />
                         <div
                           onClick={() => CreatePostModal.open()}
@@ -268,7 +295,7 @@ export default function UserProfile() {
                       <Button
                         onClick={() => CreatePostModal.open()}
                         variant="outline"
-                        className="cursor-pointer rounded-xl border border-border px-5 font-bold text-foreground hover:bg-accent"
+                        className="border-border text-foreground hover:bg-accent cursor-pointer rounded-xl border px-5 font-bold"
                       >
                         {t("common:post")}
                       </Button>
@@ -280,59 +307,61 @@ export default function UserProfile() {
                         <h3 className="px-1 text-base font-semibold text-gray-900">
                           {t("user:finishProfile")}
                         </h3>
-                        <span className="text-sm text-gray-400">3 {t("user:left")}</span>
+                        <span className="text-sm text-gray-400">
+                          3 {t("user:left")}
+                        </span>
                       </div>
 
                       <div className="grid grid-cols-3 gap-2 overflow-x-auto pb-2">
                         {/* Card 1 */}
-                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-border bg-muted p-4">
-                          <div className="rounded-full border border-border bg-background p-3 shadow-sm">
-                            <UserPlus className="size-6 text-foreground" />
+                        <div className="border-border bg-muted flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border p-4">
+                          <div className="border-border bg-background rounded-full border p-3 shadow-sm">
+                            <UserPlus className="text-foreground size-6" />
                           </div>
                           <div className="flex flex-col items-center gap-1 text-center">
                             <span className="text-sm font-bold">
                               Follow 10 profiles
                             </span>
-                            <span className="text-xs leading-tight text-muted-foreground">
+                            <span className="text-muted-foreground text-xs leading-tight">
                               Fill your feed with threads that interest you.
                             </span>
                           </div>
-                          <Button className="h-8 w-full rounded-xl bg-foreground text-sm font-bold text-background">
+                          <Button className="bg-foreground text-background h-8 w-full rounded-xl text-sm font-bold">
                             See profiles
                           </Button>
                         </div>
 
                         {/* Card 2 */}
-                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-border bg-muted p-4">
-                          <div className="rounded-full border border-border bg-background p-3 shadow-sm">
-                            <Camera className="size-6 text-foreground" />
+                        <div className="border-border bg-muted flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border p-4">
+                          <div className="border-border bg-background rounded-full border p-3 shadow-sm">
+                            <Camera className="text-foreground size-6" />
                           </div>
                           <div className="flex flex-col items-center gap-1 text-center">
                             <span className="text-sm font-bold">
                               Add profile photo
                             </span>
-                            <span className="text-xs leading-tight text-muted-foreground">
+                            <span className="text-muted-foreground text-xs leading-tight">
                               Make it easier for people to recognize you.
                             </span>
                           </div>
-                          <Button className="h-8 w-full rounded-xl bg-foreground text-sm font-bold text-background">
+                          <Button className="bg-foreground text-background h-8 w-full rounded-xl text-sm font-bold">
                             Add
                           </Button>
                         </div>
 
                         {/* Card 3 */}
-                        <div className="flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border border-border bg-muted p-4">
-                          <div className="rounded-full border border-border bg-background p-3 shadow-sm">
-                            <PenLine className="size-6 text-foreground" />
+                        <div className="border-border bg-muted flex min-w-[150px] flex-col items-center justify-between gap-3 rounded-2xl border p-4">
+                          <div className="border-border bg-background rounded-full border p-3 shadow-sm">
+                            <PenLine className="text-foreground size-6" />
                           </div>
                           <div className="flex flex-col items-center gap-1 text-center">
                             <span className="text-sm font-bold">Add bio</span>
-                            <span className="text-xs leading-tight text-muted-foreground">
+                            <span className="text-muted-foreground text-xs leading-tight">
                               Introduce yourself and tell people what you're
                               into.
                             </span>
                           </div>
-                          <Button className="h-8 w-full rounded-xl bg-foreground text-sm font-bold text-background">
+                          <Button className="bg-foreground text-background h-8 w-full rounded-xl text-sm font-bold">
                             Add
                           </Button>
                         </div>

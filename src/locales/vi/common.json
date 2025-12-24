@@ -57,5 +57,13 @@
   "deleted": "Đã xóa",
   "updatingProfile": "Đang cập nhật hồ sơ...",
   "profileUpdatedSuccess": "Cập nhật hồ sơ thành công",
-  "profileUpdateError": "Cập nhật hồ sơ thất bại"
+  "profileUpdateError": "Cập nhật hồ sơ thất bại",
+  "endOfActivity": "Hết hoạt động",
+  "likedYourPost": "đã thích bài viết của bạn",
+  "startedFollowingYou": "đã bắt đầu theo dõi bạn",
+  "repliedToYourThread": "đã trả lời thread của bạn",
+  "mentionedYou": "đã nhắc đến bạn trong bài viết",
+  "likedYourReply": "đã thích trả lời của bạn",
+  "viewOnThreads": "Xem trên Threads",
+  "noContentProvided": "Không có nội dung."
 }

@@ -10,11 +10,15 @@ import {
   ArrowUp as SendReplyIcon,
 } from "lucide-react";
 import { forwardRef, useImperativeHandle, useState, useRef } from "react";
+import { useCreateReplyMutation } from "@/services/postService";
+import { notifySooner } from "@/utils/notifySooner";
 
-const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
+const QuickReplyModal = forwardRef(({ id, user, content, updated_at }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const textareaRef = useRef(null);
+  const [createReplyApi, { isLoading: isCreateReplyLoading }] =
+    useCreateReplyMutation();
 
   const handleInput = (e) => {
     setReplyText(e.target.value);
@@ -29,7 +33,31 @@ const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
   }));
 
   const handleReplyModal = () => {
-    ReplyModal.open({ user, content, updated_at });
+    ReplyModal.open({ id, user, content, updated_at });
+  };
+
+  const handleQuickPost = async () => {
+    try {
+      const createPromise = createReplyApi({
+        postId: id,
+        data: {
+          content: replyText,
+        },
+      }).unwrap();
+
+      notifySooner.promise(createPromise, {
+        loading: "Loading...",
+        success: "Replied!",
+        error: "Errored to fetch...",
+      });
+
+      await createPromise;
+
+      setReplyText("");
+    } catch (error) {
+      console.error("Create reply failed:", error);
+      setReplyText("");
+    }
   };
 
   const userInfo = JSON.parse(Cookies.get("userInfo") || "{}");
@@ -39,7 +67,7 @@ const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
   return (
     <>
       {isOpen && (
-        <div className={"mt-2 border-0 text-foreground transition-colors"}>
+        <div className={"text-foreground mt-2 border-0 transition-colors"}>
           <div className="flex gap-2">
             <div>
               <UserAvatar
@@ -58,7 +86,7 @@ const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
                       <Input
                         type={"text"}
                         className={
-                          "border-0 text-muted-foreground bg-transparent shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+                          "text-muted-foreground border-0 bg-transparent shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                         }
                         placeholder={"Add a topic..."}
                       />
@@ -73,7 +101,7 @@ const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
                         onChange={handleInput}
                         rows={1}
                         className={
-                          "min-h-10 w-full resize-none border-0 p-0.5 text-foreground bg-transparent shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+                          "text-foreground min-h-10 w-full resize-none border-0 bg-transparent p-0.5 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                         }
                         placeholder={`Reply to ${user?.username || "user"}...`}
                       />
@@ -81,13 +109,17 @@ const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
                     <div className="flex items-center justify-center gap-2 pl-2">
                       <div
                         onClick={handleReplyModal}
-                        className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-muted text-foreground hover:scale-110 transition-all shadow-sm"
+                        className="bg-muted text-foreground flex size-8 cursor-pointer items-center justify-center rounded-full shadow-sm transition-all hover:scale-110"
                         title="Expand"
                       >
                         <ExpandIcon className="size-4 stroke-[2.5]" />
                       </div>
                       {replyText && (
-                        <div className="flex size-8 cursor-pointer items-center justify-center rounded-full bg-foreground text-background hover:scale-110 transition-all shadow-sm">
+                        <div
+                          onClick={handleQuickPost}
+                          disable={isCreateReplyLoading}
+                          className="bg-foreground text-background flex size-8 cursor-pointer items-center justify-center rounded-full shadow-sm transition-all hover:scale-110"
+                        >
                           <SendReplyIcon className="size-4 stroke-[2.5]" />
                         </div>
                       )}
@@ -95,7 +127,7 @@ const QuickReplyModal = forwardRef(({ user, content, updated_at }, ref) => {
                   </div>
                 </div>
                 <div>
-                  <MoreIcon className="size-5 text-muted-foreground hover:text-foreground cursor-pointer transition-colors" />
+                  <MoreIcon className="text-muted-foreground hover:text-foreground size-5 cursor-pointer transition-colors" />
                 </div>
               </div>
             </div>

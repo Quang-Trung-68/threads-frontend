@@ -2,8 +2,10 @@ import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Button } from "@/components/Common/ui/button";
 import { Heart, UserPlus, Zap } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function Activity() {
+  const { t } = useTranslation(["common"]);
   const [loading, setLoading] = useState(false);
 
   // Mock Data
@@ -72,7 +74,7 @@ export default function Activity() {
           {/* Header Title Bar */}
           <div className="flex items-center justify-between p-4 text-lg font-bold">
             <div className="w-10"></div>
-            <span className="text-[15px] font-bold text-foreground">Activity</span>
+            <span className="text-[15px] font-bold text-foreground">{t("common:activity")}</span>
             <div className="w-10"></div>
           </div>
 
@@ -152,7 +154,7 @@ export default function Activity() {
 
               {item.type === 'follow' ? (
                    <Button variant="outline" className="h-8 rounded-lg px-4 text-xs font-semibold text-foreground border-border hover:bg-accent">
-                   Follow
+                   {t("common:follow")}
                  </Button>
               ) : null}
               </div>
@@ -160,7 +162,7 @@ export default function Activity() {
              
              {/* Load More Placeholder */}
              <div className="p-4 text-center text-sm text-gray-400">
-                End of activity
+                {t("common:endOfActivity")}
              </div>
 
           </div>

@@ -122,6 +122,23 @@ export const authApi = createApi({
       transformResponse: (response) => response.data,
       invalidatesTags: ["Auth"],
     }),
+    // Follow user
+    followUser: builder.mutation({
+      query: ({ id }) => ({
+        url: `/api/users/${id}/follow`,
+        method: "POST",
+      }),
+    }),
+    // Unfollow user
+    unfollowUser: builder.mutation({
+      query: ({ id }) => ({
+        url: `/api/users/${id}/follow`,
+        method: "POST",
+        data: {
+          _method: "DELETE",
+        },
+      }),
+    }),
   }),
 });
 
@@ -137,4 +154,6 @@ export const {
   useValidateResetTokenQuery,
   useGetCurrentUserQuery,
   useUpdateProfileMutation,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
 } = authApi;

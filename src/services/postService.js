@@ -1,5 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "./baseQuery";
+import { create } from "lodash";
 
 export const postApi = createApi({
   reducerPath: "postApi",
@@ -139,6 +140,36 @@ export const postApi = createApi({
         },
       }),
     }),
+    // reply to post
+    createReply: builder.mutation({
+      query: ({ postId, data }) => ({
+        url: `/api/posts/${postId}/reply`,
+        method: "POST",
+        data,
+      }),
+    }),
+    getReplies: builder.query({
+      query: ({ postId }) => ({
+        url: `/api/posts/${postId}/replies`,
+      }),
+    }),
+    getPendingReplies: builder.query({
+      query: ({ postId }) => ({
+        url: `/api/posts/${postId}/pending-replies`,
+      }),
+    }),
+    approveReply: builder.mutation({
+      query: ({ postId, replyId }) => ({
+        url: `/api/posts/${postId}/replies/${replyId}/approve`,
+        method: "POST",
+      }),
+    }),
+    rejectReply: builder.mutation({
+      query: ({ postId, replyId }) => ({
+        url: `/api/posts/${postId}/replies/${replyId}/reject`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -157,4 +188,9 @@ export const {
   useBlockUserMutation,
   useUnblockUserMutation,
   useReportPostMutation,
+  useCreateReplyMutation,
+  useGetRepliesQuery,
+  useGetPendingRepliesQuery,
+  useApproveReplyMutation,
+  useRejectReplyMutation,
 } = postApi;
