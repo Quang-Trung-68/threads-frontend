@@ -5,12 +5,14 @@ import {
 } from "@/components/Common/ui/dialog";
 import { ChevronRight, X, ChevronLeft } from "lucide-react";
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
+import { useTranslation } from "react-i18next";
 
 const REPORT_REASONS = [
   "spam",
 ];
 
 const Modal = NiceModal.create(({ postId, onReport }) => {
+  const { t } = useTranslation(["common", "post"]);
   const modal = useModal();
 
   const handleCancel = () => {
@@ -36,7 +38,7 @@ const Modal = NiceModal.create(({ postId, onReport }) => {
           <button onClick={handleCancel} className="p-1 hover:bg-gray-100 rounded-full">
             <ChevronLeft className="size-6" />
           </button>
-          <h2 className="text-[17px] font-bold">Report</h2>
+          <h2 className="text-[17px] font-bold">{t("post:reportTitle")}</h2>
           <button onClick={handleCancel} className="p-1 hover:bg-gray-100 rounded-full">
             <X className="size-6" />
           </button>
@@ -44,9 +46,9 @@ const Modal = NiceModal.create(({ postId, onReport }) => {
 
         <div className="flex flex-col overflow-y-auto">
           <div className="flex flex-col items-center px-8 py-8 text-center">
-            <h3 className="text-[20px] font-bold">Why are you reporting this post?</h3>
+            <h3 className="text-[20px] font-bold">{t("post:reportReason")}</h3>
             <p className="mt-3 text-[15px] leading-tight text-gray-500">
-              Your report is anonymous. If someone is in immediate danger, call the local emergency services - don't wait.
+              {t("post:reportAnonymous")}
             </p>
           </div>
 

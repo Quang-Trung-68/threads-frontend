@@ -30,7 +30,7 @@ function CommentItem({
     ReplyModalRef.current?.toggle();
   };
   return (
-    <Card className="flex flex-col rounded-none border-b p-3 md:p-6">
+    <div className="flex flex-col p-3 md:p-6">
       <div className="flex gap-2">
         <div>
           <UserAvatar user={{ username, avatar_url }} className="size-9" />
@@ -68,7 +68,7 @@ function CommentItem({
         </div>
       </div>
       <ReplyModal ref={ReplyModalRef} />
-    </Card>
+    </div>
   );
 }
 

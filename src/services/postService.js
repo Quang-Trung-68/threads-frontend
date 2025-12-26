@@ -1,6 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import baseQuery from "./baseQuery";
-import { create } from "lodash";
 
 export const postApi = createApi({
   reducerPath: "postApi",
@@ -83,7 +82,6 @@ export const postApi = createApi({
         url: `/api/posts/${id}/repost`,
         method: "POST",
       }),
-      invalidatesTags: ["Post"],
     }),
     savePost: builder.mutation({
       query: ({ id }) => ({

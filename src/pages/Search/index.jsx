@@ -1,7 +1,7 @@
 import { Button } from "@/components/Common/ui/button";
 import { Input } from "@/components/Common/ui/input";
 import { useGetFollowSuggestionQuery } from "@/services/searchService";
-import { Search as SearchIcon } from "lucide-react";
+import { Search as SearchIcon, CircleEllipsis } from "lucide-react";
 import { useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import FollowSuggestionCard from "@/components/Features/search/FollowSuggestionCard";
@@ -51,8 +51,17 @@ export default function Search() {
         {/* Sticky Header Container */}
         <div className="sticky top-0 z-50 bg-background">
           {/* Header Title Bar */}
-          <div className="flex items-center justify-center p-4 text-lg font-bold">
-            <span className="text-[15px] font-bold text-foreground">{t("feed:search")}</span>
+          <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
+            <div className="w-10 px-4 py-3"></div>
+             <div className="flex items-center justify-center px-4 py-3">
+               <span className="text-[15px] font-bold text-foreground">{t("feed:search")}</span>
+             </div>
+            <div className="flex w-10 justify-center">
+                <CircleEllipsis
+                  className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                  strokeWidth={1.1}
+                />
+            </div>
           </div>
 
           {/* Visible Border connecting the masks */}
@@ -106,7 +115,7 @@ export default function Search() {
                 </h3>
               )}
               {isLoading && suggestions.length === 0 ? (
-                <div className="flex justify-center p-10">
+                <div className="flex flex-1 items-center justify-center min-h-[50vh]">
                   <Spinner size="lg" />
                 </div>
               ) : suggestions.length === 0 && !isFetching ? (

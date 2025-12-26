@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CircleEllipsis } from "lucide-react";
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Input } from "@/components/Common/ui/input";
 import { Button } from "@/components/Common/ui/button";
@@ -54,17 +55,28 @@ export default function Following() {
   });
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-background">
+    <div className="bg-background relative flex min-h-screen w-full flex-col">
       <div className="flex w-full flex-col">
         {/* Sticky Header Container */}
         {/* The entire block is sticky to create the 'Fixed Frame' effect while keeping native scroll */}
-        <div className="sticky top-0 z-50 bg-background">
+        <div className="bg-background sticky top-0 z-50">
           {/* Visible Header Navigation */}
           {user ? (
             <FeedHeader />
           ) : (
-            <div className="flex items-center justify-center gap-4 bg-background p-4 text-lg font-bold">
-              <span className="text-[15px] font-bold text-foreground">{t("feed:home")}</span>
+            <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
+              <div className="w-10 px-4 py-3"></div>
+              <div className="flex items-center justify-center gap-4 px-4 py-3">
+                <span className="text-foreground text-[15px] font-bold">
+                  {t("feed:following")}
+                </span>
+              </div>
+              <div className="flex w-10 justify-center">
+                <CircleEllipsis
+                  className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                  strokeWidth={1.1}
+                />
+              </div>
             </div>
           )}
 
@@ -94,15 +106,15 @@ export default function Following() {
         </div>
 
         {/* Main Content - Flows naturally with window scroll */}
-        <div className="relative z-0 flex min-h-screen w-full flex-col bg-background">
+        <div className="bg-background relative z-0 flex min-h-screen w-full flex-col">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}
-          <div className="bg-border absolute top-0 bottom-0 right-0 z-10 w-px" />
+          <div className="bg-border absolute top-0 right-0 bottom-0 z-10 w-px" />
 
           {/* Avatar + post button if logged in */}
           {user && (
-            <div className="flex items-center justify-between border-2 bg-background p-5">
+            <div className="bg-background flex items-center justify-between border-2 p-5">
               <div className="flex flex-1 items-center gap-2">
                 <div>
                   <UserAvatar user={user} className={"size-9"} />
@@ -111,7 +123,7 @@ export default function Following() {
                   <Input
                     type={"text"}
                     className={
-                      "border-0 p-0.5 text-muted-foreground shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+                      "text-muted-foreground border-0 p-0.5 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                     }
                     placeholder={t("common:whatsNews")}
                   />
@@ -140,12 +152,16 @@ export default function Following() {
               />
             ) : (
               posts.map((post) => (
-                <PostCard
-                  key={post.id}
-                  {...post}
-                  isPermitDetailPost={true}
-                  onDeleteSuccess={handleRefreshFeed}
-                />
+                <>
+                  <PostCard
+                    key={post.id}
+                    {...post}
+                    isPermitDetailPost={true}
+                    onDeleteSuccess={handleRefreshFeed}
+                  />
+                  {/* Separator */}
+                  <div className="bg-border my-2 h-px w-full" />
+                </>
               ))
             )}
           </div>

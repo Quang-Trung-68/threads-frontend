@@ -12,8 +12,10 @@ import {
 import { forwardRef, useImperativeHandle, useState, useRef } from "react";
 import { useCreateReplyMutation } from "@/services/postService";
 import { notifySooner } from "@/utils/notifySooner";
+import { useTranslation } from "react-i18next";
 
 const QuickReplyModal = forwardRef(({ id, user, content, updated_at }, ref) => {
+  const { t } = useTranslation(["common", "post"]);
   const [isOpen, setIsOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const textareaRef = useRef(null);
@@ -46,9 +48,9 @@ const QuickReplyModal = forwardRef(({ id, user, content, updated_at }, ref) => {
       }).unwrap();
 
       notifySooner.promise(createPromise, {
-        loading: "Loading...",
-        success: "Replied!",
-        error: "Errored to fetch...",
+        loading: t("common:loading"),
+        success: t("common:replied"),
+        error: t("common:error"),
       });
 
       await createPromise;
@@ -81,14 +83,14 @@ const QuickReplyModal = forwardRef(({ id, user, content, updated_at }, ref) => {
                 <div className="flex-1">
                   <div className="username flex items-center gap-2">
                     <div className="flex items-center justify-center gap-2">
-                      <span className="font-semibold">You</span>
+                      <span className="font-semibold">{t("common:you")}</span>
                       <span className={"text-muted-foreground"}>{">"}</span>
                       <Input
                         type={"text"}
                         className={
                           "text-muted-foreground border-0 bg-transparent shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                         }
-                        placeholder={"Add a topic..."}
+                        placeholder={t("post:addTopic")}
                       />
                     </div>
                   </div>
@@ -103,14 +105,14 @@ const QuickReplyModal = forwardRef(({ id, user, content, updated_at }, ref) => {
                         className={
                           "text-foreground min-h-10 w-full resize-none border-0 bg-transparent p-0.5 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
                         }
-                        placeholder={`Reply to ${user?.username || "user"}...`}
+                        placeholder={t("post:replyTo", { username: user?.username || "user" })}
                       />
                     </div>
                     <div className="flex items-center justify-center gap-2 pl-2">
                       <div
                         onClick={handleReplyModal}
                         className="bg-muted text-foreground flex size-8 cursor-pointer items-center justify-center rounded-full shadow-sm transition-all hover:scale-110"
-                        title="Expand"
+                        title={t("common:expand")}
                       >
                         <ExpandIcon className="size-4 stroke-[2.5]" />
                       </div>

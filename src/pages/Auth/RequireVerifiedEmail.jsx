@@ -9,8 +9,10 @@ import {
 } from "@/services/authService";
 // Assume there's a logout and resend function in authService
 // import { useLogoutMutation, useResendVerifyEmailMutation } from "@/services/authService";
+import { useTranslation } from "react-i18next";
 
 export default function RequireVerifiedEmail() {
+  const { t } = useTranslation(["auth"]);
   const navigate = useNavigate();
   const { user } = useAuth();
   const [logoutApi, { isLoading: isLoggingOut }] = useLogoutMutation();
@@ -22,16 +24,16 @@ export default function RequireVerifiedEmail() {
       await logoutApi().unwrap();
       navigate(PATHS.LOGIN);
     } catch (error) {
-      notifySooner.error("Logout failed. Please try again.");
+      notifySooner.error(t("auth:logoutFailed"));
     }
   };
 
   const handleResendEmail = async () => {
     try {
       await resendApi().unwrap();
-      notifySooner.success("Verification email sent! Please check your inbox.");
+      notifySooner.success(t("auth:verificationEmailSent"));
     } catch (error) {
-      notifySooner.error("Failed to resend email. Please try again later.");
+      notifySooner.error(t("auth:resendFailed"));
     }
   };
 
@@ -42,15 +44,15 @@ export default function RequireVerifiedEmail() {
       </div>
 
       <h1 className="mb-4 text-3xl font-bold tracking-tight">
-        Verify your email
+        {t("auth:verifyYourEmail")}
       </h1>
 
       <p className="text-muted-foreground mb-8 max-w-sm leading-relaxed">
-        We've sent a verification link to{" "}
+        {t("auth:verificationLinkSent")}{" "}
         <span className="text-foreground font-semibold">
           {user?.email || "your email"}
         </span>
-        . Please verify your email to access all features.
+        . {t("auth:verifyToAccessFeatures")}
       </p>
 
       <div className="flex w-full flex-col gap-3">
@@ -60,7 +62,7 @@ export default function RequireVerifiedEmail() {
           className="bg-primary text-primary-foreground flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-3.5 font-semibold transition-all hover:opacity-90 disabled:opacity-50"
         >
           {isResending ? <RefreshCw className="h-5 w-5 animate-spin" /> : null}
-          Resend verification email
+          {t("auth:resendVerificationEmail")}
         </button>
 
         <button
@@ -69,7 +71,7 @@ export default function RequireVerifiedEmail() {
           className="border-border bg-background text-foreground hover:bg-accent flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border py-3.5 font-semibold transition-all disabled:opacity-50"
         >
           <LogOut className="h-5 w-5" />
-          Log out
+          {t("auth:logout")}
         </button>
       </div>
     </div>

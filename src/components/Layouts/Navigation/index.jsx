@@ -86,6 +86,12 @@ export default function Navigation() {
               const Icon = child.icon;
               const isPrivate = child.private;
               const path = child.path;
+              let renderPath = child.path;
+
+              if (path === PATHS.USER_PROFILE && user) {
+                renderPath = `/@${user.username}`;
+              }
+
               return (
                 child.isShowInNav && (
                   <NavLink
@@ -93,7 +99,7 @@ export default function Navigation() {
                       "group m-1 flex h-10.5 flex-1 items-center justify-center rounded-xl border-0 text-muted-foreground/60 hover:bg-accent md:mt-[6px] md:mb-[6px] md:h-15 md:w-12 md:w-15 md:flex-none md:gap-1"
                     }
                     key={index}
-                    to={child.path}
+                    to={renderPath}
                     onClick={(event) => handleUserAuth(event, isPrivate, path)}
                   >
                     <Icon

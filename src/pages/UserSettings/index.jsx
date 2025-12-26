@@ -82,14 +82,16 @@ export default function UserSettings() {
     <div className="mx-auto max-w-2xl px-4 py-8">
       {/* Header */}
       <div className="mb-8 flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => navigate(-1)}
-          className="rounded-full"
-        >
-          <ChevronLeft size={24} />
-        </Button>
+        {window.history.length > 1 && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate(-1)}
+            className="rounded-full"
+          >
+            <ChevronLeft size={24} />
+          </Button>
+        )}
         <h1 className="text-2xl font-bold text-foreground">{t("user:editProfile")}</h1>
       </div>
 

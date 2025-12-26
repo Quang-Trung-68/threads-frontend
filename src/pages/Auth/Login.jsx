@@ -70,8 +70,7 @@ export default function Login() {
         <div className="text-left">
           <input
             type="text"
-            placeholder="Email"
-            defaultValue={"dt1234@gmail.com"}
+            placeholder="Email..."
             {...register("login")}
             onChange={(e) => loginChange(e.target.value)}
             className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
@@ -88,10 +87,9 @@ export default function Login() {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder="Password..."
               {...register("password")}
               onChange={(e) => passwordChange(e.target.value)}
-              defaultValue={"12345678"}
               className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
             />
             <span

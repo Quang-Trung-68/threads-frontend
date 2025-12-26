@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import threadsIcon from "@assets/threads-icon.svg";
 import UserAvatar from "@/components/Common/ui/UserAvatar";
+import { useTranslation } from "react-i18next";
 
 import {
   Heart as LikeIcon,
@@ -39,6 +40,7 @@ const PreviewInteractionBar = ({
 };
 
 function Embed() {
+  const { t } = useTranslation(["common", "auth"]);
   const params = useParams();
   const { postId } = params;
   const {
@@ -64,22 +66,22 @@ function Embed() {
           <div className="w-full rounded-3xl p-4 shadow-sm">
             {/* Header */}
             <div className="mb-3 flex items-center gap-2">
-              <UserAvatar user={user} className="size-9 border border-gray-100" />
+              <UserAvatar user={user} className="size-9 border border-border" />
               <div className="flex items-center gap-1 text-sm">
-                <span className="font-semibold">
-                  {user?.username || "username"}
+                <span className="font-semibold text-foreground">
+                  {user?.username || t("auth:username")}
                 </span>
-                <span className="text-gray-300">›</span>
-                <span className="text-gray-400">threads</span>
+                <span className="text-muted-foreground">›</span>
+                <span className="text-muted-foreground">threads</span>
               </div>
-              <span className="ml-auto text-gray-400">
+              <span className="ml-auto text-muted-foreground">
                 {updated_at ? formatTime(updated_at) : "3h"}
               </span>
             </div>
 
             {/* Content */}
-            <div className="mb-4 text-[15px] leading-relaxed whitespace-pre-wrap">
-              {content || "No content provided."}
+            <div className="mb-4 text-[15px] leading-relaxed whitespace-pre-wrap text-foreground">
+              {content || t("common:noContentProvided")}
             </div>
 
             {/* Footer */}
@@ -92,8 +94,8 @@ function Embed() {
             </div>
             <div className="mt-2 flex items-center justify-between">
               {/* Watermark/Logo */}
-              <div className="ml-auto flex items-center justify-between gap-2 rounded-2xl bg-gray-100 px-3 py-2 text-[12px] font-semibold">
-                <span>View on Threads</span>
+              <div className="ml-auto flex items-center justify-between gap-2 rounded-2xl bg-muted px-3 py-2 text-[12px] font-semibold text-foreground">
+                <span>{t("common:viewOnThreads")}</span>
                 <img src={threadsIcon} className="size-6 rounded-xl" />
               </div>
             </div>

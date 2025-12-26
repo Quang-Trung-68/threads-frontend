@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { CircleEllipsis } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
 import PostCard from "@/components/post/PostCard";
 import useInfiniteScroll from "react-infinite-scroll-hook";
@@ -7,10 +8,12 @@ import { Spinner } from "@/components/Common/ui/spinner";
 import FeedHeader from "@/components/post/FeedHeader";
 import EmptyState from "@/components/Common/EmptyState";
 import PostCardSkeleton from "@/components/post/PostCardSkeleton";
+import { useTranslation } from "react-i18next";
 
 export default function GhostPosts() {
   const [page, setPage] = useState(1);
   const [refreshKey, setRefreshKey] = useState(() => Date.now());
+  const { t } = useTranslation(["feed"]);
 
   const { user } = useAuth();
   const {
@@ -51,8 +54,19 @@ export default function GhostPosts() {
           {user ? (
             <FeedHeader />
           ) : (
-            <div className="flex items-center justify-center gap-4 bg-background p-4 text-lg font-bold">
-              <span className="text-[15px] font-bold text-foreground">Ghost posts</span>
+            <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
+              <div className="w-10 px-4 py-3"></div>
+              <div className="flex items-center justify-center gap-4 px-4 py-3">
+                <span className="text-foreground text-[15px] font-bold">
+                  {t("feed:ghostPosts")}
+                </span>
+              </div>
+              <div className="flex w-10 justify-center">
+                <CircleEllipsis
+                  className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                  strokeWidth={1.1}
+                />
+              </div>
             </div>
           )}
 
@@ -95,8 +109,8 @@ export default function GhostPosts() {
               ))
             ) : posts.length === 0 ? (
               <EmptyState
-                title="No ghost posts yet"
-                description="Ghost posts will appear here."
+                title={t("feed:noGhostPostsYet")}
+                description={t("feed:ghostPostsWillAppearHere")}
               />
             ) : (
               posts.map((post) => (

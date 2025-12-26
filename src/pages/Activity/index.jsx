@@ -1,6 +1,6 @@
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Button } from "@/components/Common/ui/button";
-import { Heart, UserPlus, Zap } from "lucide-react";
+import { Heart, UserPlus, Zap, CircleEllipsis } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -17,7 +17,7 @@ export default function Activity() {
         username: "johndoe",
         avatar: "https://github.com/shadcn.png",
       },
-      content: "liked your post",
+      content: t("common:likedYourPost"),
       time: "2m",
       message: "Great photo!",
     },
@@ -28,7 +28,7 @@ export default function Activity() {
         username: "janedoe",
         avatar: "https://github.com/shadcn.png",
       },
-      content: "started following you",
+      content: t("common:startedFollowingYou"),
       time: "1h",
     },
     {
@@ -38,7 +38,7 @@ export default function Activity() {
         username: "mike_smith",
         avatar: "https://github.com/shadcn.png",
       },
-      content: "replied to your thread",
+      content: t("common:repliedToYourThread"),
       time: "3h",
       message: "I totally agree with this point.",
     },
@@ -49,7 +49,7 @@ export default function Activity() {
         username: "sarah_j",
         avatar: "https://github.com/shadcn.png",
       },
-      content: "mentioned you in a post",
+      content: t("common:mentionedYou"),
       time: "5h",
       message: "Check out this project @dqt_2309",
     },
@@ -60,7 +60,7 @@ export default function Activity() {
           username: "alex_w",
           avatar: "https://github.com/shadcn.png",
         },
-        content: "liked your reply",
+        content: t("common:likedYourReply"),
         time: "1d",
         message: "Thanks for the help!",
       },
@@ -72,10 +72,15 @@ export default function Activity() {
         {/* Sticky Header Container */}
         <div className="sticky top-0 z-50 bg-background">
           {/* Header Title Bar */}
-          <div className="flex items-center justify-between p-4 text-lg font-bold">
-            <div className="w-10"></div>
-            <span className="text-[15px] font-bold text-foreground">{t("common:activity")}</span>
-            <div className="w-10"></div>
+          <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
+            <div className="w-10 px-4 py-3"></div>
+            <span className="flex items-center justify-center px-4 py-3 text-[15px] font-bold text-foreground">{t("common:activity")}</span>
+            <div className="flex w-10 justify-center">
+                <CircleEllipsis
+                  className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                  strokeWidth={1.1}
+                />
+            </div>
           </div>
 
            {/* Visible Border connecting the masks */}
@@ -161,7 +166,7 @@ export default function Activity() {
             ))}
              
              {/* Load More Placeholder */}
-             <div className="p-4 text-center text-sm text-gray-400">
+             <div className="p-4 text-center text-sm text-muted-foreground">
                 {t("common:endOfActivity")}
              </div>
 

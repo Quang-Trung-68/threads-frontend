@@ -43,5 +43,16 @@
   "blockUser": "Chặn {{username}}",
   "blockUserConfirm": "Bạn có chắc chắn muốn chặn {{username}}? Họ sẽ không thể tìm thấy hồ sơ, bài viết hoặc story của bạn trên Threads. Threads sẽ không thông báo cho họ rằng bạn đã chặn họ.",
   "deleteConfirm": "Bạn có chắc chắn muốn xóa bài viết này?",
-  "deleteWarning": "Hành động này không thể hoàn tác."
+  "deleteWarning": "Hành động này không thể hoàn tác.",
+  "replyTo": "Trả lời {{username}}...",
+  "addTopic": "Thêm chủ đề...",
+  "blockTitle": "Chặn {{username}}?",
+  "blockDescription": "{{username}} sẽ không thể tìm thấy hồ sơ hoặc nội dung của bạn. Không ai sẽ thấy câu trả lời của họ cho bài viết của bạn, và họ sẽ không được thông báo rằng bạn đã chặn họ.",
+  "blockConfirm": "Chặn",
+  "reportTitle": "Báo cáo",
+  "reportReason": "Tại sao bạn muốn báo cáo bài viết này?",
+  "reportAnonymous": "Báo cáo của bạn được ẩn danh. Nếu ai đó đang gặp nguy hiểm ngay lập tức, hãy gọi dịch vụ khẩn cấp địa phương - đừng chờ đợi.",
+  "newThread": "Thread mới",
+  "addToThread": "Thêm vào thread",
+  "shareYourThoughts": "Chia sẻ suy nghĩ của bạn..."
 }

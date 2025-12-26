@@ -24,8 +24,11 @@ import UserAvatar from "@/components/Common/ui/UserAvatar";
 import Cookies from "js-cookie";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
+import { ScrollArea } from "@/components/Common/ui/scroll-area";
 
 const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
+  const { t } = useTranslation(["common", "post"]);
   const modal = useModal();
   const { resolvedTheme } = useTheme();
   const userInfo = JSON.parse(Cookies.get("userInfo") || "{}");
@@ -53,9 +56,9 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
         }).unwrap();
 
         notifySooner.promise(createPromise, {
-          loading: "Loading...",
-          success: "Saved!",
-          error: "Errored to fetch...",
+          loading: t("common:loading"),
+          success: t("post:postCreated"),
+          error: t("common:error"),
         });
 
         await createPromise;
@@ -146,7 +149,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
-        className="bg-background text-foreground max-w-[600px] gap-0 rounded-2xl border-none p-0 shadow-xl transition-colors"
+        className="bg-background text-foreground flex max-h-[85vh] max-w-[600px] flex-col gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-xl transition-colors"
       >
         {/* --- HEADER --- */}
         <div className="flex items-center justify-between px-5 py-4">
@@ -154,10 +157,10 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
             onClick={handleCancel}
             className="text-foreground cursor-pointer text-[16px] transition-colors hover:opacity-70"
           >
-            Cancel
+            {t("common:cancel")}
           </button>
           <DialogTitle className="text-foreground text-[16px] font-bold">
-            New thread
+            {t("post:newThread")}
           </DialogTitle>
           <div className="flex items-center gap-4">
             {/* Icon giống Library/Copy */}
@@ -173,163 +176,169 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
         <div className="bg-border h-[1px] w-full" />
 
         {/* --- BODY --- */}
-        <div className="flex px-5 pt-4 pb-2">
-          {/* LEFT COLUMN: Avatar & Thread Line */}
-          <div className="mr-3 flex flex-col items-center pt-1">
-            {/* Main Avatar */}
-            <UserAvatar user={{ username, avatar_url }} className="h-9 w-9" />
+        <ScrollArea className="flex-1" style={{ overflowY: "auto" }}>
+          <div className="flex px-5 pt-4 pb-2">
+            {/* LEFT COLUMN: Avatar & Thread Line */}
+            <div className="mr-3 flex flex-col items-center pt-1">
+              {/* Main Avatar */}
+              <UserAvatar user={{ username, avatar_url }} className="h-9 w-9" />
 
-            {/* The Vertical Thread Line */}
-            <div className="bg-border my-2 w-[2px] flex-grow rounded-full" />
+              {/* The Vertical Thread Line */}
+              <div className="bg-border my-2 w-[2px] flex-grow rounded-full" />
 
-            {/* Small Ghost Avatar (for 'Add to thread') */}
-            <UserAvatar
-              user={{ username, avatar_url }}
-              className="h-5 w-5 opacity-50"
-            />
-          </div>
-
-          {/* RIGHT COLUMN: Content */}
-          <div className="flex flex-1 flex-col pt-1">
-            {/* Username + Topic Placeholder */}
-            <div className="mb-1 flex items-center gap-1">
-              <span className="text-foreground text-[15px] font-semibold">
-                {username}
-              </span>
-
-              {/* Topic Logic */}
-              {!showTopicInput ? (
-                <button
-                  onClick={() => setShowTopicInput(true)}
-                  className="text-muted-foreground flex items-center text-[15px] opacity-60 transition-colors hover:opacity-100"
-                >
-                  <span className="ml-1 font-normal">Add a topic</span>
-                </button>
-              ) : (
-                <input
-                  type="text"
-                  value={topic}
-                  onChange={(e) => setTopic(e.target.value)}
-                  placeholder="Add a topic"
-                  className="text-foreground placeholder:text-muted-foreground ml-2 flex-1 bg-transparent text-[15px] outline-none"
-                  autoFocus
-                />
-              )}
+              {/* Small Ghost Avatar (for 'Add to thread') */}
+              <UserAvatar
+                user={{ username, avatar_url }}
+                className="h-5 w-5 opacity-50"
+              />
             </div>
 
-            {/* Textarea */}
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="What's new?"
-              className="text-foreground placeholder:text-muted-foreground mb-2 w-full resize-none bg-transparent py-1 text-[15px] focus:outline-none"
-              rows={1}
-              style={{ minHeight: "24px", height: "auto" }}
-              onInput={(e) => {
-                e.currentTarget.style.height = "auto";
-                e.currentTarget.style.height =
-                  e.currentTarget.scrollHeight + "px";
-              }}
-            />
+            {/* RIGHT COLUMN: Content */}
+            <div className="flex flex-1 flex-col pt-1">
+              {/* Username + Topic Placeholder */}
+              <div className="mb-1 flex items-center gap-1">
+                <span className="text-foreground text-[15px] font-semibold">
+                  {username}
+                </span>
 
-            {/* Toolbar Icons */}
-            <div className="relative mb-6 flex items-center gap-4">
-              <button
-                onClick={handlePickImage}
-                className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
-              >
-                <Images size={20} />
-              </button>
-              <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
-                <div className="border-muted-foreground flex size-5 items-center justify-center rounded border px-1 py-px text-[8px] font-bold">
-                  GIF
-                </div>
-              </button>
-              <button
-                ref={emojiButtonRef}
-                onClick={() => setOpenEmoji((prev) => !prev)}
-                className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
-              >
-                <SmilePlus size={20} />
-              </button>
-              <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
-                <FileText size={20} />
-              </button>
-              <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
-                <AlignLeft size={20} />
-              </button>
-              <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
-                <MapPin size={20} />
-              </button>
-              {/* EMOJI PICKER */}
-              {openEmoji && (
-                <div
-                  ref={emojiPickerRef}
-                  style={{
-                    position: "absolute",
-                    top: "110%",
-                    left: "0",
-                    zIndex: 1000,
-                  }}
-                >
-                  <EmojiPicker
-                    width={350}
-                    height={450}
-                    onEmojiClick={onEmojiClick}
-                    autoFocusSearch={false}
-                    onEmojiStyle="native"
-                    theme={resolvedTheme === "dark" ? Theme.DARK : Theme.LIGHT}
+                {/* Topic Logic */}
+                {!showTopicInput ? (
+                  <button
+                    onClick={() => setShowTopicInput(true)}
+                    className="text-muted-foreground flex items-center text-[15px] opacity-60 transition-colors hover:opacity-100"
+                  >
+                    <span className="ml-1 font-normal">
+                      {t("post:addTopic")}
+                    </span>
+                  </button>
+                ) : (
+                  <input
+                    type="text"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    placeholder={t("post:addTopic")}
+                    className="text-foreground placeholder:text-muted-foreground ml-2 flex-1 bg-transparent text-[15px] outline-none"
+                    autoFocus
                   />
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            {/* Preview */}
-
-            <div className="w-full">
-              {/* INPUT FILE */}
-              <input
-                ref={inputRef}
-                type="file"
-                accept="image/*"
-                multiple
-                hidden
-                onChange={handleChange}
+              {/* Textarea */}
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder={t("common:whatsNew")}
+                className="text-foreground placeholder:text-muted-foreground mb-2 w-full resize-none bg-transparent py-1 text-[15px] focus:outline-none"
+                rows={1}
+                style={{ minHeight: "24px", height: "auto" }}
+                onInput={(e) => {
+                  e.currentTarget.style.height = "auto";
+                  e.currentTarget.style.height =
+                    e.currentTarget.scrollHeight + "px";
+                }}
               />
 
-              {/* PREVIEW */}
-              <div
-                className="flex w-full flex-wrap"
-                style={{ display: "flex", gap: 8, marginTop: 12 }}
-              >
-                {images.map((img, index) => (
-                  <div key={index} className="group relative">
-                    <img
-                      src={img.url}
-                      alt=""
-                      width={100}
-                      height={100}
-                      className="rounded-lg border object-cover"
-                    />
-                    <button
-                      onClick={() => handleRemoveImage(index)}
-                      className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-black/60 text-white transition-opacity hover:bg-black/80"
-                    >
-                      <X size={12} />
-                    </button>
+              {/* Toolbar Icons */}
+              <div className="relative mb-6 flex items-center gap-4">
+                <button
+                  onClick={handlePickImage}
+                  className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+                >
+                  <Images size={20} />
+                </button>
+                <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
+                  <div className="border-muted-foreground flex size-5 items-center justify-center rounded border px-1 py-px text-[8px] font-bold">
+                    GIF
                   </div>
-                ))}
+                </button>
+                <button
+                  ref={emojiButtonRef}
+                  onClick={() => setOpenEmoji((prev) => !prev)}
+                  className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+                >
+                  <SmilePlus size={20} />
+                </button>
+                <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
+                  <FileText size={20} />
+                </button>
+                <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
+                  <AlignLeft size={20} />
+                </button>
+                <button className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">
+                  <MapPin size={20} />
+                </button>
+                {/* EMOJI PICKER */}
+                {openEmoji && (
+                  <div
+                    ref={emojiPickerRef}
+                    style={{
+                      position: "absolute",
+                      top: "110%",
+                      left: "0",
+                      zIndex: 1000,
+                    }}
+                  >
+                    <EmojiPicker
+                      width={350}
+                      height={450}
+                      onEmojiClick={onEmojiClick}
+                      autoFocusSearch={false}
+                      onEmojiStyle="native"
+                      theme={
+                        resolvedTheme === "dark" ? Theme.DARK : Theme.LIGHT
+                      }
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Preview */}
+
+              <div className="w-full">
+                {/* INPUT FILE */}
+                <input
+                  ref={inputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  hidden
+                  onChange={handleChange}
+                />
+
+                {/* PREVIEW */}
+                <div
+                  className="flex w-full flex-wrap"
+                  style={{ display: "flex", gap: 8, marginTop: 12 }}
+                >
+                  {images.map((img, index) => (
+                    <div key={index} className="group relative">
+                      <img
+                        src={img.url}
+                        alt=""
+                        width={100}
+                        height={100}
+                        className="rounded-lg border object-cover"
+                      />
+                      <button
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-black/60 text-white transition-opacity hover:bg-black/80"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Add to thread text (Aligned with Ghost Avatar) */}
+              <div className="flex items-center pb-2">
+                <button className="text-muted-foreground text-[15px] font-normal opacity-60 transition-colors hover:opacity-100">
+                  {t("post:addToThread")}
+                </button>
               </div>
             </div>
-
-            {/* Add to thread text (Aligned with Ghost Avatar) */}
-            <div className="flex items-center pb-2">
-              <button className="text-muted-foreground text-[15px] font-normal opacity-60 transition-colors hover:opacity-100">
-                Add to thread
-              </button>
-            </div>
           </div>
-        </div>
+        </ScrollArea>
 
         {/* --- FOOTER --- */}
         <div className="mt-2 flex items-center justify-between px-5 py-4">
@@ -343,7 +352,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
               className={`flex cursor-pointer items-center gap-2 text-sm font-semibold transition-colors ${reviewApprove ? "text-foreground" : "text-muted-foreground hover:text-foreground"} `}
             >
               <Grid3x3 className="h-4 w-4" />
-              <span>Reply options</span>
+              <span>{t("post:replyOptions")}</span>
             </button>
           </ReplyOptionsDropdown>
 
@@ -357,7 +366,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
             } `}
             variant="ghost"
           >
-            Post
+            {t("common:post")}
           </Button>
         </div>
       </DialogContent>

@@ -58,6 +58,9 @@
   "updatingProfile": "Đang cập nhật hồ sơ...",
   "profileUpdatedSuccess": "Cập nhật hồ sơ thành công",
   "profileUpdateError": "Cập nhật hồ sơ thất bại",
+  "block": "Chặn",
+  "report": "Báo cáo",
+  "translate": "Dịch",
   "endOfActivity": "Hết hoạt động",
   "likedYourPost": "đã thích bài viết của bạn",
   "startedFollowingYou": "đã bắt đầu theo dõi bạn",
@@ -65,5 +68,10 @@
   "mentionedYou": "đã nhắc đến bạn trong bài viết",
   "likedYourReply": "đã thích trả lời của bạn",
   "viewOnThreads": "Xem trên Threads",
-  "noContentProvided": "Không có nội dung."
+  "noContentProvided": "Không có nội dung.",
+  "you": "Bạn",
+  "replied": "Đã trả lời!",
+  "error": "Lỗi",
+  "expand": "Mở rộng",
+  "continueWithUsernameOrEmail": "Tiếp tục với tên người dùng hoặc email"
 }

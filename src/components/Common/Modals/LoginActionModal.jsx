@@ -9,6 +9,7 @@ import { ChevronRight as ArrowRightIcon } from "lucide-react";
 import threadsIcon from "@assets/threads-icon.svg";
 import postIcon from "@assets/post-icon.svg";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 const LoginActionModal = ({
   titleModal,
@@ -17,6 +18,7 @@ const LoginActionModal = ({
   open,
   setOpen,
 }) => {
+  const { t } = useTranslation(["common"]);
   const navigate = useNavigate();
   const handleContinueLogin = () => {
     navigate("/login");
@@ -57,7 +59,7 @@ const LoginActionModal = ({
               onClick={handleContinueLogin}
               className="text-[15px] text-muted-foreground"
             >
-              Continue with username or email
+              {t("common:continueWithUsernameOrEmail")}
             </div>
             <div>
               <ArrowRightIcon className="text-muted-foreground" />

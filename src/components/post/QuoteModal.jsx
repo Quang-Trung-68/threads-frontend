@@ -22,8 +22,10 @@ import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import Cookies from "js-cookie";
 import { formatTime } from "@/utils/formatTime";
 import ReplyOptionsDropdown from "../Common/DropdownMenu/ReplyOptionsDropdown";
+import { useTranslation } from "react-i18next";
 
 const Modal = NiceModal.create(({ user, content, updated_at }) => {
+  const { t } = useTranslation(["common", "post"]);
   const modal = useModal();
 
   const handleCancel = () => {
@@ -41,13 +43,14 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
 
   const [replyQuote, setReplyQuote] = useState("anyone");
   const [reviewApprove, setReviewApprove] = useState(false);
+  const [textQuote, setTextQuote] = useState("");
 
   return (
     <Dialog open={modal.visible} onOpenChange={handleCancel}>
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
-        className="flex h-[90vh] flex-col gap-0 overflow-hidden rounded-2xl bg-white p-0 text-black sm:h-auto sm:max-h-[85vh] sm:max-w-[600px]"
+        className="flex max-h-[85vh] w-full max-w-[600px] flex-col gap-0 overflow-hidden rounded-2xl bg-white p-0 text-black shadow-xl"
       >
         {/* --- Header --- */}
         <DialogHeader className="flex flex-row items-center justify-between space-y-0 border-b border-gray-200 px-4 py-3">
@@ -56,10 +59,10 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
             className="h-auto cursor-pointer p-1 text-base font-normal text-black hover:bg-transparent"
             onClick={handleCancel}
           >
-            Cancel
+            {t("common:cancel")}
           </Button>
           <DialogTitle className="flex-1 text-center text-base font-bold">
-            New thread
+            {t("post:newThread")}
           </DialogTitle>
           <Button
             variant="ghost"
@@ -71,8 +74,8 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
         </DialogHeader>
 
         {/* --- Body (Scrollable) --- */}
-        <ScrollArea className="flex-1 px-4 py-4">
-          <div className="flex gap-3">
+        <ScrollArea className="flex-1">
+          <div className="flex gap-3 px-4 py-4">
             {/* Cột trái: Avatar + Đường kẻ nối */}
             <div className="flex shrink-0 flex-col items-center">
               <UserAvatar
@@ -101,15 +104,18 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
                 </span>
                 <ChevronRight className="h-3.5 w-3.5" />
                 <button className="flex items-center gap-1 text-sm text-gray-400 hover:text-gray-600">
-                  <span>Add a topic</span>
+                  <span>{t("post:addTopic")}</span>
                 </button>
               </div>
 
               {/* Input Text */}
               <div className="mb-3">
-                <p className="text-[15px] text-gray-400">
-                  Share your thoughts...
-                </p>
+                <textarea
+                  value={textQuote}
+                  onChange={(e) => setTextQuote(e.target.value)}
+                  placeholder={t("post:shareYourThoughts")}
+                  className="text-foreground placeholder:text-muted-foreground mb-2 max-h-[300px] min-h-[120px] w-full resize-none bg-transparent py-1 text-[15px] focus:outline-none"
+                />
               </div>
 
               {/* Action Icons */}
@@ -145,14 +151,18 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
                 <div className="text-sm leading-relaxed text-gray-800">
                   <p className="mb-2">{content}</p>
                   <p className="mb-1">
-                    <span className="text-blue-500">Translate</span>
+                    <span className="text-blue-500">
+                      {t("common:translate")}
+                    </span>
                   </p>
                 </div>
               </div>
               {/* End Quoted Post */}
 
               {/* Add to thread placeholder */}
-              <div className="mt-4 text-sm text-gray-400">Add to thread</div>
+              <div className="mt-4 text-sm text-gray-400">
+                {t("post:addToThread")}
+              </div>
             </div>
           </div>
         </ScrollArea>
@@ -169,7 +179,7 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
               className={`flex cursor-pointer items-center gap-2 font-semibold ${reviewApprove ? "text-gray-900" : "text-gray-400"} `}
             >
               <Grid3x3 className="h-4 w-4" />
-              <span>Reply options</span>
+              <span>{t("post:replyOptions")}</span>
             </button>
           </ReplyOptionsDropdown>
 
@@ -177,7 +187,7 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
             className="cursor-pointer rounded-full bg-black px-6 py-2 text-sm font-semibold text-white hover:bg-gray-800"
             onClick={handlePost}
           >
-            Post
+            {t("common:post")}
           </Button>
         </div>
       </DialogContent>

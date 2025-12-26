@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useSearchParams } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import { useEffect, useState } from "react";
 
@@ -16,6 +17,7 @@ import { Spinner } from "@/components/Common/ui/spinner";
 import { notifySooner } from "@/utils/notifySooner";
 
 export default function ResetPassword() {
+  const { t } = useTranslation(["auth"]);
   const {
     register,
     handleSubmit,
@@ -47,11 +49,11 @@ export default function ResetPassword() {
     if (validTokenData) {
       if (validTokenData.valid && isSuccessValidToken) {
         setIsValidToken(true);
-        setStatus("Please enter your new password");
+        setStatus(t("auth:enterNewPassword"));
       } else if (!validTokenData.valid || isErrorValidToken) {
         setIsValidToken(false);
         setStatus(
-          "Token is invalid, please try check your email or reset password again!",
+          t("auth:tokenInvalid"),
         );
       }
     }
@@ -60,20 +62,19 @@ export default function ResetPassword() {
   const onSubmit = async (credentials) => {
     try {
       await resetPasswordApi(credentials);
-      setStatus("Reset successfully!");
+      setStatus(t("auth:resetSuccess"));
       navigate("/login", {
         state: {
-          message: "Create new password successfully, please login again.",
+          message: t("auth:createNewPasswordSuccess"),
         },
       });
     } catch (error) {
-      notifySooner.error("Error to register, please try again");
+      notifySooner.error(t("auth:registerError"));
       console.log(error);
     }
   };
 
   // Debounced input
-  const emailChange = useDebouncedField(setValue, "email", 800);
   const passwordChange = useDebouncedField(setValue, "password", 800);
   const passwordConfirmationChange = useDebouncedField(
     setValue,
@@ -82,15 +83,15 @@ export default function ResetPassword() {
   );
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-transparent">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background text-foreground">
       {/* Main register container */}
       <div className="z-10 w-full max-w-md">
         <div className="mb-2 min-h-[80vh] text-center">
-          <h1 className="mb-8 text-2xl font-semibold">Reset your password</h1>
-          <div className="mb-8 text-sm text-blue-400 italic">{status}</div>
+          <h1 className="mb-8 text-2xl font-semibold">{t("auth:resetPassword")}</h1>
+          <div className="mb-8 text-sm text-primary italic">{status}</div>
           {isLoadingValidToken && (
             <div className="flex flex-col items-center justify-center gap-4">
-              <span>Checking your information...</span>
+              <span>{t("auth:checkingInfo")}</span>
               <Spinner />
             </div>
           )}
@@ -104,27 +105,11 @@ export default function ResetPassword() {
                     hidden
                     {...register("token")}
                     defaultValue={token}
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-colors focus:border-gray-300 focus:outline-none"
+                    className="w-full rounded-xl border border-border bg-muted px-4 py-3 transition-colors focus:border-ring focus:outline-none"
                   />
                   {errors.token && (
                     <span className="mt-1 block text-sm text-red-500">
                       {errors.token.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Email */}
-                <div className="text-left">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    {...register("email")}
-                    onChange={(e) => emailChange(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-colors"
-                  />
-                  {errors.email && (
-                    <span className="mt-1 block text-sm text-red-500">
-                      {errors.email.message}
                     </span>
                   )}
                 </div>
@@ -134,10 +119,10 @@ export default function ResetPassword() {
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Enter Password"
+                      placeholder={t("auth:password")}
                       {...register("password")}
                       onChange={(e) => passwordChange(e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-colors focus:border-gray-300 focus:outline-none"
+                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 transition-colors focus:border-ring focus:outline-none"
                     />
                     <span
                       className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
@@ -158,12 +143,12 @@ export default function ResetPassword() {
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Confirm your password"
+                      placeholder={t("auth:confirmPassword")}
                       {...register("password_confirmation")}
                       onChange={(e) =>
                         passwordConfirmationChange(e.target.value)
                       }
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-colors focus:border-gray-300 focus:outline-none"
+                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 transition-colors focus:border-ring focus:outline-none"
                     />
                     <span
                       className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
@@ -181,26 +166,26 @@ export default function ResetPassword() {
 
                 <button
                   type="submit"
-                  className="mt-6 w-full cursor-pointer rounded-xl bg-black py-3 font-medium text-white transition-colors hover:bg-gray-800"
+                  className="mt-6 w-full cursor-pointer rounded-xl bg-primary py-3 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                   disabled={isLoading || isSuccess}
                 >
-                  Reset password
+                  {t("auth:resetPassword")}
                 </button>
               </form>
 
               <div className="my-6 flex items-center gap-4">
-                <div className="h-px flex-1 bg-gray-300"></div>
-                <span className="text-sm text-gray-500">or</span>
-                <div className="h-px flex-1 bg-gray-300"></div>
+                <div className="h-px flex-1 bg-border"></div>
+                <span className="text-sm text-muted-foreground">{t("auth:or")}</span>
+                <div className="h-px flex-1 bg-border"></div>
               </div>
 
               <div className="mt-2">
                 <button
                   onClick={() => navigate("/login")}
-                  className="cursor-pointer text-sm text-gray-600 hover:text-gray-800"
+                  className="cursor-pointer text-sm text-muted-foreground hover:text-foreground"
                 >
                   <span className="cursor-pointer font-medium">
-                    Back to login
+                    {t("auth:backToLogin")}
                   </span>
                 </button>
               </div>
@@ -211,10 +196,10 @@ export default function ResetPassword() {
               <div className="mt-2">
                 <button
                   onClick={() => navigate("/login")}
-                  className="w-full cursor-pointer rounded-2xl bg-black py-3 text-sm text-white hover:text-gray-300"
+                  className="w-full cursor-pointer rounded-2xl bg-primary py-3 text-sm text-primary-foreground hover:bg-primary/90"
                 >
                   <span className="cursor-pointer font-medium">
-                    Back to login
+                    {t("auth:backToLogin")}
                   </span>
                 </button>
               </div>

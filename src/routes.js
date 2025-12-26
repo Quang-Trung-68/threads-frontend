@@ -59,15 +59,6 @@ export const ROUTES = [
         private: true,
       },
       {
-        path: PATHS.USER_PROFILE,
-        title: "User Profile",
-        element: UserProfile,
-        isShowInNav: false,
-        icon: null,
-        isFill: null,
-        private: true,
-      },
-      {
         path: PATHS.FOR_YOU,
         title: "For you",
         element: ForYou,

@@ -118,7 +118,7 @@ function PostCard({
   }
 
   return (
-    <div className="border-border flex flex-col border-y p-3 md:p-6">
+    <div className="border-border flex flex-col p-3 md:p-6">
       <div>
         <div className="flex gap-2">
           <div className="flex flex-col items-center gap-2">

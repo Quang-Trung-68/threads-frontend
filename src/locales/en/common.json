@@ -58,6 +58,9 @@
   "updatingProfile": "Updating profile...",
   "profileUpdatedSuccess": "Profile updated successfully",
   "profileUpdateError": "Failed to update profile",
+  "block": "Block",
+  "report": "Report",
+  "translate": "Translate",
   "endOfActivity": "End of activity",
   "likedYourPost": "liked your post",
   "startedFollowingYou": "started following you",
@@ -65,5 +68,10 @@
   "mentionedYou": "mentioned you in a post",
   "likedYourReply": "liked your reply",
   "viewOnThreads": "View on Threads",
-  "noContentProvided": "No content provided."
+  "noContentProvided": "No content provided.",
+  "you": "You",
+  "replied": "Replied!",
+  "error": "Error",
+  "expand": "Expand",
+  "continueWithUsernameOrEmail": "Continue with username or email"
 }
