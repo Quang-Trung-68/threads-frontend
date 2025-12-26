@@ -13,6 +13,7 @@ export const PATHS = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   USER_SETTINGS: "/user-settings",
+  DECK: "/deck",
   USER_PROFILE: "/:username",
   POST_DETAIL: "/:username/post/:postId",
   EMBED: "/:username/post/:postId/embed",

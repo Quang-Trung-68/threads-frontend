@@ -26,6 +26,7 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import RequireVerifiedEmail from "@/pages/Auth/RequireVerifiedEmail";
 import Embed from "./pages/Embed";
 import UserSettings from "@/pages/UserSettings";
+import Deck from "@/pages/Deck";
 
 export const ROUTES = [
   {
@@ -187,6 +188,13 @@ export const ROUTES = [
   {
     layout: LAYOUTS.NO_LAYOUT,
     children: [
+      {
+        path: PATHS.DECK,
+        title: "Deck View",
+        element: Deck,
+        isShowInNav: false,
+        private: true,
+      },
       {
         path: PATHS.NOT_FOUND,
         title: "Not Found",

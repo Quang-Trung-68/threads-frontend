@@ -10,7 +10,7 @@ import { ChevronDown, ChevronRight, CircleArrowLeft } from "lucide-react";
 import { Spinner } from "@/components/Common/ui/spinner";
 import { useNavigate } from "react-router-dom";
 
-export default function PostDetail() {
+export default function PostDetail({ isDeck = false }) {
   const { postId } = useParams();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export default function PostDetail() {
           {/* Header Title Bar */}
           <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
             <div className="flex w-10 justify-center transition ease-in">
-              {window.history.length > 1 && (
+              {(isDeck || window.history.length > 1) && (
                 <CircleArrowLeft
                   className="cursor-pointer hover:scale-110"
                   onClick={() => navigate(-1)}

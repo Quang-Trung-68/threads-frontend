@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 import { useFollowUserMutation } from "@/services/authService";
 import { notifySooner } from "@/utils/notifySooner";
 
-export default function UserProfile() {
+export default function UserProfile({ isDeck = false }) {
   const { t } = useTranslation(["user", "common", "post"]);
   const location = useLocation();
   const navigate = useNavigate();
@@ -105,7 +105,7 @@ export default function UserProfile() {
             {/* 1. Header Title Bar */}
             <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
               <div className="flex w-10 justify-center transition ease-in">
-                {window.history.length > 1 && (
+                {(isDeck || window.history.length > 1) && (
                   <CircleArrowLeft
                     className="cursor-pointer hover:scale-110"
                     onClick={() => navigate(-1)}
