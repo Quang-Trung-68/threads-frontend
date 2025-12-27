@@ -4,12 +4,16 @@ import { Button } from "@/components/Common/ui/button";
 import { Heart, UserPlus, Zap, CircleEllipsis } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useTitle } from "react-use";
 
 export default function Activity({
   dragHandleProps,
   onRemoveColumn,
   canRemove,
 }) {
+  // Title
+  useTitle("Activity • Threads");
+
   const { t } = useTranslation(["common"]);
   const [loading, setLoading] = useState(false);
 
@@ -79,8 +83,8 @@ export default function Activity({
           {/* Header Title Bar */}
           <div
             // Props de drag and drop
-            {...dragHandleProps.attributes}
-            {...dragHandleProps.listeners}
+            {...dragHandleProps?.attributes}
+            {...dragHandleProps?.listeners}
             className="flex cursor-grab items-center justify-between px-2 py-2 text-lg font-bold active:cursor-grabbing"
           >
             <div className="w-10 px-4 py-3"></div>

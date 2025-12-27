@@ -16,12 +16,16 @@ import PostCardSkeleton from "@/components/post/PostCardSkeleton";
 import { useTranslation } from "react-i18next";
 
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
+import { useTitle } from "react-use";
 
 export default function Following({
   dragHandleProps,
   onRemoveColumn,
   canRemove,
 }) {
+  // Title
+  useTitle("Threads");
+
   const { t } = useTranslation(["feed", "common"]);
   const [page, setPage] = useState(1);
   const [refreshKey, setRefreshKey] = useState(() => Date.now());

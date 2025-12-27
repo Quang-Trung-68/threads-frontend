@@ -13,6 +13,8 @@ import QuickReplyModal from "@/components/Common/Modals/QuickReplyModal";
 import PostOptionsDropdown from "../Common/DropdownMenu/PostOptionsDropdown";
 import { useUnmuteUserMutation } from "@/services/postService";
 import { useTranslation } from "react-i18next";
+import TimeTooltip from "../Common/TimeTooltip";
+import UserHoverCard from "../Common/UserHoverCard";
 
 function PostCard({
   user,
@@ -128,7 +130,7 @@ function PostCard({
   return (
     <div className="border-border flex flex-col p-3 md:p-6">
       <div>
-        <div className="flex gap-2">
+        <div className="flex gap-4">
           <div className="flex flex-col items-center gap-2">
             <div className="relative">
               <UserAvatar user={user} className="size-9 cursor-pointer" />
@@ -152,14 +154,17 @@ function PostCard({
                 className={`flex-1 ${isPermitDetailPost ? "cursor-pointer" : "cursor-default"}`}
               >
                 <div className="flex items-center gap-2">
-                  <div
-                    onClick={handleUserProfile}
-                    className="text-foreground cursor-pointer font-semibold hover:underline"
-                  >
-                    {user.username}
-                  </div>
+                  <UserHoverCard {...user}>
+                    <div
+                      onClick={handleUserProfile}
+                      className="text-foreground cursor-pointer font-semibold hover:underline"
+                    >
+                      {user.username}
+                    </div>
+                  </UserHoverCard>
                   <div className="text-muted-foreground text-sm">
-                    {formatTime(updated_at)}
+                    {/* {formatTime(updated_at)} */}
+                    <TimeTooltip dateString={updated_at} />
                   </div>
                 </div>
                 {content && (

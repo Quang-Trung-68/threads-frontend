@@ -8,11 +8,15 @@ import "./i18n/config";
 
 import "@/index.css";
 
+import { TooltipProvider } from "@/components/Common/ui/tooltip";
+
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <NiceModal.Provider>
       <ThemeProvider defaultTheme="system" attribute="class">
-        <App />
+        <TooltipProvider delayDuration={300}>
+          <App />
+        </TooltipProvider>
       </ThemeProvider>
     </NiceModal.Provider>
   </Provider>,

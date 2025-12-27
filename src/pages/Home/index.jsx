@@ -31,6 +31,7 @@ import {
 import { useLocation, useNavigate } from "react-router";
 import { PATHS } from "@/configs/paths";
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
+import { useTitle } from "react-use";
 
 export default function Home({
   dragHandleProps,
@@ -39,6 +40,9 @@ export default function Home({
   canRemove,
   onRemoveColumn,
 }) {
+  // Title
+  useTitle("Home • Threads");
+
   const { pathname } = useLocation();
   const { t } = useTranslation(["feed", "common"]);
   const [page, setPage] = useState(1);

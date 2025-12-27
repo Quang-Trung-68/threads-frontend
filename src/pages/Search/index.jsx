@@ -8,8 +8,12 @@ import { Spinner } from "@/components/Common/ui/spinner";
 import EmptyState from "@/components/Common/EmptyState";
 import { useTranslation } from "react-i18next";
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
+import { useTitle } from "react-use";
 
 export default function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
+  // Title
+  useTitle("Search • Threads");
+
   const { t } = useTranslation(["feed", "user", "common"]);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);

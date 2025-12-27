@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { useFollowUserMutation } from "@/services/authService";
 import { notifySooner } from "@/utils/notifySooner";
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
+import { useTitle } from "react-use";
 
 export default function UserProfile({
   dragHandleProps,
@@ -88,6 +89,9 @@ export default function UserProfile({
     followers: 6,
     link: "yoo.glass",
   };
+
+  // Title
+  useTitle(`${targetUsername} • Threads, Say more`);
 
   useEffect(() => {
     // Simulate data loading or setting
