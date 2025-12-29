@@ -8,7 +8,7 @@ import "@/App.css";
 function App() {
   return (
     <>
-      <SplashScreen duration={900} />
+      <SplashScreen duration={1000} />
       <Toaster
         richColors
         position="bottom-center"
