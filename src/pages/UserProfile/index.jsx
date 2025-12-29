@@ -20,6 +20,7 @@ import { useFollowUserMutation } from "@/services/authService";
 import { notifySooner } from "@/utils/notifySooner";
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
 import { useTitle } from "react-use";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function UserProfile({
   dragHandleProps,
@@ -28,6 +29,8 @@ export default function UserProfile({
   state,
   canRemove,
 }) {
+  useScrollToTop();
+
   const { t } = useTranslation(["user", "common", "post"]);
   const location = useLocation();
   const navigate = useNavigate();

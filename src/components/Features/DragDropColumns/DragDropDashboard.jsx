@@ -27,7 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/Common/ui/dropdown-menu";
 import { Button } from "@/components/Common/ui/button";
-import { CircleEllipsis, Grid2X2Plus } from "lucide-react";
+import { Grid2X2Plus } from "lucide-react";
 
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
@@ -42,8 +42,6 @@ import Activity from "@/pages/Activity";
 import Following from "@/pages/Following";
 import GhostPosts from "@/pages/GhostPosts";
 import { useTranslation } from "react-i18next";
-import { PATHS } from "@/configs/paths";
-import { NavLink } from "react-router";
 // ... các page khác
 
 // --- PLACEHOLDER COMPONENTS (XÓA KHI ĐÃ IMPORT ĐÚNG) ---

@@ -32,6 +32,7 @@ import { Navigate, useLocation, useNavigate } from "react-router";
 import { PATHS } from "@/configs/paths";
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
 import { useTitle } from "react-use";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function Home({
   type,
@@ -41,6 +42,7 @@ export default function Home({
   canRemove,
   onRemoveColumn,
 }) {
+  useScrollToTop();
   // Title
   useTitle("Home • Threads");
 
@@ -115,7 +117,7 @@ export default function Home({
               onNavigate={onNavigate}
             />
           ) : (
-            <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
+            <div className="hidden items-center justify-between px-2 py-2 text-lg font-bold md:flex">
               <div className="w-10 px-4 py-3"></div>
               <div className="flex items-center justify-center gap-4 px-4 py-3">
                 <span className="text-foreground text-[15px] font-bold">

@@ -1,6 +1,7 @@
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Button } from "@/components/Common/ui/button";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { Heart, UserPlus, Zap, CircleEllipsis } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,6 +12,7 @@ export default function Activity({
   onRemoveColumn,
   canRemove,
 }) {
+  useScrollToTop();
   // Title
   useTitle("Activity • Threads");
 
@@ -85,7 +87,7 @@ export default function Activity({
             // Props de drag and drop
             {...dragHandleProps?.attributes}
             {...dragHandleProps?.listeners}
-            className="flex cursor-grab items-center justify-between px-2 py-2 text-lg font-bold active:cursor-grabbing"
+            className="hidden cursor-grab items-center justify-between px-2 py-2 text-lg font-bold active:cursor-grabbing md:flex"
           >
             <div className="w-10 px-4 py-3"></div>
             <span className="text-foreground flex items-center justify-center px-4 py-3 text-[15px] font-bold">

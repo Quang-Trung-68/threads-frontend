@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
 import { useTitle } from "react-use";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function Following({
   type,
@@ -25,6 +26,7 @@ export default function Following({
   canRemove,
   onNavigate,
 }) {
+  useScrollToTop();
   // Title
   useTitle("Threads");
 

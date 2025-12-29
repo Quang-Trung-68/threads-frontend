@@ -9,8 +9,12 @@ import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronRight, CircleArrowLeft } from "lucide-react";
 import { Spinner } from "@/components/Common/ui/spinner";
 import { useNavigate } from "react-router-dom";
+import { useTitle } from "react-use";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function PostDetail({ onNavigate, state }) {
+  useScrollToTop();
+
   const params = useParams();
   const postId = params.postId || state?.postId;
   const navigate = useNavigate();
@@ -21,6 +25,9 @@ export default function PostDetail({ onNavigate, state }) {
   const { data: replies, isLoading: isRepliesLoading } = useGetRepliesQuery({
     postId,
   });
+
+  useTitle(post?.content ? `${post.content.slice(0, 20)}...` : "Threads");
+
   const repliesData = replies?.data;
   const pagination = replies?.pagination;
 

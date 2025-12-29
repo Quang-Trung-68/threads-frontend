@@ -10,6 +10,7 @@ import EmptyState from "@/components/Common/EmptyState";
 import PostCardSkeleton from "@/components/post/PostCardSkeleton";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "react-use";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function GhostPosts({
   dragHandleProps,
@@ -18,6 +19,7 @@ export default function GhostPosts({
   canRemove,
   type,
 }) {
+  useScrollToTop();
   // Title
   useTitle("Ghost posts");
 

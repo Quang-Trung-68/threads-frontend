@@ -9,8 +9,10 @@ import EmptyState from "@/components/Common/EmptyState";
 import { useTranslation } from "react-i18next";
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
 import { useTitle } from "react-use";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
+  useScrollToTop();
   // Title
   useTitle("Search • Threads");
 
@@ -59,7 +61,7 @@ export default function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
             // Props de drag and drop
             {...dragHandleProps?.attributes}
             {...dragHandleProps?.listeners}
-            className="flex cursor-grab items-center justify-between px-2 py-2 text-lg font-bold active:cursor-grabbing"
+            className="hidden cursor-grab items-center justify-between px-2 py-2 text-lg font-bold active:cursor-grabbing md:flex"
           >
             <div className="w-10 px-4 py-3"></div>
             <div className="flex items-center justify-center px-4 py-3">

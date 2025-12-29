@@ -19,7 +19,9 @@ const AuthMenu = ({ children }) => {
 
   const ThemeItem = ({ value, label, icon: Icon }) => (
     <DropdownMenuItem
-      className={"w-40 rounded-xl px-3 py-3.5 text-[15px] font-semibold"}
+      className={
+        "w-40 cursor-pointer rounded-xl px-3 py-3.5 text-[15px] font-semibold"
+      }
       onClick={() => setTheme(value)}
     >
       {label}
@@ -35,7 +37,7 @@ const AuthMenu = ({ children }) => {
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent
         className={
-          "bg-card text-foreground w-fit rounded-3xl border-2 p-2 shadow-xl"
+          "bg-card text-foreground w-fit cursor-pointer rounded-3xl border-2 p-2 shadow-xl"
         }
       >
         <DropdownMenuGroup>
@@ -51,9 +53,24 @@ const AuthMenu = ({ children }) => {
               <DropdownMenuSubContent
                 className={"bg-card text-foreground rounded-3xl border-2 p-2"}
               >
-                <ThemeItem value="light" label="Light" icon={Sun} />
-                <ThemeItem value="dark" label="Dark" icon={Moon} />
-                <ThemeItem value="system" label="Auto" icon={Monitor} />
+                <ThemeItem
+                  className={"cursor-pointer"}
+                  value="light"
+                  label="Light"
+                  icon={Sun}
+                />
+                <ThemeItem
+                  className={"cursor-pointer"}
+                  value="dark"
+                  label="Dark"
+                  icon={Moon}
+                />
+                <ThemeItem
+                  className={"cursor-pointer"}
+                  value="system"
+                  label="Auto"
+                  icon={Monitor}
+                />
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>

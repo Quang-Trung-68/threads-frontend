@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "@/App.css";
 import { ROUTES } from "@/routes";
 import { Toaster } from "sonner";
 import ProtectedRoute from "@/components/Features/auth/ProtectedRoute";
+import SplashScreen from "./components/Common/SplashScreen";
+import "@/App.css";
 
 function App() {
   return (
     <>
+      <SplashScreen duration={900} />
       <Toaster
         richColors
         position="bottom-center"

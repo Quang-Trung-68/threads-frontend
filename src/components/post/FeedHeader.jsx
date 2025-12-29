@@ -32,10 +32,10 @@ export default function FeedHeader({
 
   return (
     <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
-      <div className="w-10 px-4 py-3"></div>
-      <div className="flex items-center justify-center gap-1">
+      <div className="hidden w-10 px-4 py-3 md:block"></div>
+      <div className="flex w-full items-center justify-center gap-1 md:w-auto">
         {!onRemoveColumn ? (
-          <>
+          <div className="flex w-full items-center justify-stretch gap-1 md:w-auto">
             <NavLink
               to={PATHS.HOME}
               className={({ isActive }) => "flex-1 md:flex-none"}
@@ -43,7 +43,7 @@ export default function FeedHeader({
               {({ isActive }) => (
                 <Button
                   variant={"ghost"}
-                  className={`h-auto w-full cursor-pointer rounded-none bg-transparent px-4 py-3 text-[15px] font-bold transition-all hover:bg-transparent md:w-auto ${
+                  className={`h-auto w-full cursor-pointer rounded-none bg-transparent px-4 py-3 text-[15px] font-bold transition-all hover:bg-transparent ${
                     isActive
                       ? "border-foreground text-foreground border-b-2 md:border-0"
                       : "text-muted-foreground/60 hover:text-foreground"
@@ -60,7 +60,7 @@ export default function FeedHeader({
               {({ isActive }) => (
                 <Button
                   variant={"ghost"}
-                  className={`h-auto w-full cursor-pointer rounded-none bg-transparent px-4 py-3 text-[15px] font-bold transition-all hover:bg-transparent md:w-auto ${
+                  className={`h-auto w-full cursor-pointer rounded-none bg-transparent px-4 py-3 text-[15px] font-bold transition-all hover:bg-transparent ${
                     isActive
                       ? "border-foreground text-foreground border-b-2 md:border-0"
                       : "text-muted-foreground/60 hover:text-foreground"
@@ -87,7 +87,7 @@ export default function FeedHeader({
                 </Button>
               )}
             </NavLink>
-          </>
+          </div>
         ) : (
           <>
             <DropdownMenu>
@@ -175,7 +175,7 @@ export default function FeedHeader({
         canRemove={canRemove}
         idColumn={idColumn}
       >
-        <div className="flex w-10 justify-center">
+        <div className="hidden w-10 justify-center md:flex">
           <CircleEllipsis
             className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
             strokeWidth={1.1}
