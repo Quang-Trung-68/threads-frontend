@@ -53,7 +53,7 @@ export default function VerifyEmail() {
 
   return (
     <div className="text-foreground mb-8 flex flex-col items-center justify-between text-center transition-colors">
-      <h1 className="mb-8 text-2xl font-semibold">{status}</h1>
+      <h1 className="mb-8 text-base font-bold">{status}</h1>
 
       {isLoading && <Spinner />}
 

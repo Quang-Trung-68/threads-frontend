@@ -16,7 +16,7 @@ export default function ForgotPassword() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(forgotPasswordSchema),
     mode: "onChange",
@@ -39,9 +39,11 @@ export default function ForgotPassword() {
   // Debounced input
   const emailChange = useDebouncedField(setValue, "email", 800);
 
+  const isButtonDisabled = !isValid || isLoading;
+
   return (
     <div className="text-foreground mb-8 text-center">
-      <h1 className="mb-8 text-2xl font-semibold">
+      <h1 className="mb-4 text-base font-bold">
         {t("auth:forgotPassword")}
       </h1>
 
@@ -53,19 +55,21 @@ export default function ForgotPassword() {
             placeholder={t("auth:email")}
             {...register("email")}
             onChange={(e) => emailChange(e.target.value)}
-            className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
+            className="border-border bg-muted focus:ring-ring mx-auto block h-[55px] w-full md:w-[370px] rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
           />
           {errors.email && (
-            <span className="text-destructive mt-1 block text-sm">
-              {errors.email.message}
-            </span>
+            <div className="mx-auto w-full md:w-[370px]">
+              <span className="text-destructive mt-1 block text-sm">
+                {errors.email.message}
+              </span>
+            </div>
           )}
         </div>
 
         <button
           type="submit"
-          className="bg-primary text-primary-foreground w-full cursor-pointer rounded-xl py-3 font-semibold hover:opacity-90 disabled:opacity-50"
-          disabled={isLoading}
+          className={`bg-primary text-primary-foreground mx-auto block w-full md:w-[370px] rounded-xl py-3 font-semibold hover:opacity-90 disabled:opacity-50 ${isButtonDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+          disabled={isButtonDisabled}
         >
           {isLoading ? t("common:loading") : t("auth:sendVerifiedEmail")}
         </button>
@@ -78,7 +82,7 @@ export default function ForgotPassword() {
       </div>
 
       {/* Instagram login */}
-      <button className="border-border bg-card hover:bg-accent flex w-full items-center justify-between rounded-xl border px-4 py-3 transition-colors">
+      <button className="border-border bg-card hover:bg-accent mx-auto flex w-full md:w-[370px] items-center justify-between rounded-xl border px-4 py-3 transition-colors">
         <div className="flex items-center gap-3">
           <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-linear-to-br from-purple-500 via-pink-500 to-orange-500">
             <svg

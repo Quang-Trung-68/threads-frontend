@@ -24,7 +24,7 @@ export default function Login() {
     handleSubmit,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
@@ -67,36 +67,40 @@ export default function Login() {
   const loginChange = useDebouncedField(setValue, "login", 800);
   const passwordChange = useDebouncedField(setValue, "password", 800);
 
+  const isButtonDisabled = !isValid || isLoading;
+
   return (
     <div className="text-foreground mb-8 text-center">
-      <h1 className="mb-8 text-2xl font-semibold">{t("auth:login")}</h1>
+      <h1 className="mb-4 text-base font-bold">{t("auth:login")}</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Login */}
         <div className="text-left">
           <input
             type="text"
-            placeholder="Email..."
+            placeholder={t("auth:emailPlaceholder")}
             {...register("login")}
             onChange={(e) => loginChange(e.target.value)}
-            className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
+            className="border-border bg-muted focus:ring-ring mx-auto block h-[55px] w-full md:w-[370px] rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
           />
-          {errors.login && (
-            <span className="text-destructive mt-1 block text-sm">
-              {errors.login.message}
+          <div className="mx-auto mt-1 min-h-[1.25rem] w-full text-sm md:w-[370px]">
+            <span
+              className={`text-destructive block ${errors.login ? "" : "invisible"}`}
+            >
+              {errors.login?.message || "placeholder"}
             </span>
-          )}
+          </div>
         </div>
 
         {/* Password */}
         <div className="text-left">
-          <div className="relative">
+          <div className="relative mx-auto w-full md:w-[370px]">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password..."
+              placeholder={t("auth:passwordPlaceholder")}
               {...register("password")}
               onChange={(e) => passwordChange(e.target.value)}
-              className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
+              className="border-border bg-muted focus:ring-ring block h-[55px] w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
             />
             <span
               onClick={() => setShowPassword(!showPassword)}
@@ -105,17 +109,19 @@ export default function Login() {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </span>
           </div>
-          {errors.password && (
-            <span className="text-destructive mt-1 block text-sm">
-              {errors.password.message}
+          <div className="mx-auto mt-1 min-h-[1.25rem] w-full text-sm md:w-[370px]">
+            <span
+              className={`text-destructive block ${errors.password ? "" : "invisible"}`}
+            >
+              {errors.password?.message || "placeholder"}
             </span>
-          )}
+          </div>
         </div>
 
         <button
           type="submit"
-          className="bg-primary text-primary-foreground w-full cursor-pointer rounded-xl py-3 font-semibold hover:opacity-90 disabled:opacity-50"
-          disabled={isLoading}
+          className={`bg-primary text-primary-foreground mx-auto block w-full md:w-[370px] rounded-xl py-3 font-semibold hover:opacity-90 disabled:opacity-50 ${isButtonDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+          disabled={isButtonDisabled}
         >
           {isLoading ? t("common:loading") : t("auth:login")}
         </button>
@@ -135,7 +141,7 @@ export default function Login() {
       </div>
 
       {/* Instagram login */}
-      <button className="border-border bg-card hover:bg-accent flex w-full items-center justify-between rounded-xl border px-4 py-3 transition-colors">
+      <button className="border-border bg-card hover:bg-accent mx-auto flex w-full md:w-[370px] items-center justify-between rounded-xl border px-4 py-3 transition-colors">
         <div className="flex items-center gap-3">
           <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-linear-to-br from-purple-500 via-pink-500 to-orange-500">
             <svg

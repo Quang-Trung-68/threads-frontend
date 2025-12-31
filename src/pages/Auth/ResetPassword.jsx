@@ -24,7 +24,7 @@ export default function ResetPassword() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(resetPasswordSchema),
     mode: "onChange",
@@ -82,12 +82,14 @@ export default function ResetPassword() {
     800,
   );
 
+  const isButtonDisabled = !isValid || isLoading || isSuccess;
+
   return (
     <div className="bg-background text-foreground relative flex min-h-screen items-center justify-center overflow-hidden">
       {/* Main register container */}
       <div className="z-10 w-full max-w-md">
         <div className="mb-2 min-h-[80vh] text-center">
-          <h1 className="mb-8 text-2xl font-semibold">
+          <h1 className="mb-2 text-base font-bold">
             {t("auth:resetPassword")}
           </h1>
           <div className="text-primary mb-8 text-sm italic">{status}</div>
@@ -107,24 +109,26 @@ export default function ResetPassword() {
                     hidden
                     {...register("token")}
                     defaultValue={token}
-                    className="border-border bg-muted focus:border-ring w-full rounded-xl border px-4 py-3 transition-colors focus:outline-none"
+                    className="border-border bg-muted focus:border-ring mx-auto block h-[55px] w-full md:w-[370px] rounded-xl border px-4 py-3 transition-colors focus:outline-none"
                   />
                   {errors.token && (
-                    <span className="mt-1 block text-sm text-red-500">
-                      {errors.token.message}
-                    </span>
+                    <div className="mx-auto w-full md:w-[370px]">
+                      <span className="mt-1 block text-sm text-red-500">
+                        {errors.token.message}
+                      </span>
+                    </div>
                   )}
                 </div>
 
                 {/* Password */}
                 <div className="text-left">
-                  <div className="relative">
+                  <div className="relative mx-auto w-full md:w-[370px]">
                     <input
                       type={showPassword ? "text" : "password"}
                       placeholder={t("auth:password")}
                       {...register("password")}
                       onChange={(e) => passwordChange(e.target.value)}
-                      className="border-border bg-muted focus:border-ring w-full rounded-xl border px-4 py-3 transition-colors focus:outline-none"
+                      className="border-border bg-muted focus:border-ring block h-[55px] w-full rounded-xl border px-4 py-3 transition-colors focus:outline-none"
                     />
                     <span
                       className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
@@ -134,15 +138,17 @@ export default function ResetPassword() {
                     </span>
                   </div>
                   {errors.password && (
-                    <span className="mt-1 block text-sm text-red-500">
-                      {errors.password.message}
-                    </span>
+                    <div className="mx-auto w-full md:w-[370px]">
+                      <span className="mt-1 block text-sm text-red-500">
+                        {errors.password.message}
+                      </span>
+                    </div>
                   )}
                 </div>
 
                 {/* Confirm Password */}
                 <div className="text-left">
-                  <div className="relative">
+                  <div className="relative mx-auto w-full md:w-[370px]">
                     <input
                       type={showPassword ? "text" : "password"}
                       placeholder={t("auth:confirmPassword")}
@@ -150,7 +156,7 @@ export default function ResetPassword() {
                       onChange={(e) =>
                         passwordConfirmationChange(e.target.value)
                       }
-                      className="border-border bg-muted focus:border-ring w-full rounded-xl border px-4 py-3 transition-colors focus:outline-none"
+                      className="border-border bg-muted focus:border-ring block h-[55px] w-full rounded-xl border px-4 py-3 transition-colors focus:outline-none"
                     />
                     <span
                       className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
@@ -160,16 +166,18 @@ export default function ResetPassword() {
                     </span>
                   </div>
                   {errors.password_confirmation && (
-                    <span className="mt-1 block text-sm text-red-500">
-                      {errors.password_confirmation.message}
-                    </span>
+                    <div className="mx-auto w-full md:w-[370px]">
+                      <span className="mt-1 block text-sm text-red-500">
+                        {errors.password_confirmation.message}
+                      </span>
+                    </div>
                   )}
                 </div>
 
                 <button
                   type="submit"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 mt-6 w-full cursor-pointer rounded-xl py-3 font-medium transition-colors"
-                  disabled={isLoading || isSuccess}
+                  className={`bg-primary text-primary-foreground hover:bg-primary/90 mt-6 mx-auto block w-full md:w-[370px] rounded-xl py-3 font-medium transition-colors ${isButtonDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+                  disabled={isButtonDisabled}
                 >
                   {isLoading ? t("common:loading") : t("auth:resetPassword")}
                 </button>
@@ -200,7 +208,7 @@ export default function ResetPassword() {
               <div className="mt-2">
                 <button
                   onClick={() => navigate("/login")}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 w-full cursor-pointer rounded-2xl py-3 text-sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 mx-auto block w-full md:w-[370px] cursor-pointer rounded-2xl py-3 text-sm"
                 >
                   <span className="cursor-pointer font-medium">
                     {t("auth:backToLogin")}

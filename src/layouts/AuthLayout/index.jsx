@@ -1,10 +1,21 @@
 import { Outlet } from "react-router-dom";
 import AuthMenu from "@/components/Features/auth/AuthMenu";
 import { Menu } from "lucide-react";
+import authBg from "@/assets/threads-auth-bg.png";
+import QRCode from "react-qr-code";
 
 export default function AuthLayout() {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background p-4 text-foreground transition-colors duration-300">
+      {/* Background Image */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden flex justify-center">
+        <img
+          src={authBg}
+          alt="Threads Auth Background"
+          className="max-w-none w-[120%] -translate-y-[30%] object-cover opacity-100 dark:opacity-80"
+        />
+      </div>
+
       {/* Appearance Toggle Button */}
       <div className="absolute bottom-4 left-4 z-50 lg:bottom-8 lg:left-8">
         <AuthMenu>
@@ -14,28 +25,9 @@ export default function AuthLayout() {
         </AuthMenu>
       </div>
 
-      {/* Decorative Threads logos */}
-      <div className="absolute top-8 left-8 flex h-32 w-32 -rotate-12 transform items-center justify-center rounded-full border-8 border-foreground/10 opacity-50 dark:border-foreground/20">
-        <span className="rotate-12 transform text-xs font-bold tracking-wider text-muted-foreground">
-          THREADS
-        </span>
-      </div>
-
-      <div className="absolute top-4 right-8 flex h-40 w-40 rotate-12 transform items-center justify-center rounded-full border-8 border-foreground/10 opacity-50 dark:border-foreground/20">
-        <span className="-rotate-12 transform text-xs font-bold tracking-wider text-muted-foreground">
-          THREADS
-        </span>
-      </div>
-
-      <div className="absolute bottom-8 left-12 flex h-36 w-36 rotate-45 transform items-center justify-center rounded-full border-8 border-foreground/10 opacity-50 dark:border-foreground/20">
-        <span className="-rotate-45 transform text-xs font-bold tracking-wider text-muted-foreground">
-          THREADS
-        </span>
-      </div>
-
       {/* Main Content Wrapper */}
       <div className="z-10 flex min-h-[90vh] w-full max-w-md flex-col justify-between">
-        <div>
+        <div className="mt-24">
           <Outlet />
         </div>
 
@@ -58,23 +50,19 @@ export default function AuthLayout() {
       </div>
 
       {/* QR Code section */}
-      <div className="absolute right-8 bottom-8 hidden text-center lg:block">
-        <div className="mb-2 text-sm text-muted-foreground">
+      <div className="absolute right-8 bottom-8 hidden lg:block hover:scale-110 duration-300 cursor-pointer ">
+        <div className="mb-2 text-center text-sm text-muted-foreground font-semibold">
           Scan to get the app
         </div>
-        <div className="group h-32 w-32 border-2 border-border bg-card p-2 transition-colors">
-          <div className="flex h-full w-full items-center justify-center bg-foreground">
-            <div className="grid grid-cols-8 gap-0.5 p-2">
-              {[...Array(64)].map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-2 w-2 ${
-                    Math.random() > 0.5 ? "bg-background" : "bg-foreground"
-                  } transition-colors duration-150`}
-                />
-              ))}
-            </div>
-          </div>
+        <div className="overflow-hidden rounded-xl border-2 border-border bg-white p-4 shadow-lg transition-transform  origin-bottom-right">
+          <QRCode
+            value="https://threads.net"
+            size={150}
+            bgColor="#FFFFFF"
+            fgColor="#000000"
+            className="h-auto w-auto max-w-[120px]"
+            viewBox={`0 0 150 150`}
+          />
         </div>
       </div>
     </div>

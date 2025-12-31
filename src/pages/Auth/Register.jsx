@@ -22,7 +22,7 @@ export default function Register() {
     handleSubmit,
     setValue,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
@@ -67,12 +67,14 @@ export default function Register() {
     800,
   );
 
+  const isButtonDisabled = !isValid || isLoading;
+
   return (
     <div className="text-foreground relative flex min-h-screen items-center justify-center overflow-hidden bg-transparent">
       {/* Main register container */}
       <div className="z-10 w-full max-w-md">
         <div className="mb-2 text-center">
-          <h1 className="mb-8 text-2xl font-semibold">
+          <h1 className="mb-6 text-base font-bold">
             {t("auth:registerAccount")}
           </h1>
           <div className="mb-8 text-sm text-blue-500 italic dark:text-blue-400">
@@ -91,42 +93,46 @@ export default function Register() {
                 {...register("username")}
                 autoComplete={"off"}
                 onChange={(e) => usernameChange(e.target.value)}
-                className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
+                className="border-border bg-muted focus:ring-ring mx-auto block h-[55px] w-full md:w-[370px] rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
               />
-              {errors.username && (
-                <span className="text-destructive mt-1 block text-sm">
-                  {errors.username.message}
+              <div className="mx-auto mt-1 min-h-[1.25rem] w-full text-sm md:w-[370px]">
+                <span
+                  className={`text-destructive block ${errors.username ? "" : "invisible"}`}
+                >
+                  {errors.username?.message || "placeholder"}
                 </span>
-              )}
+              </div>
             </div>
 
             {/* Email */}
             <div className="text-left">
               <input
                 type="email"
-                placeholder={t("auth:email")}
+                placeholder={t("auth:emailPlaceholder")}
                 {...register("email")}
                 autoComplete={"off"}
                 onChange={(e) => emailChange(e.target.value)}
-                className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
+                className="border-border bg-muted focus:ring-ring mx-auto block h-[55px] w-full md:w-[370px] rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
               />
-              {errors.email && (
-                <span className="text-destructive mt-1 block text-sm">
-                  {errors.email.message}
+              <div className="mx-auto mt-1 min-h-[1.25rem] w-full text-sm md:w-[370px]">
+                <span
+                  className={`text-destructive block ${errors.email ? "" : "invisible"}`}
+                >
+                  {errors.email?.message || "placeholder"}
                 </span>
-              )}
+              </div>
             </div>
 
             {/* Password */}
             <div className="text-left">
-              <div className="relative">
+              <div className="relative mx-auto w-full md:w-[370px]">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="********"
+                  placeholder={t("auth:passwordPlaceholder")}
                   {...register("password")}
                   autoComplete={"off"}
                   onChange={(e) => passwordChange(e.target.value)}
-                  className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
+                  className="border-border bg-muted focus:ring-ring block h-[55px] w-full rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
                 />
                 <span
                   className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
@@ -135,23 +141,25 @@ export default function Register() {
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </span>
               </div>
-              {errors.password && (
-                <span className="text-destructive mt-1 block text-sm">
-                  {errors.password.message}
+              <div className="mx-auto mt-1 min-h-[1.25rem] w-full text-sm md:w-[370px]">
+                <span
+                  className={`text-destructive block ${errors.password ? "" : "invisible"}`}
+                >
+                  {errors.password?.message || "placeholder"}
                 </span>
-              )}
+              </div>
             </div>
 
             {/* Confirm Password */}
             <div className="text-left">
-              <div className="relative">
+              <div className="relative mx-auto w-full md:w-[370px]">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="********"
+                  placeholder={t("auth:confirmPasswordPlaceholder")}
                   autoComplete={"off"}
                   {...register("password_confirmation")}
                   onChange={(e) => passwordConfirmationChange(e.target.value)}
-                  className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
+                  className="border-border bg-muted focus:ring-ring block h-[55px] w-full rounded-xl border px-4 py-3 transition-colors focus:ring-1 focus:outline-none"
                 />
                 <span
                   className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
@@ -160,17 +168,19 @@ export default function Register() {
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </span>
               </div>
-              {errors.password_confirmation && (
-                <span className="text-destructive mt-1 block text-sm">
-                  {errors.password_confirmation.message}
+              <div className="mx-auto mt-1 min-h-[1.25rem] w-full text-sm md:w-[370px]">
+                <span
+                  className={`text-destructive block ${errors.password_confirmation ? "" : "invisible"}`}
+                >
+                  {errors.password_confirmation?.message || "placeholder"}
                 </span>
-              )}
+              </div>
             </div>
 
             <button
               type="submit"
-              className="bg-primary text-primary-foreground mt-6 w-full cursor-pointer rounded-xl py-3 font-semibold transition-colors hover:opacity-90 disabled:opacity-50"
-              disabled={isLoading}
+              className={`bg-primary text-primary-foreground mt-6 mx-auto block w-full md:w-[370px] rounded-xl py-3 font-semibold transition-colors hover:opacity-90 disabled:opacity-50 ${isButtonDisabled ? "cursor-not-allowed" : "cursor-pointer"}`}
+              disabled={isButtonDisabled}
             >
               {isLoading ? t("common:loading") : t("auth:signUp")}
             </button>
@@ -184,7 +194,7 @@ export default function Register() {
             <div className="bg-border h-px flex-1"></div>
           </div>
 
-          <button className="border-border bg-card hover:bg-accent group flex w-full items-center justify-between rounded-xl border px-4 py-3 transition-colors">
+          <button className="border-border bg-card hover:bg-accent group mx-auto flex w-full md:w-[370px] items-center justify-between rounded-xl border px-4 py-3 transition-colors">
             <div className="flex items-center gap-3">
               <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-linear-to-br from-purple-500 via-pink-500 to-orange-500">
                 <svg
