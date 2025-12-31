@@ -3,18 +3,16 @@ import { NavLink, useNavigate } from "react-router";
 import { Button } from "@/components/Common/ui/button";
 import { Menu, Pin } from "lucide-react";
 import useAuth from "@/hooks/useAuth";
-import { useState } from "react";
+import NiceModal from "@ebay/nice-modal-react";
 import LoginActionModal from "@/components/Common/Modals/LoginActionModal";
 import { CreatePostModal } from "@/components/post/CreatePostModal";
 import UserOptionsDropdown from "@/components/Common/DropdownMenu/UserOptionsDropdown";
 import { PATHS } from "@/configs/paths";
+import { useTranslation } from "react-i18next";
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [titleModal, setTitleModal] = useState("");
-  const [descriptionModal, setDescriptionModal] = useState("");
-  const [showIconPost, setShowIconPost] = useState(false);
+  const { t } = useTranslation(["auth"]);
 
   const navigateToHome = () => {
     navigate("/");
@@ -25,22 +23,20 @@ export default function Navigation() {
   const handleUserAuth = (event, isPrivate, path) => {
     if (path && isPrivate && !user) {
       event.preventDefault();
-      setTitleModal("Say more with Threads");
-      setDescriptionModal(
-        "Join Threads to share thoughts, find out what's going on, follow your people and more.",
-      );
-      setOpen(true);
-      setShowIconPost(false);
+      NiceModal.show(LoginActionModal, {
+        titleModal: t("auth:sayMore"),
+        descriptionModal: t("auth:sayMoreDescription"),
+        showIconPost: false,
+      });
       return;
     }
     if (!path && isPrivate && !user) {
       event.preventDefault();
-      setTitleModal("Sign up to post");
-      setDescriptionModal(
-        "Join Threads to share ideas, ask questions, post random thoughts and more.",
-      );
-      setOpen(true);
-      setShowIconPost(true);
+      NiceModal.show(LoginActionModal, {
+        titleModal: t("auth:signupToPost"),
+        descriptionModal: t("auth:joinThreadsToPost"),
+        showIconPost: true,
+      });
       return;
     }
     if (!path && isPrivate && user) {
@@ -103,9 +99,8 @@ export default function Navigation() {
                     onClick={(event) => handleUserAuth(event, isPrivate, path)}
                   >
                     <Icon
-                      className={`group-[.active]:text-foreground size-6 ${
-                        child.isFill ? "group-[.active]:fill-foreground" : ""
-                      } `}
+                      className={`group-[.active]:text-foreground size-6 ${child.isFill ? "group-[.active]:fill-foreground" : ""
+                        } `}
                     />
                   </NavLink>
                 )
@@ -130,13 +125,6 @@ export default function Navigation() {
           </UserOptionsDropdown>
         </div>
       </nav>
-      <LoginActionModal
-        titleModal={titleModal}
-        descriptionModal={descriptionModal}
-        showIconPost={showIconPost}
-        open={open}
-        setOpen={setOpen}
-      />
     </div>
   );
 }

@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import TimeTooltip from "../Common/TimeTooltip";
 import UserHoverCard from "../Common/UserHoverCard";
 import useAuth from "@/hooks/useAuth";
+import NiceModal from "@ebay/nice-modal-react";
+import LoginActionModal from "@/components/Common/Modals/LoginActionModal";
 
 function PostCard({
   user,
@@ -33,7 +35,7 @@ function PostCard({
   onNavigate,
   state,
 }) {
-  const { t } = useTranslation(["post", "common"]);
+  const { t } = useTranslation(["post", "common", "auth"]);
   const { user: userAuth } = useAuth();
   const [isMuted, setIsMuted] = useState(false);
   const [isHidePost, setIsHidePost] = useState(false);
@@ -96,7 +98,11 @@ function PostCard({
   };
 
   const handleRequireAuth = () => {
-    alert("Need auth");
+    NiceModal.show(LoginActionModal, {
+      titleModal: t("auth:sayMore"),
+      descriptionModal: t("auth:sayMoreDescription"),
+      showIconPost: false,
+    });
   };
 
   if (!userAuth)

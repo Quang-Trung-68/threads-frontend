@@ -7,39 +7,33 @@ import { ThemeProvider } from "@/components/Common/ThemeProvider";
 import { TooltipProvider } from "@/components/Common/ui/tooltip";
 
 import * as z from "zod";
-import { vi, en } from "zod/locales";
+import { zodI18nMap } from "zod-i18n-map";
 import i18n from "./i18n/config";
-
 import "@/index.css";
 
-const applyZodLocale = (language) => {
-  switch (language) {
-    case "vi":
-      z.config(vi());
-      break;
-    case "en":
-    default:
-      z.config(en());
-      break;
+// Apply global error map with custom wrapper
+const customErrorMap = (issue, ctx) => {
+  if (issue.code === z.ZodIssueCode.custom && issue.params?.i18n) {
+    return { message: i18n.t(`validation:${issue.params.i18n}`) };
   }
+  return zodI18nMap(issue, ctx);
 };
 
-// Apply initial locale
-applyZodLocale(i18n.language);
+z.setErrorMap(customErrorMap);
 
-// Update locale on language change
-i18n.on("languageChanged", (lng) => {
-  applyZodLocale(lng);
-});
+
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <NiceModal.Provider>
-      <ThemeProvider defaultTheme="system" attribute="class">
-        <TooltipProvider delayDuration={300}>
-          <App />
-        </TooltipProvider>
-      </ThemeProvider>
-    </NiceModal.Provider>
+    <BrowserRouter>
+      <NiceModal.Provider>
+        <ThemeProvider defaultTheme="system" attribute="class">
+          <TooltipProvider delayDuration={300}>
+            <App />
+          </TooltipProvider>
+        </ThemeProvider>
+      </NiceModal.Provider>
+    </BrowserRouter>
   </Provider>,
 );

@@ -28,8 +28,7 @@ export default function ForgotPassword() {
 
   const onSubmit = async (credentials) => {
     try {
-      const response = await forgotPasswordApi(credentials);
-      console.log(response);
+      const response = await forgotPasswordApi(credentials).unwrap();
       notifySooner.success(t("auth:sendEmailSuccess"));
     } catch (error) {
       console.log(error);

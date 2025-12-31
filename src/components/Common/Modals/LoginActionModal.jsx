@@ -10,22 +10,24 @@ import threadsIcon from "@assets/threads-icon.svg";
 import postIcon from "@assets/post-icon.svg";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
 
-const LoginActionModal = ({
+const LoginActionModal = NiceModal.create(({
   titleModal,
   descriptionModal,
   showIconPost,
-  open,
-  setOpen,
 }) => {
   const { t } = useTranslation(["common"]);
   const navigate = useNavigate();
+  const modal = useModal();
+
   const handleContinueLogin = () => {
+    modal.hide();
     navigate("/login");
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen} className={"p-0"}>
+    <Dialog open={modal.visible} onOpenChange={modal.hide} className={"p-0"}>
       <DialogContent showCloseButton={false} className={"p-0 bg-background text-foreground transition-colors"}>
         <DialogHeader
           className={
@@ -47,28 +49,28 @@ const LoginActionModal = ({
           >
             {descriptionModal}
           </DialogDescription>
-          <DialogDescription
-            className={
-              "flex w-full cursor-pointer items-center justify-between rounded-xl border border-border p-5 hover:border-muted-foreground hover:shadow-xl transition-all"
-            }
-          >
-            <div>
-              <img className="size-11" src={threadsIcon} alt="Threads Icon" />
-            </div>
+          <DialogDescription asChild>
             <div
               onClick={handleContinueLogin}
-              className="text-[15px] text-muted-foreground"
+              className={
+                "flex w-full cursor-pointer items-center justify-between rounded-xl border border-border p-5 hover:border-muted-foreground hover:shadow-xl transition-all"
+              }
             >
-              {t("common:continueWithUsernameOrEmail")}
-            </div>
-            <div>
-              <ArrowRightIcon className="text-muted-foreground" />
+              <div>
+                <img className="size-11" src={threadsIcon} alt="Threads Icon" />
+              </div>
+              <div className="text-[15px] text-muted-foreground">
+                {t("common:continueWithUsernameOrEmail")}
+              </div>
+              <div>
+                <ArrowRightIcon className="text-muted-foreground" />
+              </div>
             </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
   );
-};
+});
 
 export default LoginActionModal;

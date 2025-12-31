@@ -1,4 +1,11 @@
 {
-  "password_mismatch": "Password does not match confirmation"
+  "password_mismatch": "Password does not match confirmation",
+  "required": "This field is required",
+  "invalid_type": "Expected {{expected}}, received {{received}}",
+  "min_string": "Must be at least {{min}} characters",
+  "max_string": "Must be at most {{max}} characters",
+  "min_number": "Must be at least {{min}}",
+  "max_number": "Must be at most {{max}}",
+  "invalid_email": "Invalid email address",
+  "invalid_url": "Invalid URL"
 }
-

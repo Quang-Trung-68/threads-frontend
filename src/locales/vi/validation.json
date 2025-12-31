@@ -1,4 +1,11 @@
 {
-  "password_mismatch": "Mật khẩu không khớp"
+  "password_mismatch": "Mật khẩu không khớp",
+  "required": "Trường này là bắt buộc",
+  "invalid_type": "Mong đợi {{expected}}, nhận được {{received}}",
+  "min_string": "Phải có ít nhất {{min}} ký tự",
+  "max_string": "Tối đa {{max}} ký tự",
+  "min_number": "Phải lớn hơn hoặc bằng {{min}}",
+  "max_number": "Phải nhỏ hơn hoặc bằng {{max}}",
+  "invalid_email": "Email không hợp lệ",
+  "invalid_url": "URL không hợp lệ"
 }
-

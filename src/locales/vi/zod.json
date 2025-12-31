@@ -1,0 +1,80 @@
+{
+    "errors": {
+        "invalid_type": "Dữ liệu không hợp lệ, mong đợi {{expected}}, nhận được {{received}}",
+        "invalid_type_received_undefined": "Bắt buộc",
+        "invalid_type_received_null": "Bắt buộc",
+        "invalid_literal": "Giá trị không hợp lệ, mong đợi {{expected}}",
+        "custom": "Dữ liệu không hợp lệ",
+        "invalid_union": "Dữ liệu không hợp lệ",
+        "invalid_union_discriminator": "Giá trị discriminator không hợp lệ. Mong đợi {{options}}",
+        "invalid_enum_value": "Giá trị không hợp lệ. Mong đợi {{options}}, nhận được '{{received}}'",
+        "unrecognized_keys": "Khóa không xác định: {{keys}}",
+        "invalid_arguments": "Tham số không hợp lệ",
+        "invalid_return_type": "Kiểu trả về không hợp lệ",
+        "invalid_date": "Ngày không hợp lệ",
+        "invalid_string": {
+            "email": "Email không hợp lệ",
+            "url": "URL không hợp lệ",
+            "uuid": "UUID không hợp lệ",
+            "cuid": "CUID không hợp lệ",
+            "regex": "Không đúng định dạng",
+            "datetime": "Datetime không hợp lệ",
+            "startsWith": "Phải bắt đầu bằng \"{{startsWith}}\"",
+            "endsWith": "Phải kết thúc bằng \"{{endsWith}}\""
+        },
+        "too_small": {
+            "string": {
+                "exact": "Chuỗi phải có chính xác {{minimum}} ký tự",
+                "inclusive": "Chuỗi phải có ít nhất {{minimum}} ký tự",
+                "not_inclusive": "Chuỗi phải có nhiều hơn {{minimum}} ký tự"
+            },
+            "number": {
+                "exact": "Số phải bằng {{minimum}}",
+                "inclusive": "Số phải lớn hơn hoặc bằng {{minimum}}",
+                "not_inclusive": "Số phải lớn hơn {{minimum}}"
+            },
+            "set": {
+                "exact": "Phải có chính xác {{minimum}} phần tử",
+                "inclusive": "Phải có ít nhất {{minimum}} phần tử",
+                "not_inclusive": "Phải có nhiều hơn {{minimum}} phần tử"
+            },
+            "array": {
+                "exact": "Phải có chính xác {{minimum}} phần tử",
+                "inclusive": "Phải có ít nhất {{minimum}} phần tử",
+                "not_inclusive": "Phải có nhiều hơn {{minimum}} phần tử"
+            },
+            "date": {
+                "exact": "Ngày phải là {{minimum}}",
+                "inclusive": "Ngày phải sau hoặc bằng {{minimum}}",
+                "not_inclusive": "Ngày phải sau {{minimum}}"
+            }
+        },
+        "too_big": {
+            "string": {
+                "exact": "Chuỗi phải có chính xác {{maximum}} ký tự",
+                "inclusive": "Chuỗi tối đa {{maximum}} ký tự",
+                "not_inclusive": "Chuỗi phải ít hơn {{maximum}} ký tự"
+            },
+            "number": {
+                "exact": "Số phải bằng {{maximum}}",
+                "inclusive": "Số phải nhỏ hơn hoặc bằng {{maximum}}",
+                "not_inclusive": "Số phải nhỏ hơn {{maximum}}"
+            },
+            "set": {
+                "exact": "Phải có chính xác {{maximum}} phần tử",
+                "inclusive": "Phải tối đa {{maximum}} phần tử",
+                "not_inclusive": "Phải có ít hơn {{maximum}} phần tử"
+            },
+            "array": {
+                "exact": "Phải có chính xác {{maximum}} phần tử",
+                "inclusive": "Phải tối đa {{maximum}} phần tử",
+                "not_inclusive": "Phải có ít hơn {{maximum}} phần tử"
+            },
+            "date": {
+                "exact": "Ngày phải là {{maximum}}",
+                "inclusive": "Ngày phải trước hoặc bằng {{maximum}}",
+                "not_inclusive": "Ngày phải trước {{maximum}}"
+            }
+        }
+    }
+}

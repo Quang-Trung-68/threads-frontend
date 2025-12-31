@@ -20,6 +20,8 @@ import { notifySooner } from "@/utils/notifySooner";
 import { useTranslation } from "react-i18next";
 import MotionButton from "../Common/MotionButon";
 import useAuth from "@/hooks/useAuth";
+import NiceModal from "@ebay/nice-modal-react";
+import LoginActionModal from "@/components/Common/Modals/LoginActionModal";
 
 const InteractionBar = ({
   id,
@@ -33,7 +35,7 @@ const InteractionBar = ({
   is_liked_by_auth,
   is_reposted_by_auth,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "auth"]);
   const { user: userAuth } = useAuth();
 
   const [likePostApi, { isLoading: isLoadingLike }] = useLikePostMutation();
@@ -147,7 +149,11 @@ const InteractionBar = ({
   };
 
   const handleRequireAuth = () => {
-    alert("Need auth");
+    NiceModal.show(LoginActionModal, {
+      titleModal: t("auth:signUpToInteract"),
+      descriptionModal: t("auth:joinThreadsToPost"),
+      showIconPost: true,
+    });
   };
 
   if (!userAuth)
@@ -156,11 +162,10 @@ const InteractionBar = ({
         <div className="text-muted-foreground flex gap-4">
           <div
             onClick={handleRequireAuth}
-            className={`likes_count hover:bg-accent flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 ${
-              interactionsCount.is_liked_by_auth
+            className={`likes_count hover:bg-accent flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 ${interactionsCount.is_liked_by_auth
                 ? "text-red-500"
                 : "hover:bg-accent"
-            }`}
+              }`}
           >
             <MotionButton>
               <LikeIcon
@@ -187,11 +192,10 @@ const InteractionBar = ({
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <span
-                  className={`flex cursor-pointer items-center gap-1 rounded-2xl p-1 ${
-                    interactionsCount.is_reposted_by_auth
+                  className={`flex cursor-pointer items-center gap-1 rounded-2xl p-1 ${interactionsCount.is_reposted_by_auth
                       ? "text-green-500"
                       : "hover:bg-accent"
-                  }`}
+                    }`}
                 >
                   <MotionButton>
                     <Repeat2Icon className="size-4.5" />
@@ -259,11 +263,10 @@ const InteractionBar = ({
       <div className="text-muted-foreground flex gap-4">
         <div
           onClick={handleLikeCount}
-          className={`likes_count hover:bg-accent flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 ${
-            interactionsCount.is_liked_by_auth
+          className={`likes_count hover:bg-accent flex cursor-pointer items-center gap-1 rounded-2xl p-1 px-2 ${interactionsCount.is_liked_by_auth
               ? "text-red-500"
               : "hover:bg-accent"
-          }`}
+            }`}
         >
           <MotionButton>
             <LikeIcon
@@ -290,11 +293,10 @@ const InteractionBar = ({
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <span
-                className={`flex cursor-pointer items-center gap-1 rounded-2xl p-1 ${
-                  interactionsCount.is_reposted_by_auth
+                className={`flex cursor-pointer items-center gap-1 rounded-2xl p-1 ${interactionsCount.is_reposted_by_auth
                     ? "text-green-500"
                     : "hover:bg-accent"
-                }`}
+                  }`}
               >
                 <MotionButton>
                   <Repeat2Icon className="size-4.5" />

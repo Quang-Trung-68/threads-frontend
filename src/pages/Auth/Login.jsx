@@ -14,6 +14,8 @@ import { PATHS } from "@/configs/paths";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "react-use";
 
+import { useZodI18n } from "@/hooks/useZodI18n";
+
 export default function Login() {
   const { t } = useTranslation(["auth", "common"]);
   useTitle(t("auth:loginTitle"));
@@ -21,11 +23,14 @@ export default function Login() {
     register,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
+
+  useZodI18n(trigger, errors);
 
   const { state } = useLocation();
 

@@ -12,6 +12,7 @@ import { useDebouncedField } from "@/hooks/useDebouncedField";
 import { notifySooner } from "@/utils/notifySooner";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "react-use";
+import { useZodI18n } from "@/hooks/useZodI18n";
 
 export default function Register() {
   const { t } = useTranslation(["auth", "common"]);
@@ -20,11 +21,14 @@ export default function Register() {
     register,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
   });
+
+  useZodI18n(trigger, errors);
 
   const [status, setStatus] = useState("");
   const [showPassword, setShowPassword] = useState(false);

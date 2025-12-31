@@ -124,14 +124,7 @@ export default function Home({
                   {t("feed:home")}
                 </span>
               </div>
-              <MoreAtFeedHeader canRemove={canRemove}>
-                <div className="flex w-10 justify-center">
-                  <CircleEllipsis
-                    className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
-                    strokeWidth={1.1}
-                  />
-                </div>
-              </MoreAtFeedHeader>
+              <div className="w-10 px-4 py-3"></div>
             </div>
           )}
 
