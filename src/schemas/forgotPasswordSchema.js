@@ -1,8 +1,7 @@
 import * as zod from "zod";
 
 const forgotPasswordSchema = zod.object({
-  email: zod.string().email(),
+  email: zod.email(),
 });
-
 
 export default forgotPasswordSchema;

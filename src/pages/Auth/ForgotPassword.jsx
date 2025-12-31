@@ -47,7 +47,7 @@ export default function ForgotPassword() {
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* Login */}
+        {/* Email */}
         <div className="text-left">
           <input
             type="text"
@@ -56,9 +56,9 @@ export default function ForgotPassword() {
             onChange={(e) => emailChange(e.target.value)}
             className="border-border bg-muted focus:ring-ring w-full rounded-xl border px-4 py-3 focus:ring-1 focus:outline-none"
           />
-          {errors.login && (
+          {errors.email && (
             <span className="text-destructive mt-1 block text-sm">
-              {errors.login.message}
+              {errors.email.message}
             </span>
           )}
         </div>

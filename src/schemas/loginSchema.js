@@ -1,7 +1,7 @@
 import * as zod from "zod";
 
 const loginSchema = zod.object({
-  login: zod.string().email(),
+  login: zod.email(),
   password: zod.string().min(8),
 });
 

@@ -7,15 +7,29 @@ import { ThemeProvider } from "@/components/Common/ThemeProvider";
 import { TooltipProvider } from "@/components/Common/ui/tooltip";
 
 import * as z from "zod";
-import { zodI18nErrorMap } from "./lib/zodErrorMap";
+import { vi, en } from "zod/locales";
 import i18n from "./i18n/config";
 
 import "@/index.css";
 
-z.setErrorMap(zodI18nErrorMap);
+const applyZodLocale = (language) => {
+  switch (language) {
+    case "vi":
+      z.config(vi());
+      break;
+    case "en":
+    default:
+      z.config(en());
+      break;
+  }
+};
 
-i18n.on("languageChanged", () => {
-  z.setErrorMap(zodI18nErrorMap);
+// Apply initial locale
+applyZodLocale(i18n.language);
+
+// Update locale on language change
+i18n.on("languageChanged", (lng) => {
+  applyZodLocale(lng);
 });
 
 createRoot(document.getElementById("root")).render(

@@ -1,9 +1,11 @@
 import * as zod from "zod";
 
+import i18n from "@/i18n/config";
+
 const registerSchema = zod
   .object({
     username: zod.string().min(1).max(20),
-    email: zod.string().email(),
+    email: zod.email(),
     password: zod.string().min(8),
     password_confirmation: zod.string().min(8),
   })
@@ -11,8 +13,7 @@ const registerSchema = zod
   if (data.password !== data.password_confirmation) {
     ctx.addIssue({
       code: "custom",
-      message: "password_mismatch",
-
+       message: i18n.t("validation:password_mismatch"),
       path: ["password_confirmation"],
     });
   }
