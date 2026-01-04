@@ -1,7 +1,7 @@
 import { Input } from "@/components/Common/ui/input";
 import { useGetFollowSuggestionQuery } from "@/services/searchService";
 import { Search as SearchIcon, CircleEllipsis } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import FollowSuggestionCard from "@/components/Features/search/FollowSuggestionCard";
 import { Spinner } from "@/components/Common/ui/spinner";
@@ -11,7 +11,7 @@ import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader"
 import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 
-export default function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
+export default React.memo(function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
   const { t } = useTranslation(["feed", "user", "common"]);
   useScrollToTop();
   // Title
@@ -163,4 +163,4 @@ export default function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
       </div>
     </div>
   );
-}
+});

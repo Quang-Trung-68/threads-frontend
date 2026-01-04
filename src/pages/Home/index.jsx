@@ -33,7 +33,7 @@ import { PATHS } from "@/configs/paths";
 import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 
-export default function Home({
+export default React.memo(function Home({
   type,
   dragHandleProps,
   onNavigate,
@@ -41,6 +41,7 @@ export default function Home({
   canRemove,
   onRemoveColumn,
 }) {
+  // ... (rest of the component)
   const { t } = useTranslation(["feed", "common"]);
   useScrollToTop();
   // Title
@@ -324,4 +325,4 @@ export default function Home({
       )}
     </div>
   );
-}
+});

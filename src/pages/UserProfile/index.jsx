@@ -85,7 +85,7 @@ export default function UserProfile({
 
   // Mock data for "Other User" to ensure page works
   const MOCK_OTHER_USER = {
-    name: "Quang Trung",
+    name: "name",
     username: targetUsername || "trungdang",
     bio: "trungdang", // From image
     avatar: "", // Empty for now, fallback will show

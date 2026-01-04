@@ -3,11 +3,11 @@ import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Button } from "@/components/Common/ui/button";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { Heart, UserPlus, Zap, CircleEllipsis } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useTitle } from "react-use";
 
-export default function Activity({
+export default React.memo(function Activity({
   dragHandleProps,
   onRemoveColumn,
   canRemove,
@@ -223,4 +223,4 @@ export default function Activity({
       </div>
     </div>
   );
-}
+});
