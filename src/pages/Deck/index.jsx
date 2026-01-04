@@ -45,6 +45,7 @@ import Following from "@/pages/Following";
 import GhostPosts from "@/pages/GhostPosts";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
+import { Tooltip } from "@/components/Common/Tooltip";
 // ... các page khác
 
 // --- PLACEHOLDER COMPONENTS (XÓA KHI ĐÃ IMPORT ĐÚNG) ---
@@ -187,125 +188,132 @@ const generateId = () =>
   `col-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
 // --- 2. COLUMN CONTENT (CHỈ RENDER NỘI DUNG) ---
-const InnerColumnContent = React.memo(({
-  type,
-  idColumn,
-  navigation,
-  onNavigate,
-  dragHandleProps,
-  onRemoveColumn,
-  canRemove,
-}) => {
-  const current = navigation.history[navigation.currentIndex];
-  const currentComponentName = current.componentName;
-  const currentState = current.state;
+const InnerColumnContent = React.memo(
+  ({
+    type,
+    idColumn,
+    navigation,
+    onNavigate,
+    dragHandleProps,
+    onRemoveColumn,
+    canRemove,
+  }) => {
+    const current = navigation.history[navigation.currentIndex];
+    const currentComponentName = current.componentName;
+    const currentState = current.state;
 
-  const handleNavigate = useCallback((componentName, state = null) => {
-    onNavigate("push", componentName, state);
-  }, [onNavigate]);
+    const handleNavigate = useCallback(
+      (componentName, state = null) => {
+        onNavigate("push", componentName, state);
+      },
+      [onNavigate],
+    );
 
-  // Lấy component từ registry
-  const CurrentComponent = COMPONENT_REGISTRY[currentComponentName];
+    // Lấy component từ registry
+    const CurrentComponent = COMPONENT_REGISTRY[currentComponentName];
 
-  return (
-    <div className="flex h-full flex-col bg-white">
-      {/* Content Area - Render Component động */}
-      <SimpleBar className="h-screen max-w-160 min-w-105 flex-1">
-        <div>
-          {CurrentComponent ? (
-            <CurrentComponent
-              idColumn={idColumn}
-              type={type}
-              onNavigate={handleNavigate}
-              state={currentState}
-              navigation={navigation}
-              dragHandleProps={dragHandleProps}
-              onRemoveColumn={onRemoveColumn}
-              canRemove={canRemove}
-            />
-          ) : (
-            <div className="text-center text-red-600">
-              <h3 className="text-lg font-bold">⚠️ Component not found</h3>
-              <p className="mt-2 text-sm">
-                Component "{currentComponentName}" không tồn tại
-              </p>
-              <button
-                onClick={() => handleNavigate("Home")}
-                className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-              >
-                Go to Home
-              </button>
-            </div>
-          )}
-        </div>
-      </SimpleBar>
-    </div>
-  );
-});
+    return (
+      <div className="flex h-full flex-col bg-white">
+        {/* Content Area - Render Component động */}
+        <SimpleBar className="h-screen max-w-160 min-w-105 flex-1">
+          <div>
+            {CurrentComponent ? (
+              <CurrentComponent
+                idColumn={idColumn}
+                type={type}
+                onNavigate={handleNavigate}
+                state={currentState}
+                navigation={navigation}
+                dragHandleProps={dragHandleProps}
+                onRemoveColumn={onRemoveColumn}
+                canRemove={canRemove}
+              />
+            ) : (
+              <div className="text-center text-red-600">
+                <h3 className="text-lg font-bold">⚠️ Component not found</h3>
+                <p className="mt-2 text-sm">
+                  Component "{currentComponentName}" không tồn tại
+                </p>
+                <button
+                  onClick={() => handleNavigate("Home")}
+                  className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                >
+                  Go to Home
+                </button>
+              </div>
+            )}
+          </div>
+        </SimpleBar>
+      </div>
+    );
+  },
+);
 
 // --- 3. SORTABLE COLUMN COMPONENT ---
-const SortableColumn = React.memo(({
-  id,
-  type,
-  index,
-  navigation,
-  onNavigate,
-  onRemove,
-  isOverlay = false,
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: id, disabled: isOverlay });
+const SortableColumn = React.memo(
+  ({
+    id,
+    type,
+    index,
+    navigation,
+    onNavigate,
+    onRemove,
+    isOverlay = false,
+  }) => {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      transform,
+      transition,
+      isDragging,
+    } = useSortable({ id: id, disabled: isOverlay });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition: isDragging ? "none" : transition,
-    zIndex: isDragging ? 50 : "auto",
-    opacity: isDragging ? 0.3 : 1,
-    willChange: "transform",
-  };
+    const style = {
+      transform: CSS.Transform.toString(transform),
+      transition: isDragging ? "none" : transition,
+      zIndex: isDragging ? 50 : "auto",
+      opacity: isDragging ? 0.3 : 1,
+      willChange: "transform",
+    };
 
-  const overlayStyle = {
-    zIndex: 100,
-    opacity: 0.9,
-    cursor: "grabbing",
-  };
+    const overlayStyle = {
+      zIndex: 100,
+      opacity: 0.9,
+      cursor: "grabbing",
+    };
 
-  const canRemove = index !== 0;
+    const canRemove = index !== 0;
 
-  const dragHandleProps = {
-    attributes,
-    listeners,
-  };
+    const dragHandleProps = {
+      attributes,
+      listeners,
+    };
 
-  return (
-    <div
-      ref={setNodeRef}
-      style={isOverlay ? overlayStyle : style}
-      className={`relative flex h-full max-w-160 min-w-105 flex-col overflow-hidden bg-[#fafafa] ${
-        !isOverlay && isDragging ? "" : "shadow-md"
-      }`}
-    >
-      <div className="relative flex-1 bg-[#fafafa]">
-        <InnerColumnContent
-          navigation={navigation}
-          onNavigate={(action, componentName, state) =>
-            onNavigate(id, action, componentName, state)
-          }
-          canRemove={canRemove}
-          onRemoveColumn={() => onRemove(id)}
-          dragHandleProps={dragHandleProps}
-          type={type}
-        />
+    return (
+      <div
+        ref={setNodeRef}
+        style={isOverlay ? overlayStyle : style}
+        className={`relative flex h-full max-w-160 min-w-105 flex-col overflow-hidden bg-[#fafafa] ${
+          !isOverlay && isDragging ? "" : "shadow-md"
+        }`}
+      >
+        <div className="relative flex-1 bg-[#fafafa]">
+          <InnerColumnContent
+            navigation={navigation}
+            onNavigate={(action, componentName, state) =>
+              onNavigate(id, action, componentName, state)
+            }
+            canRemove={canRemove}
+            onRemoveColumn={() => onRemove(id)}
+            dragHandleProps={dragHandleProps}
+            type={type}
+          />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 
 // --- 4. COMPONENT NÚT THÊM (+) & MENU ---
 const AddColumnButton = ({ onAdd }) => {
@@ -395,6 +403,8 @@ const AddColumnButton = ({ onAdd }) => {
 
 // --- 5. COMPONENT CHÍNH (APP) ---
 export default function Deck() {
+  const { t } = useTranslation(["tooltip"]);
+
   const location = useLocation();
   const pageType = location?.state?.pageType ?? "activity";
 
@@ -478,57 +488,60 @@ export default function Deck() {
     setColumns((prev) => prev.filter((col) => col.id !== idToRemove));
   }, []);
 
-  const handleNavigate = useCallback((columnId, action, componentName, state = null) => {
-    setColumns((prevColumns) =>
-      prevColumns.map((col) => {
-        if (col.id !== columnId) return col;
+  const handleNavigate = useCallback(
+    (columnId, action, componentName, state = null) => {
+      setColumns((prevColumns) =>
+        prevColumns.map((col) => {
+          if (col.id !== columnId) return col;
 
-        const nav = col.navigation;
+          const nav = col.navigation;
 
-        if (action === "push") {
-          // Thêm component mới vào history với state
-          const newHistory = [
-            ...nav.history.slice(0, nav.currentIndex + 1),
-            { componentName, state },
-          ];
-          return {
-            ...col,
-            navigation: {
-              history: newHistory,
-              currentIndex: newHistory.length - 1,
-            },
-          };
-        } else if (action === "back") {
-          // Quay lại component trước
-          return {
-            ...col,
-            navigation: {
-              ...nav,
-              currentIndex: Math.max(0, nav.currentIndex - 1),
-            },
-          };
-        } else if (action === "forward") {
-          // Đi tới component tiếp theo
-          return {
-            ...col,
-            navigation: {
-              ...nav,
-              currentIndex: Math.min(
-                nav.history.length - 1,
-                nav.currentIndex + 1,
-              ),
-            },
-          };
-        }
+          if (action === "push") {
+            // Thêm component mới vào history với state
+            const newHistory = [
+              ...nav.history.slice(0, nav.currentIndex + 1),
+              { componentName, state },
+            ];
+            return {
+              ...col,
+              navigation: {
+                history: newHistory,
+                currentIndex: newHistory.length - 1,
+              },
+            };
+          } else if (action === "back") {
+            // Quay lại component trước
+            return {
+              ...col,
+              navigation: {
+                ...nav,
+                currentIndex: Math.max(0, nav.currentIndex - 1),
+              },
+            };
+          } else if (action === "forward") {
+            // Đi tới component tiếp theo
+            return {
+              ...col,
+              navigation: {
+                ...nav,
+                currentIndex: Math.min(
+                  nav.history.length - 1,
+                  nav.currentIndex + 1,
+                ),
+              },
+            };
+          }
 
-        return col;
-      }),
-    );
-  }, []);
+          return col;
+        }),
+      );
+    },
+    [],
+  );
 
   const activeColumn = useMemo(
     () => columns.find((col) => col.id === activeId),
-    [columns, activeId]
+    [columns, activeId],
   );
 
   const dropAnimationConfig = {
@@ -585,9 +598,11 @@ export default function Deck() {
               </DragOverlay>
             </DndContext>
 
-            <div className="ml-1.5">
-              <AddColumnButton onAdd={handleAddColumn} />
-            </div>
+            <Tooltip label={t("tooltip:addColumn")}>
+              <div className="ml-1.5">
+                <AddColumnButton onAdd={handleAddColumn} />
+              </div>
+            </Tooltip>
           </div>
         </SimpleBar>
       </div>

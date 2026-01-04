@@ -7,12 +7,14 @@ import enAuth from "../locales/en/auth.json";
 import enPost from "../locales/en/post.json";
 import enUser from "../locales/en/user.json";
 import enFeed from "../locales/en/feed.json";
+import enTooltip from "../locales/en/tooltip.json";
 
 import viCommon from "../locales/vi/common.json";
 import viAuth from "../locales/vi/auth.json";
 import viPost from "../locales/vi/post.json";
 import viUser from "../locales/vi/user.json";
 import viFeed from "../locales/vi/feed.json";
+import viTooltip from "../locales/vi/tooltip.json";
 // Import zod-i18n-map locales
 import zodEn from "zod-i18n-map/locales/en/zod.json";
 // limit line length
@@ -28,6 +30,7 @@ const resources = {
     post: enPost,
     user: enUser,
     feed: enFeed,
+    tooltip: enTooltip,
     validation: enValidation,
     zod: zodEn,
   },
@@ -37,6 +40,7 @@ const resources = {
     post: viPost,
     user: viUser,
     feed: viFeed,
+    tooltip: viTooltip,
     validation: viValidation,
     zod: zodVi,
   },
@@ -50,7 +54,7 @@ i18n.use(initReactI18next).init({
   lng: savedLanguage, // Use saved language or default
   fallbackLng: "en", // Fallback language
   defaultNS: "common", // Default namespace
-  ns: ["common", "auth", "post", "user", "feed", "validation", "zod"], // Available namespaces
+  ns: ["common", "auth", "post", "user", "feed", "tooltip", "validation", "zod"], // Available namespaces
 
   fallbackNS: "common", // Fallback to common namespace if key not found
 

@@ -32,6 +32,7 @@ import { Navigate, useLocation, useNavigate } from "react-router";
 import { PATHS } from "@/configs/paths";
 import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { Tooltip } from "@/components/Common/Tooltip";
 
 export default React.memo(function Home({
   type,
@@ -42,7 +43,7 @@ export default React.memo(function Home({
   onRemoveColumn,
 }) {
   // ... (rest of the component)
-  const { t } = useTranslation(["feed", "common"]);
+  const { t } = useTranslation(["feed", "common", "tooltip"]);
   useScrollToTop();
   // Title
   useTitle(t("common:homeTitle"));
@@ -110,6 +111,7 @@ export default React.memo(function Home({
   };
 
   const isShowAddColumnsHome = pathname === PATHS.HOME;
+
   if (user && !user.verified)
     return <Navigate to={PATHS.REQUIRE_VERIFIED_EMAIL} />;
   return (
@@ -236,18 +238,20 @@ export default React.memo(function Home({
       {isShowAddColumnsHome && user && (
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <span className="fixed top-[50vh] right-[calc((100%-700px)/2)] size-4">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 cursor-pointer rounded-full border-2 border-gray-300 text-gray-300 hover:border-black hover:text-black"
-              >
-                <Grid2X2Plus className="size-4" />
-              </Button>
-            </span>
+            <Tooltip label={t("tooltip:addColumn")}>
+              <span className="fixed top-[50vh] right-[calc((100%-740px)/2)] size-fit">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="size-8 cursor-pointer rounded-full border-2 border-gray-300 text-gray-300 hover:border-black hover:text-black"
+                >
+                  <Grid2X2Plus className="size-4" />
+                </Button>
+              </span>
+            </Tooltip>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className={"mt-3 mr-43 w-fit rounded-3xl border-2 p-2"}
+            className={"mt-3 mr-30 w-fit rounded-3xl border-2 p-2"}
           >
             <DropdownMenuGroup>
               <DropdownMenuItem

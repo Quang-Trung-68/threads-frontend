@@ -42,7 +42,7 @@ export const ROUTES = [
       },
       {
         path: PATHS.HOME,
-        title: "Home",
+        title: "home",
         element: Home,
         isShowInNav: true,
         icon: HouseIcon,
@@ -78,7 +78,7 @@ export const ROUTES = [
       },
       {
         path: PATHS.SEARCH,
-        title: "Search",
+        title: "search",
         element: Search,
         isShowInNav: true,
         icon: SearchIcon,
@@ -87,7 +87,7 @@ export const ROUTES = [
       },
       {
         path: null,
-        title: "Create",
+        title: "create",
         element: Create,
         isShowInNav: true,
         icon: PlusIcon,
@@ -96,7 +96,7 @@ export const ROUTES = [
       },
       {
         path: PATHS.ACTIVITY,
-        title: "Activity/Notifications",
+        title: "notifications",
         element: Activity,
         isShowInNav: true,
         icon: HeartIcon,
@@ -105,7 +105,7 @@ export const ROUTES = [
       },
       {
         path: PATHS.USER_PROFILE,
-        title: "User Profile",
+        title: "profile",
         element: UserProfile,
         isShowInNav: true,
         icon: UserIcon,

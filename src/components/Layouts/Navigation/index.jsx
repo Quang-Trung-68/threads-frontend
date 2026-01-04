@@ -9,10 +9,11 @@ import { CreatePostModal } from "@/components/post/CreatePostModal";
 import UserOptionsDropdown from "@/components/Common/DropdownMenu/UserOptionsDropdown";
 import { PATHS } from "@/configs/paths";
 import { useTranslation } from "react-i18next";
+import { Tooltip } from "@/components/Common/Tooltip";
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const { t } = useTranslation(["auth"]);
+  const { t } = useTranslation(["auth", "tooltip"]);
 
   const navigateToHome = () => {
     navigate(PATHS.HOME, { state: { refresh: true } });
@@ -90,20 +91,24 @@ export default function Navigation() {
 
               return (
                 child.isShowInNav && (
-                  <NavLink
-                    className={
-                      "group text-muted-foreground/60 hover:bg-accent mt-1 mb-1 flex h-10.5 flex-1 items-center justify-center rounded-xl border-0 md:h-12 md:w-15 md:flex-none md:gap-1"
-                    }
-                    key={index}
-                    to={renderPath}
-                    onClick={(event) => handleUserAuth(event, isPrivate, path)}
-                  >
-                    <Icon
-                      className={`group-[.active]:text-foreground size-6 ${
-                        child.isFill ? "group-[.active]:fill-foreground" : ""
-                      } `}
-                    />
-                  </NavLink>
+                  <Tooltip key={index} label={t(`tooltip:${child.title}`)}>
+                    <NavLink
+                      className={
+                        "group text-muted-foreground/60 hover:bg-accent mt-1 mb-1 flex h-10.5 flex-1 items-center justify-center rounded-xl border-0 md:h-12 md:w-15 md:flex-none md:gap-1"
+                      }
+                      key={index}
+                      to={renderPath}
+                      onClick={(event) =>
+                        handleUserAuth(event, isPrivate, path)
+                      }
+                    >
+                      <Icon
+                        className={`group-[.active]:text-foreground size-6 ${
+                          child.isFill ? "group-[.active]:fill-foreground" : ""
+                        } `}
+                      />
+                    </NavLink>
+                  </Tooltip>
                 )
               );
             });
@@ -117,12 +122,14 @@ export default function Navigation() {
             <Pin className="text-muted-foreground/60 group-[:hover]:text-foreground size-6" />
           </Button>
           <UserOptionsDropdown>
-            <Button
-              variant={"ghost"}
-              className={"group mb-2 size-15 cursor-pointer"}
-            >
-              <Menu className="text-muted-foreground/60 group-[:hover]:text-foreground size-6" />
-            </Button>
+            <Tooltip label={t("tooltip:more")}>
+              <Button
+                variant={"ghost"}
+                className={"group mb-2 size-15 cursor-pointer"}
+              >
+                <Menu className="text-muted-foreground/60 group-[:hover]:text-foreground size-6" />
+              </Button>
+            </Tooltip>
           </UserOptionsDropdown>
         </div>
       </nav>

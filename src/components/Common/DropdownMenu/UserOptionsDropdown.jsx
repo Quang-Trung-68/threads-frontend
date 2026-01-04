@@ -1,4 +1,4 @@
-import { Check, Ghost, Monitor, Moon, Sun } from "lucide-react";
+import { Ghost, Monitor, Moon, Sun } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -24,18 +24,18 @@ import Cookies from "js-cookie";
 import { DeleteAccountModal } from "@/components/Features/auth/DeleteAccountModal";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { Tooltip } from "../Tooltip";
 
 const UserOptionsDropdown = ({ children }) => {
-
   // i18n for language change
-  const { i18n, t } = useTranslation();
+  const { i18n, t } = useTranslation(["tooltip", "common", "auth"]);
   const [language, setLanguage] = useState(i18n.language);
 
   const { user } = useAuth();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
-  const [deleteAccountApi, { isLoading: isDeleteAccountLoading, isSuccess }] =
+  const [deleteAccountApi, { isLoading: isDeleteAccountLoading }] =
     useDeleteAccountMutation();
 
   const [logoutApi, { isLoading: isLogoutLoading }] = useLogoutMutation();
@@ -65,12 +65,10 @@ const UserOptionsDropdown = ({ children }) => {
   };
 
   const themes = [
-    { value: "light", icon: Sun, label: t("common:light") },
-    { value: "dark", icon: Moon, label: t("common:dark") },
-    { value: "system", icon: Monitor, label: t("common:auto") },
+    { value: "light", icon: Sun },
+    { value: "dark", icon: Moon },
+    { value: "system", icon: Monitor },
   ];
-
-  
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -78,32 +76,29 @@ const UserOptionsDropdown = ({ children }) => {
   };
 
   const ThemeSelector = () => (
-    <div className="flex w-35 flex-col items-center justify-center gap-2 p-1.5 md:w-55 md:flex-row md:justify-around">
+    <div className="flex w-full flex-col items-center justify-center gap-2 p-2.5 md:flex-row md:justify-around">
       {themes.map(({ value, icon: Icon, label }) => {
         const isActive = theme === value;
         return (
-          <button
-            key={value}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setTheme(value);
-            }}
-            className={`flex w-full flex-1 flex-row items-center justify-between gap-2 rounded-2xl py-3.5 px-2 transition-all md:flex-col md:justify-center ${
-              isActive
-                ? "bg-muted text-foreground shadow-sm"
-                : "text-muted-foreground hover:bg-muted/40"
-            }`}
-          >
-            <Icon
-              className={`size-6 ${isActive ? "stroke-[2.5px]" : "stroke-2"}`}
-            />
-            <span
-              className={`text-sm ${isActive ? "font-bold" : "font-medium"}`}
+          <Tooltip key={value} label={t(`tooltip:${value}`)}>
+            <button
+              key={value}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setTheme(value);
+              }}
+              className={`flex h-full w-full flex-row items-center justify-center rounded-2xl px-2 py-3.5 transition-all ${
+                isActive
+                  ? "bg-muted text-foreground shadow-sm"
+                  : "text-muted-foreground hover:bg-muted/40"
+              }`}
             >
-              {label}
-            </span>
-          </button>
+              <Icon
+                className={`size-6 ${isActive ? "stroke-[2.5px]" : "stroke-2"}`}
+              />
+            </button>
+          </Tooltip>
         );
       })}
     </div>
