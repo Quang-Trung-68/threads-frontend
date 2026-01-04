@@ -205,7 +205,7 @@ const InnerColumnContent = ({
   const CurrentComponent = COMPONENT_REGISTRY[currentComponentName];
 
   return (
-    <div className="flex h-full flex-col bg-white">
+    <div className="flex h-full flex-col bg-background">
       {/* Content Area - Render Component động */}
       <SimpleBar className="h-screen max-w-160 min-w-105 flex-1">
         <div>
@@ -266,18 +266,18 @@ const SortableColumn = ({
   const canRemove = index !== 0; // Cột đầu tiên không được xóa
 
   // --- Logic Navigation (Chuyển từ Inner lên đây) ---
-  const current = navigation.history[navigation.currentIndex];
-  const currentComponentName = current.componentName;
-  const canGoBack = navigation.currentIndex > 0;
-  const canGoForward = navigation.currentIndex < navigation.history.length - 1;
+  // const current = navigation.history[navigation.currentIndex];
+  // const currentComponentName = current.componentName;
+  // const canGoBack = navigation.currentIndex > 0;
+  // const canGoForward = navigation.currentIndex < navigation.history.length - 1;
 
-  const handleBack = () => {
-    if (canGoBack) onNavigate(id, "back", null);
-  };
+  // const handleBack = () => {
+  //   if (canGoBack) onNavigate(id, "back", null);
+  // };
 
-  const handleForward = () => {
-    if (canGoForward) onNavigate(id, "forward", null);
-  };
+  // const handleForward = () => {
+  //   if (canGoForward) onNavigate(id, "forward", null);
+  // };
   // ------------------------------------------------
   // Tao props drag n drop de truyen vao Current component
   const dragHandleProps = {
@@ -289,7 +289,7 @@ const SortableColumn = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative flex h-full max-w-160 min-w-105 flex-col overflow-hidden bg-[#fafafa] ${
+      className={`relative flex h-full max-w-160 min-w-120 flex-col overflow-hidden bg-background ${
         isDragging ? "z-50 opacity-80 shadow-2xl" : "shadow-md"
       }`}
     >
@@ -336,7 +336,7 @@ const SortableColumn = ({
       </div>
 
       {/* BODY */}
-      <div className="relative flex-1 bg-[#fafafa]">
+      <div className="relative flex-1 bg-background">
         <InnerColumnContent
           navigation={navigation}
           onNavigate={(action, componentName, state) =>

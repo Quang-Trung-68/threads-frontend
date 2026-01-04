@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { CircleEllipsis, Grid2X2Plus } from "lucide-react";
+import { Grid2X2Plus } from "lucide-react";
 
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Input } from "@/components/Common/ui/input";
@@ -30,7 +30,6 @@ import {
 } from "@/components/Common/ui/dropdown-menu";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { PATHS } from "@/configs/paths";
-import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
 import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 
@@ -88,13 +87,12 @@ export default function Home({
 
   const hasNextPage = pagination?.current_page < pagination?.last_page;
 
+  const canLoadMore = hasNextPage && !isFetching && !isLoading;
   const loadMore = () => {
-    if (!isFetching && hasNextPage) {
+    if (canLoadMore) {
       setPage((prev) => prev + 1);
     }
   };
-
-  const canLoadMore = hasNextPage && !isFetching && !isLoading;
 
   const [sentryRef] = useInfiniteScroll({
     loading: isFetching,
@@ -116,8 +114,6 @@ export default function Home({
   return (
     <div className="bg-background relative flex min-h-screen w-full flex-col">
       <div className="flex w-full flex-col">
-        {/* Sticky Header Container */}
-        {/* The entire block is sticky to create the 'Fixed Frame' effect while keeping native scroll */}
         <div
           // Props de drag and drop
           {...dragHandleProps?.attributes}

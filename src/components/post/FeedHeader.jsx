@@ -39,6 +39,7 @@ export default function FeedHeader({
             <NavLink
               to={PATHS.HOME}
               className={({ isActive }) => "flex-1 md:flex-none"}
+              onPointerDown={(e) => e.stopPropagation()}
             >
               {({ isActive }) => (
                 <Button
@@ -56,6 +57,7 @@ export default function FeedHeader({
             <NavLink
               to={PATHS.FOLLOWING}
               className={({ isActive }) => "flex-1 md:flex-none"}
+              onPointerDown={(e) => e.stopPropagation()}
             >
               {({ isActive }) => (
                 <Button
@@ -73,6 +75,7 @@ export default function FeedHeader({
             <NavLink
               to={PATHS.GHOST_POSTS}
               className={({ isActive }) => "hidden md:block"}
+              onPointerDown={(e) => e.stopPropagation()}
             >
               {({ isActive }) => (
                 <Button
@@ -97,6 +100,7 @@ export default function FeedHeader({
                     "cursor-pointer px-4 py-6 text-[15px] font-semibold"
                   }
                   variant="ghost"
+                  onPointerDown={(e) => e.stopPropagation()}
                 >
                   <span> Threads</span>
                   <span className="cursor-pointer hover:scale-110">

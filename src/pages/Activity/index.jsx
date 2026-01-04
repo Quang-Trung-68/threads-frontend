@@ -93,17 +93,20 @@ export default function Activity({
             <span className="text-foreground flex items-center justify-center px-4 py-3 text-[15px] font-bold">
               {t("common:activity")}
             </span>
-            <MoreAtFeedHeader
-              canRemove={canRemove}
-              onRemoveColumn={onRemoveColumn}
-            >
-              <div className="flex w-10 justify-center">
-                <CircleEllipsis
-                  className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
-                  strokeWidth={1.1}
-                />
-              </div>
-            </MoreAtFeedHeader>
+              <MoreAtFeedHeader
+                canRemove={canRemove}
+                onRemoveColumn={onRemoveColumn}
+              >
+                <div
+                  className="flex w-10 justify-center"
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
+                  <CircleEllipsis
+                    className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                    strokeWidth={1.1}
+                  />
+                </div>
+              </MoreAtFeedHeader>
           </div>
 
           {/* Visible Border connecting the masks */}

@@ -114,6 +114,15 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* SimpleBar dark mode styles */
+  .simplebar-scrollbar::before {
+    background-color: oklch(1 0 0 / 30%) !important;
+  }
+
+  .simplebar-scrollbar.simplebar-visible::before {
+    opacity: 0.5 !important;
+  }
 }
 
 @layer base {

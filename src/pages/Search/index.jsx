@@ -73,7 +73,10 @@ export default function Search({ dragHandleProps, onRemoveColumn, canRemove }) {
               canRemove={canRemove}
               onRemoveColumn={onRemoveColumn}
             >
-              <div className="flex w-10 justify-center">
+              <div
+                className="flex w-10 justify-center"
+                onPointerDown={(e) => e.stopPropagation()}
+              >
                 <CircleEllipsis
                   className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
                   strokeWidth={1.1}

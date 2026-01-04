@@ -85,12 +85,11 @@ export default function UserProfile({
 
   // Mock data for "Other User" to ensure page works
   const MOCK_OTHER_USER = {
-    name: "Name",
-    username: targetUsername || "yoo.glass",
-    bio: "yoo.glass", // From image
+    name: "Quang Trung",
+    username: targetUsername || "trungdang",
+    bio: "trungdang", // From image
     avatar: "", // Empty for now, fallback will show
     followers: 6,
-    link: "yoo.glass",
   };
 
   // Title
@@ -132,6 +131,7 @@ export default function UserProfile({
                 {window.history.length > 1 && (
                   <CircleArrowLeft
                     className="cursor-pointer hover:scale-110"
+                    onPointerDown={(e) => e.stopPropagation()}
                     onClick={() =>
                       state?.isDeck ? onNavigate("Home") : navigate(-1)
                     }
@@ -146,7 +146,10 @@ export default function UserProfile({
                 canRemove={canRemove}
                 onRemoveColumn={onRemoveColumn}
               >
-                <div className="flex w-10 justify-center">
+                <div
+                  className="flex w-10 justify-center"
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
                   <CircleEllipsis
                     className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
                     strokeWidth={1.1}
@@ -189,7 +192,7 @@ export default function UserProfile({
 
             {loading ? (
               <div className="flex min-h-[50vh] flex-1 items-center justify-center">
-                <Spinner  />
+                <Spinner />
               </div>
             ) : (
               <div className="flex flex-col gap-4 p-5">

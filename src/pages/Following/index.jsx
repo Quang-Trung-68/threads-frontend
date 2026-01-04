@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { CircleEllipsis, MinusCircle } from "lucide-react";
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Input } from "@/components/Common/ui/input";
@@ -48,7 +48,6 @@ export default function Following({
     refetch();
   }, [refetch]);
 
-
   useEffect(() => {
     if (locationState?.refresh) {
       if (page === 1) {
@@ -59,7 +58,6 @@ export default function Following({
       navigate(".", { replace: true, state: {} });
     }
   }, [locationState, refetch, navigate, page]);
-
 
   const onHandlePost = () => {
     CreatePostModal.open({ onSuccess: handleRefreshFeed });
@@ -93,15 +91,14 @@ export default function Following({
 
   return (
     <div className="bg-background relative flex min-h-screen w-full flex-col">
-      <div
-        // Props de drag and drop
-        {...dragHandleProps?.attributes}
-        {...dragHandleProps?.listeners}
-        className="flex w-full cursor-grab flex-col active:cursor-grabbing"
-      >
+      <div className="flex w-full flex-col">
         {/* Sticky Header Container */}
         {/* The entire block is sticky to create the 'Fixed Frame' effect while keeping native scroll */}
-        <div className="bg-background sticky top-0 z-50">
+        <div
+          {...dragHandleProps?.attributes}
+          {...dragHandleProps?.listeners}
+          className="bg-background sticky top-0 z-50 cursor-grab active:cursor-grabbing"
+        >
           {/* Visible Header Navigation */}
           {user ? (
             <FeedHeader
@@ -122,7 +119,10 @@ export default function Following({
                 onRemoveColumn={onRemoveColumn}
                 canRemove={canRemove}
               >
-                <div className="flex w-10 justify-center">
+                <div
+                  className="flex w-10 justify-center"
+                  onPointerDown={(e) => e.stopPropagation()}
+                >
                   <CircleEllipsis
                     className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
                     strokeWidth={1.1}
@@ -204,16 +204,16 @@ export default function Following({
               />
             ) : (
               posts.map((post) => (
-                <>
+                <Fragment key={post.id}>
                   <PostCard
-                    key={post.id}
                     {...post}
                     isPermitDetailPost={true}
+                    onNavigate={onNavigate}
                     onDeleteSuccess={handleRefreshFeed}
                   />
                   {/* Separator */}
                   <div className="bg-border my-2 h-px w-full" />
-                </>
+                </Fragment>
               ))
             )}
           </div>
