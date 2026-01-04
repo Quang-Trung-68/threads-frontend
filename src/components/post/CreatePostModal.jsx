@@ -164,11 +164,10 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
 
   return (
     <Dialog open={modal.visible} onOpenChange={handleCancel}>
-      {/* max-w-lg để kích thước giống mobile/modal nhỏ gọn hơn */}
       <DialogContent
         aria-describedby={undefined}
         showCloseButton={false}
-        className="bg-background text-foreground flex max-h-[85vh] max-w-[600px] flex-col gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-xl transition-colors"
+        className="bg-background text-foreground flex h-[67vh] max-h-[85vh] max-w-[600px] flex-col gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-xl transition-colors"
       >
         {/* --- HEADER --- */}
         <div className="flex items-center justify-between px-5 py-4">
@@ -182,7 +181,6 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
             {t("post:newThread")}
           </DialogTitle>
           <div className="flex items-center gap-4">
-            {/* Icon giống Library/Copy */}
             <button className="text-foreground transition-colors hover:opacity-70">
               <Copy size={22} strokeWidth={2} className="-scale-x-100" />
             </button>
@@ -192,7 +190,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
           </div>
         </div>
 
-        <div className="bg-border h-[1px] w-full" />
+        <div className="bg-border h-px w-full" />
 
         {/* --- BODY --- */}
         <ScrollArea className="flex-1" style={{ overflowY: "auto" }}>
@@ -203,7 +201,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
               <UserAvatar user={{ username, avatar_url }} className="h-9 w-9" />
 
               {/* The Vertical Thread Line */}
-              <div className="bg-border my-2 w-[2px] flex-grow rounded-full" />
+              <div className="bg-border my-2 w-0.5 grow rounded-full" />
 
               {/* Small Ghost Avatar (for 'Add to thread') */}
               <UserAvatar
@@ -292,14 +290,14 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
                     ref={emojiPickerRef}
                     style={{
                       position: "absolute",
-                      top: "110%",
-                      left: "0",
+                      top: "-410%",
+                      right: "5%",
                       zIndex: 1000,
                     }}
                   >
                     <EmojiPicker
-                      width={350}
-                      height={450}
+                      width={300}
+                      height={320}
                       onEmojiClick={onEmojiClick}
                       autoFocusSearch={false}
                       onEmojiStyle="native"

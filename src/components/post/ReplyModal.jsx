@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   Image as ImageIcon,
   FileText,
   MapPin,
-  Smile,
+  SmilePlus,
   AlignLeft,
   ChevronRight,
   Grid3x3,
@@ -25,6 +25,8 @@ import ReplyOptionsDropdown from "../Common/DropdownMenu/ReplyOptionsDropdown";
 import { useCreateReplyMutation } from "@/services/postService";
 import { notifySooner } from "@/utils/notifySooner";
 import { useTranslation } from "react-i18next";
+import EmojiPicker, { Theme } from "emoji-picker-react";
+import { useTheme } from "next-themes";
 
 const Modal = NiceModal.create(({ id, user, content, updated_at }) => {
   const { t } = useTranslation(["common", "post"]);
@@ -81,6 +83,44 @@ const Modal = NiceModal.create(({ id, user, content, updated_at }) => {
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
+
+  // Select emoji
+  const { resolvedTheme } = useTheme();
+  const [openEmoji, setOpenEmoji] = useState(false);
+
+  const onEmojiClick = (emojiData) => {
+    setReplyText((prev) => prev + emojiData.emoji);
+    setOpenEmoji(false);
+  };
+
+  // Close emoji picker when click outside or modal close
+  const emojiPickerRef = useRef(null);
+  const emojiButtonRef = useRef(null);
+
+  useEffect(() => {
+    if (!modal.visible) {
+      setOpenEmoji(false);
+    }
+  }, [modal.visible]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        openEmoji &&
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(event.target) &&
+        emojiButtonRef.current &&
+        !emojiButtonRef.current.contains(event.target)
+      ) {
+        setOpenEmoji(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openEmoji]);
 
   return (
     <Dialog open={modal.visible} onOpenChange={handleCancel}>
@@ -181,13 +221,42 @@ const Modal = NiceModal.create(({ id, user, content, updated_at }) => {
                 </div>
 
                 {/* Action Icons */}
-                <div className="text-muted-foreground flex gap-5">
+                <div className="text-muted-foreground relative flex gap-5">
                   <ImageIcon className="hover:text-foreground h-5 w-5 cursor-pointer" />
                   <FileText className="hover:text-foreground h-5 w-5 cursor-pointer" />
-                  <Smile className="hover:text-foreground h-5 w-5 cursor-pointer" />
+                  <button
+                    ref={emojiButtonRef}
+                    onClick={() => setOpenEmoji((prev) => !prev)}
+                    className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors"
+                  >
+                    <SmilePlus size={20} />
+                  </button>
                   <AlignLeft className="hover:text-foreground h-5 w-5 cursor-pointer" />
                   <Grid3x3 className="hover:text-foreground h-5 w-5 cursor-pointer" />
                   <MapPin className="hover:text-foreground h-5 w-5 cursor-pointer" />
+                  {/* EMOJI PICKER */}
+                  {openEmoji && (
+                    <div
+                      ref={emojiPickerRef}
+                      style={{
+                        position: "absolute",
+                        top: "-1300%",
+                        right: "5%",
+                        zIndex: 1000,
+                      }}
+                    >
+                      <EmojiPicker
+                        width={300}
+                        height={350}
+                        onEmojiClick={onEmojiClick}
+                        autoFocusSearch={false}
+                        onEmojiStyle="native"
+                        theme={
+                          resolvedTheme === "dark" ? Theme.DARK : Theme.LIGHT
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -56,6 +56,9 @@ httpRequest.interceptors.response.use(
 
         return await httpRequest.request(original);
       } catch (error) {
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        Cookies.remove("userInfo");
         queueJobs.forEach((job) => job.reject());
         window.location.href = "/login";
         return Promise.reject(error);

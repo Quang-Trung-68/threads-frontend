@@ -78,7 +78,7 @@ const UserOptionsDropdown = ({ children }) => {
   };
 
   const ThemeSelector = () => (
-    <div className="flex w-30 flex-col items-center justify-center gap-2 p-1.5 md:w-55 md:flex-row md:justify-around">
+    <div className="flex w-35 flex-col items-center justify-center gap-2 p-1.5 md:w-55 md:flex-row md:justify-around">
       {themes.map(({ value, icon: Icon, label }) => {
         const isActive = theme === value;
         return (
@@ -89,7 +89,7 @@ const UserOptionsDropdown = ({ children }) => {
               e.stopPropagation();
               setTheme(value);
             }}
-            className={`flex w-full flex-1 flex-row items-center justify-evenly gap-2 rounded-2xl py-3.5 transition-all md:flex-col md:justify-center ${
+            className={`flex w-full flex-1 flex-row items-center justify-between gap-2 rounded-2xl py-3.5 px-2 transition-all md:flex-col md:justify-center ${
               isActive
                 ? "bg-muted text-foreground shadow-sm"
                 : "text-muted-foreground hover:bg-muted/40"
@@ -99,7 +99,7 @@ const UserOptionsDropdown = ({ children }) => {
               className={`size-6 ${isActive ? "stroke-[2.5px]" : "stroke-2"}`}
             />
             <span
-              className={`text-[11px] ${isActive ? "font-bold" : "font-medium"}`}
+              className={`text-sm ${isActive ? "font-bold" : "font-medium"}`}
             >
               {label}
             </span>

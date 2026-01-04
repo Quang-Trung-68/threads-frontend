@@ -2,6 +2,7 @@ import { Loading } from "../../Common/Loading/Loading";
 import { Navigate } from "react-router";
 import useAuth from "@/hooks/useAuth";
 import { PATHS } from "@/configs/paths";
+import Cookies from "js-cookie";
 
 const ProtectedRoute = ({ children }) => {
   const { user, isLoading, isError } = useAuth();
@@ -10,7 +11,9 @@ const ProtectedRoute = ({ children }) => {
     return <Loading />;
   }
 
-  if (isError || !user) return <Navigate to={PATHS.HOME} />;
+  if (isError || !user) {
+    return <Navigate to={PATHS.HOME} />;
+  }
   if (user && !user.verified)
     return <Navigate to={PATHS.REQUIRE_VERIFIED_EMAIL} />;
 
