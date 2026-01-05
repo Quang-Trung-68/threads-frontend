@@ -47,7 +47,7 @@ function Embed() {
   const { data: postData } = useGetSinglePostQuery({ postId });
 
   const textareaContentRef = useRef(null);
-  useAutoResizeTextarea(textareaContentRef, postData.content);
+  useAutoResizeTextarea(textareaContentRef, postData?.content);
 
   if (postData) {
     const {
