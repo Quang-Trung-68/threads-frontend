@@ -24,7 +24,6 @@ This project is a mid-level clone of the popular social media application **Thre
 - **Social Feed:** Infinite scrolling feed with posts, replies, and dynamic interactions.
 - **User System:** User profiles, follow/unfollow mechanisms, and suggested users.
 - **Interactions:** Like, Reply, Repost, and Quote functionality with optimistic UI updates.
-- **Media Support:** Image uploads and responsive media grids.
 - **Search & Discovery:** Search functionality to find users and content.
 - **Theme & Localization:** Dark/Light mode support and Internationalization (English/Vietnamese).
 - **Responsive Design:** Fully adaptive UI mimicking the native mobile app experience on all devices.
@@ -35,7 +34,7 @@ This project is a mid-level clone of the popular social media application **Thre
 
 - **Framework:** React 19, Vite
 - **Routing:** React Router v7
-- **Styling:** Tailwind CSS v4, Radix UI (Headless UI), Class Variance Authority (CVA), Lucide React (Icons)
+- **Styling:** Tailwind CSS v4, Shadcn UI , Class Variance Authority (CVA), Lucide React (Icons)
 - **Animations:** Framer Motion
 
 ### State Management & Data Fetching

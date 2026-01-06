@@ -10,7 +10,6 @@ export const postApi = createApi({
     getFeed: builder.query({
       query: (params) => ({
         url: `/api/posts/feed`,
-        method: "GET",
         params,
       }),
 
@@ -142,9 +141,39 @@ export const postApi = createApi({
       invalidatesTags: ["Replies"],
     }),
     getReplies: builder.query({
-      query: ({ postId }) => ({
+      query: ({ postId, ...params }) => ({
         url: `/api/posts/${postId}/replies`,
+        params,
       }),
+
+      // tất cả page của cùng 1 post dùng chung cache
+      serializeQueryArgs: ({ queryArgs }) => {
+        return `getReplies_${queryArgs.postId}`;
+      },
+
+      // merge data giữa các page
+      merge: (currentCache, response) => {
+        // Deduplicate replies based on ID
+        const currentIds = new Set(currentCache.data.map((reply) => reply.id));
+        const newReplies = response.data.filter(
+          (reply) => !currentIds.has(reply.id),
+        );
+
+        if (response.pagination.current_page === 1) {
+          // If page 1, strictly replace the data
+          currentCache.data = response.data;
+        } else {
+          currentCache.data.push(...newReplies);
+        }
+
+        currentCache.pagination = response.pagination;
+      },
+
+      // chỉ refetch khi page thay đổi
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg?.page !== previousArg?.page;
+      },
+
       providesTags: ["Replies"],
     }),
     getPendingReplies: builder.query({

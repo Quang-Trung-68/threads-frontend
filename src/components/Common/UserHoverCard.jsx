@@ -18,7 +18,7 @@ function UserHoverCard({
 }) {
   const { t } = useTranslation("common");
   const { user: userAuth } = useAuth();
-  const isAuth = userAuth.id === id;
+  const isAuth = userAuth?.id === id;
 
   return (
     <HoverCard delay={500}>

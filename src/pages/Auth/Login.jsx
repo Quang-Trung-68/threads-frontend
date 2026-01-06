@@ -58,7 +58,6 @@ export default function Login() {
         if (response.error.status === 401) {
           notifySooner.error(t("auth:loginError"));
           setStatus(t("auth:loginError"));
-          console.log(123);
         } else throw new Error(response.error.data?.message);
       }
     } catch (error) {

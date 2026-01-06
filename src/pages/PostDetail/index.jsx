@@ -1,5 +1,7 @@
 import CommentItem from "@/components/Features/Comments/CommentItem";
+import React, { useState } from "react";
 import PostCard from "@/components/post/PostCard";
+import useInfiniteScroll from "react-infinite-scroll-hook";
 import {
   useGetRepliesQuery,
   useGetSinglePostQuery,
@@ -21,11 +23,36 @@ export default function PostDetail({ onNavigate, state }) {
   const postId = params.postId || state?.postId;
   const navigate = useNavigate();
 
+  const [page, setPage] = useState(1);
+
   const { data: post, isLoading: isPostLoading } = useGetSinglePostQuery({
     postId,
   });
-  const { data: replies, isLoading: isRepliesLoading } = useGetRepliesQuery({
+  const {
+    data: replies,
+    isLoading: isRepliesLoading,
+    isFetching: isRepliesFetching,
+    isSuccess: isRepliesSuccess,
+  } = useGetRepliesQuery({
     postId,
+    page,
+    per_page: 10,
+  });
+
+  const pagination = replies?.pagination;
+  const hasNextPage = pagination?.current_page < pagination?.last_page;
+
+  const loadMore = () => {
+    if (hasNextPage && !isRepliesFetching) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const [sentryRef] = useInfiniteScroll({
+    loading: isRepliesFetching,
+    hasNextPage,
+    onLoadMore: loadMore,
+    rootMargin: "0px 0px 800px 0px",
   });
 
   useTitle(
@@ -34,8 +61,7 @@ export default function PostDetail({ onNavigate, state }) {
       : t("common:followingTitle"),
   );
 
-  const repliesData = replies?.data;
-  const pagination = replies?.pagination;
+  const repliesData = replies?.data || [];
 
   return (
     <div className="bg-background relative flex min-h-screen w-full flex-col">
@@ -135,6 +161,13 @@ export default function PostDetail({ onNavigate, state }) {
                   </div>
                 ))}
               </div>
+
+              {/* Infinite Scroll Sentinel */}
+              {isRepliesSuccess && hasNextPage && (
+                <div ref={sentryRef} className="flex justify-center p-4">
+                  {isRepliesFetching && <Spinner />}
+                </div>
+              )}
             </div>
           )}
         </div>

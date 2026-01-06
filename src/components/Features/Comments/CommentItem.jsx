@@ -23,10 +23,10 @@ function CommentItem({
   is_reposted_by_auth,
 }) {
   const { t } = useTranslation(["tooltip"]);
-
+  const { verified } = user;
   const navigate = useNavigate();
   const { user: userAuth } = useAuth();
-  const isAuth = userAuth.id === user_id;
+  const isAuth = userAuth?.id === user_id;
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const ReplyModalRef = useRef(null);
 
@@ -76,11 +76,13 @@ function CommentItem({
                     {user.username}
                   </div>
                 </UserHoverCard>
-                <Tooltip label={t("tooltip:verified")}>
-                  <span>
-                    <BadgeCheck className="mr-1 size-4 fill-blue-400 text-white" />
-                  </span>
-                </Tooltip>
+                {verified && (
+                  <Tooltip label={t("tooltip:verified")}>
+                    <span>
+                      <BadgeCheck className="mr-1 size-4 fill-blue-400 text-white" />
+                    </span>
+                  </Tooltip>
+                )}
                 <div className="text-muted-foreground text-sm">
                   <TimeTooltip dateString={updated_at} />
                 </div>

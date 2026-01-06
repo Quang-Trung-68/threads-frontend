@@ -41,14 +41,15 @@ function PostCard({
 }) {
   const { t } = useTranslation(["post", "common", "auth", "tooltip"]);
   const { user: userAuth } = useAuth();
-  const isAuth = userAuth.id === user_id;
+  const isAuth = userAuth?.id === user_id;
   const [isMuted, setIsMuted] = useState(false);
   const [isHidePost, setIsHidePost] = useState(false);
   const [isRestrictUser, setIsRestrictUser] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [unmuteApi, { isLoading: isUnmuteLoading }] = useUnmuteUserMutation();
-  const username = user.username;
+
+  const { username, verified } = user;
 
   const navigate = useNavigate();
   const handlePostDetail = () => {
@@ -302,11 +303,13 @@ function PostCard({
                       {user.username}
                     </div>
                   </UserHoverCard>
-                  <Tooltip label={t("tooltip:verified")}>
-                    <span>
-                      <BadgeCheck className="mr-1 size-4 fill-blue-400 text-white" />
-                    </span>
-                  </Tooltip>
+                  {verified && (
+                    <Tooltip label={t("tooltip:verified")}>
+                      <span>
+                        <BadgeCheck className="mr-1 size-4 fill-blue-400 text-white" />
+                      </span>
+                    </Tooltip>
+                  )}
                   <div className="text-muted-foreground text-sm">
                     <TimeTooltip dateString={updated_at} />
                   </div>
