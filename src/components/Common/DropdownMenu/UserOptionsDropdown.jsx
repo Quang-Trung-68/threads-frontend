@@ -88,11 +88,10 @@ const UserOptionsDropdown = ({ children }) => {
                 e.stopPropagation();
                 setTheme(value);
               }}
-              className={`flex h-full w-full flex-row items-center justify-center rounded-2xl px-2 py-3.5 transition-all ${
-                isActive
+              className={`flex h-full w-full flex-row items-center justify-center rounded-2xl px-2 py-3.5 transition-all ${isActive
                   ? "bg-muted text-foreground shadow-sm"
                   : "text-muted-foreground hover:bg-muted/40"
-              }`}
+                }`}
             >
               <Icon
                 className={`size-6 ${isActive ? "stroke-[2.5px]" : "stroke-2"}`}

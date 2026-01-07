@@ -1,12 +1,13 @@
 import { Menu } from "lucide-react";
-import { Button } from "@/components/Common/ui/button";
 import { useNavigate } from "react-router";
 import UserOptionsDropdown from "@/components/Common/DropdownMenu/UserOptionsDropdown";
 import { PATHS } from "@/configs/paths";
+import { Tooltip } from "@/components/Common/Tooltip";
+import { useTranslation } from "react-i18next";
 
 export default function Header() {
   const navigate = useNavigate();
-
+  const { t } = useTranslation("tooltip");
   const navigateToHome = () => {
     navigate(PATHS.HOME, { state: { refresh: true } });
   };
@@ -38,12 +39,13 @@ export default function Header() {
       {/* Right User Options */}
       <div className="flex flex-1 items-center justify-end">
         <UserOptionsDropdown>
-          <Button
-            variant={"ghost"}
-            className={"group size-10 cursor-pointer p-2"}
-          >
-            <Menu className="text-muted-foreground group-hover:text-foreground size-6 transition-colors" />
-          </Button>
+          <Tooltip label={t("tooltip:more")}>
+            <span
+              className={"group size-10 cursor-pointer p-2"}
+            >
+              <Menu className="text-muted-foreground group-hover:text-foreground size-6 transition-colors" />
+            </span>
+          </Tooltip>
         </UserOptionsDropdown>
       </div>
     </div>

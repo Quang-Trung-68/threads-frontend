@@ -64,7 +64,7 @@ function PostCard({
 
     if (!onNavigate)
       // Use relative path for overlay support (e.g. /@user/post/1 OR /following/@user/post/1)
-      navigate(`@${user.username}/post/${id}`, {
+      navigate(`/@${user.username}/post/${id}`, {
         state: {
           id,
         },
@@ -74,7 +74,7 @@ function PostCard({
 
   const handleUserProfile = () => {
     if (!onNavigate)
-      navigate(`@${user.username}`, {
+      navigate(`/@${user.username}`, {
         state: {
           userId: user_id,
         },
