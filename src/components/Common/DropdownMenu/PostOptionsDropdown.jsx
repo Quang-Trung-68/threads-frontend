@@ -32,6 +32,7 @@ import {
 } from "@/services/postService";
 import { BlockUserModal } from "@/components/post/BlockUserModal";
 import { ReportPostModal } from "@/components/post/ReportPostModal";
+import { UpdatePostModal } from "@/components/post/UpdatePostModal";
 import { notifySooner } from "@/utils/notifySooner";
 import useAuth from "@/hooks/useAuth";
 import { copyToClipboard } from "@/utils/copyToClipboard";
@@ -39,6 +40,10 @@ import { useTranslation } from "react-i18next";
 
 const PostOptionsDropdown = ({
   id,
+  user,
+  content,
+  reply_permission,
+  requires_reply_approval,
   userId,
   username,
   is_saved_by_auth,
@@ -53,8 +58,8 @@ const PostOptionsDropdown = ({
   const [isSaved, setIsSaved] = useState(is_saved_by_auth);
   const [isInterested, setIsInterested] = useState(false);
 
-  const { user } = useAuth();
-  const isAuth = userId === user?.id || false;
+  const { user: userAuth } = useAuth();
+  const isAuth = userId === userAuth?.id || false;
 
   const [saveApi, { isLoading: isSaveLoading }] = useSavePostMutation();
   const [muteApi, { isLoading: isMuteLoading }] = useMuteUserMutation();
@@ -164,12 +169,22 @@ const PostOptionsDropdown = ({
     });
   };
 
+  const handleOpenUpdatePost = () => {
+    UpdatePostModal.open({
+      id,
+      user,
+      content,
+      reply_permission,
+      requires_reply_approval,
+    });
+  };
+
   const handleCopyLink = () => {
     const postLink = `${location.origin}/@${username}/post/${id}`;
     copyToClipboard(postLink);
   };
 
-  if (!user)
+  if (!userAuth)
     return (
       <>
         <DropdownMenu modal={false}>
@@ -341,6 +356,7 @@ const PostOptionsDropdown = ({
           </DropdownMenuCheckboxItem>
           <DropdownMenuSeparator />
           <DropdownMenuCheckboxItem
+            onSelect={handleOpenUpdatePost}
             className={
               "flex w-55 items-center justify-between rounded-xl px-3 py-3.5 text-[15px] font-semibold"
             }

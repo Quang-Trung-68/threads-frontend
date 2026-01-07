@@ -14,6 +14,7 @@ import { notifySooner } from "@/utils/notifySooner";
 import { useTranslation } from "react-i18next";
 import useAuth from "@/hooks/useAuth";
 import { Tooltip } from "@/components/Common/Tooltip";
+import MotionButton from "@/components/Common/MotionButon";
 
 export default function UserSettings() {
   const { t } = useTranslation(["user", "common", "tooltip"]);
@@ -29,7 +30,7 @@ export default function UserSettings() {
     handleSubmit,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(userSettingsSchema),
     defaultValues: {
@@ -38,6 +39,7 @@ export default function UserSettings() {
       bio: user?.bio || "",
       is_private: user?.is_private || false,
     },
+    mode: "onChange",
   });
 
   const onSubmit = async (data) => {
@@ -50,17 +52,39 @@ export default function UserSettings() {
     formData.append("is_private", data.is_private);
 
     // Check if avatar is a File object (set manually in handleAvatarChange)
-    if (data.avatar instanceof File) {
-      formData.append("avatar", data.avatar);
-    } else if (data.avatar instanceof FileList && data.avatar.length > 0) {
-      formData.append("avatar", data.avatar[0]);
-    }
+    // if (data.avatar instanceof File) {
+    //   formData.append("avatar", data.avatar);
+    // } else if (data.avatar instanceof FileList && data.avatar.length > 0) {
+    //   formData.append("avatar", data.avatar[0]);
+    // }
 
-    notifySooner.promise(updateProfile(formData), {
-      loading: t("common:updatingProfile"),
-      success: t("common:profileUpdatedSuccess"),
-      error: t("common:profileUpdateError"),
-    });
+    try {
+      const response = await updateProfile(formData);
+
+      if (!response.error) {
+        notifySooner.success(t("common:profileUpdatedSuccess"));
+        return;
+      }
+
+      if (response.error.status === 422) {
+        const errors = response.error.data?.errors;
+
+        if (errors && typeof errors === "object") {
+          Object.values(errors)
+            .flat()
+            .forEach((message) => {
+              notifySooner.error(message);
+            });
+        } else {
+          notifySooner.error(t("common:profileUpdateError"));
+        }
+        return;
+      }
+      throw new Error(response.error.data?.message);
+    } catch (error) {
+      console.error(error);
+      notifySooner.error(t("common:profileUpdateError"));
+    }
   };
 
   const handleAvatarChange = (e) => {
@@ -79,18 +103,20 @@ export default function UserSettings() {
     <div className="mx-auto max-w-2xl px-4 py-8">
       {/* Header */}
       <div className="mb-8 flex items-center gap-4">
-        <Tooltip label={t("tooltip:back")}>
-          {window.history.length > 1 && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="rounded-full"
-            >
-              <ChevronLeft size={24} />
-            </Button>
-          )}
-        </Tooltip>
+        <MotionButton>
+          <Tooltip label={t("tooltip:back")}>
+            {window.history.length > 1 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate(-1)}
+                className="rounded-full"
+              >
+                <ChevronLeft size={24} />
+              </Button>
+            )}
+          </Tooltip>
+        </MotionButton>
         <h1 className="text-foreground text-2xl font-bold">
           {t("user:editProfile")}
         </h1>
@@ -167,6 +193,11 @@ export default function UserSettings() {
               placeholder={t("user:tellUsAboutYourself")}
               className="border-border bg-muted/30 focus:bg-background min-h-[120px] rounded-xl border"
             />
+            {errors.bio && (
+              <p className="text-destructive text-xs font-medium">
+                {errors.bio.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -193,7 +224,7 @@ export default function UserSettings() {
           type="submit"
           size="lg"
           className="w-full cursor-pointer rounded-xl py-6 text-base font-bold transition-all active:scale-[0.98]"
-          disabled={isUpdateProfileLoading}
+          disabled={!isValid || isUpdateProfileLoading}
         >
           {t("common:done")}
         </Button>

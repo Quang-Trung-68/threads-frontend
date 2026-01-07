@@ -20,6 +20,7 @@ import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { useLocation, useNavigate } from "react-router";
 import { Tooltip } from "@/components/Common/Tooltip";
+import MotionButton from "@/components/Common/MotionButon";
 
 export default function Following({
   type,
@@ -121,17 +122,19 @@ export default function Following({
                 onRemoveColumn={onRemoveColumn}
                 canRemove={canRemove}
               >
-                <Tooltip label={t("tooltip:more")}>
-                  <div
-                    className="flex w-10 justify-center"
-                    onPointerDown={(e) => e.stopPropagation()}
-                  >
-                    <CircleEllipsis
-                      className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
-                      strokeWidth={1.1}
-                    />
-                  </div>
-                </Tooltip>
+                <MotionButton>
+                  <Tooltip label={t("tooltip:more")}>
+                    <div
+                      className="flex w-10 justify-center"
+                      onPointerDown={(e) => e.stopPropagation()}
+                    >
+                      <CircleEllipsis
+                        className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                        strokeWidth={1.1}
+                      />
+                    </div>
+                  </Tooltip>
+                </MotionButton>
               </MoreAtFeedHeader>
             </div>
           )}

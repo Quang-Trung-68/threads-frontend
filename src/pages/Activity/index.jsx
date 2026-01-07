@@ -1,4 +1,5 @@
 import MoreAtFeedHeader from "@/components/Common/DropdownMenu/MoreAtFeedHeader";
+import MotionButton from "@/components/Common/MotionButon";
 import { Tooltip } from "@/components/Common/Tooltip";
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { Button } from "@/components/Common/ui/button";
@@ -96,17 +97,19 @@ export default React.memo(function Activity({
               canRemove={canRemove}
               onRemoveColumn={onRemoveColumn}
             >
-              <Tooltip label={t("tooltip:more")}>
-                <div
-                  className="flex w-10 justify-center"
-                  onPointerDown={(e) => e.stopPropagation()}
-                >
-                  <CircleEllipsis
-                    className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
-                    strokeWidth={1.1}
-                  />
-                </div>
-              </Tooltip>
+              <MotionButton>
+                <Tooltip label={t("tooltip:more")}>
+                  <div
+                    className="flex w-10 justify-center"
+                    onPointerDown={(e) => e.stopPropagation()}
+                  >
+                    <CircleEllipsis
+                      className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                      strokeWidth={1.1}
+                    />
+                  </div>
+                </Tooltip>
+              </MotionButton>
             </MoreAtFeedHeader>
           </div>
 

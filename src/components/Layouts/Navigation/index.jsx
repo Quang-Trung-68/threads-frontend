@@ -10,6 +10,7 @@ import UserOptionsDropdown from "@/components/Common/DropdownMenu/UserOptionsDro
 import { PATHS } from "@/configs/paths";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@/components/Common/Tooltip";
+import MotionButton from "@/components/Common/MotionButon";
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -122,14 +123,16 @@ export default function Navigation() {
             <Pin className="text-muted-foreground/60 group-[:hover]:text-foreground size-6" />
           </Button>
           <UserOptionsDropdown>
-            <Tooltip label={t("tooltip:more")}>
-              <Button
-                variant={"ghost"}
-                className={"group mb-2 size-15 cursor-pointer"}
-              >
-                <Menu className="text-muted-foreground/60 group-[:hover]:text-foreground size-6" />
-              </Button>
-            </Tooltip>
+            <MotionButton>
+              <Tooltip label={t("tooltip:more")}>
+                <Button
+                  variant={"ghost"}
+                  className={"group mb-2 size-15 cursor-pointer"}
+                >
+                  <Menu className="text-muted-foreground/60 group-[:hover]:text-foreground size-6" />
+                </Button>
+              </Tooltip>
+            </MotionButton>
           </UserOptionsDropdown>
         </div>
       </nav>

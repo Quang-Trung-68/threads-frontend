@@ -23,6 +23,7 @@ import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { PATHS } from "@/configs/paths";
 import { Tooltip } from "@/components/Common/Tooltip";
+import MotionButton from "@/components/Common/MotionButon";
 
 export default function UserProfile({
   dragHandleProps,
@@ -128,20 +129,22 @@ export default function UserProfile({
           >
             {/* 1. Header Title Bar */}
             <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
-              <Tooltip label={t("tooltip:back")}>
-                <div className="flex w-10 justify-center transition ease-in">
-                  {window.history.length > 1 && (
-                    <CircleArrowLeft
-                      className="cursor-pointer hover:scale-110"
-                      onPointerDown={(e) => e.stopPropagation()}
-                      onClick={() =>
-                        state?.isDeck ? onNavigate("Home") : navigate(-1)
-                      }
-                      strokeWidth={1}
-                    />
-                  )}
-                </div>
-              </Tooltip>
+              <MotionButton>
+                <Tooltip label={t("tooltip:back")}>
+                  <div className="flex w-10 justify-center">
+                    {window.history.length > 1 && (
+                      <CircleArrowLeft
+                        className="cursor-pointer hover:scale-110"
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={() =>
+                          state?.isDeck ? onNavigate("Home") : navigate(-1)
+                        }
+                        strokeWidth={1}
+                      />
+                    )}
+                  </div>
+                </Tooltip>
+              </MotionButton>
               <span className="text-foreground flex items-center justify-center px-4 py-3 text-[15px] font-bold">
                 {t("common:profile")}
               </span>
@@ -150,17 +153,19 @@ export default function UserProfile({
                 canRemove={canRemove}
                 onRemoveColumn={onRemoveColumn}
               >
-                <Tooltip label={t("tooltip:more")}>
-                  <div
-                    className="flex w-10 justify-center"
-                    onPointerDown={(e) => e.stopPropagation()}
-                  >
-                    <CircleEllipsis
-                      className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
-                      strokeWidth={1.1}
-                    />
-                  </div>
-                </Tooltip>
+                <MotionButton>
+                  <Tooltip label={t("tooltip:more")}>
+                    <div
+                      className="flex w-10 justify-center"
+                      onPointerDown={(e) => e.stopPropagation()}
+                    >
+                      <CircleEllipsis
+                        className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                        strokeWidth={1.1}
+                      />
+                    </div>
+                  </Tooltip>
+                </MotionButton>
               </MoreAtFeedHeader>
             </div>
 

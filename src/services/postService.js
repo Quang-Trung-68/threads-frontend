@@ -55,6 +55,16 @@ export const postApi = createApi({
         data,
       }),
     }),
+    updatePost: builder.mutation({
+      query: ({ postId, body }) => ({
+        url: `/api/posts/${postId}`,
+        method: "POST",
+        data: {
+          _method: "PUT",
+          ...body,
+        },
+      }),
+    }),
     deletePost: builder.mutation({
       query: ({ id }) => ({
         url: `/api/posts/${id}`,
@@ -140,6 +150,13 @@ export const postApi = createApi({
       }),
       invalidatesTags: ["Replies"],
     }),
+    quotePost: builder.mutation({
+      query: ({ postId, data }) => ({
+        url: `/api/posts/${postId}/quote`,
+        method: "POST",
+        data,
+      }),
+    }),
     getReplies: builder.query({
       query: ({ postId, ...params }) => ({
         url: `/api/posts/${postId}/replies`,
@@ -201,6 +218,7 @@ export const {
   useGetSinglePostQuery,
   useLikePostMutation,
   useCreatePostMutation,
+  useUpdatePostMutation,
   useDeletePostMutation,
   useRepostMutation,
   useSavePostMutation,
@@ -212,6 +230,7 @@ export const {
   useUnblockUserMutation,
   useReportPostMutation,
   useCreateReplyMutation,
+  useQuotePostMutation,
   useGetRepliesQuery,
   useGetPendingRepliesQuery,
   useApproveReplyMutation,

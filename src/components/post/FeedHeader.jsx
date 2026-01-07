@@ -16,6 +16,7 @@ import {
 } from "../Common/ui/dropdown-menu";
 import { CreatePostModal } from "./CreatePostModal";
 import { Tooltip } from "../Common/Tooltip";
+import MotionButton from "../Common/MotionButon";
 
 export default function FeedHeader({
   idColumn,
@@ -180,14 +181,16 @@ export default function FeedHeader({
         canRemove={canRemove}
         idColumn={idColumn}
       >
-        <Tooltip label={t("tooltip:more")}>
-          <div className="hidden w-10 justify-center md:flex">
-            <CircleEllipsis
-              className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
-              strokeWidth={1.1}
-            />
-          </div>
-        </Tooltip>
+        <MotionButton>
+          <Tooltip label={t("tooltip:more")}>
+            <div className="hidden w-10 justify-center md:flex">
+              <CircleEllipsis
+                className="cursor-pointer shadow-2xl shadow-gray-400 hover:scale-110"
+                strokeWidth={1.1}
+              />
+            </div>
+          </Tooltip>
+        </MotionButton>
       </MoreAtFeedHeader>
     </div>
   );

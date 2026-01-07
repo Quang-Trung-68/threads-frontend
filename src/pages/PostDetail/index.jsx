@@ -1,5 +1,5 @@
 import CommentItem from "@/components/Features/Comments/CommentItem";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PostCard from "@/components/post/PostCard";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import {
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useTitle } from "react-use";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { Tooltip } from "@/components/Common/Tooltip";
+import MotionButton from "@/components/Common/MotionButon";
 
 export default function PostDetail({ onNavigate, state }) {
   const { t } = useTranslation(["user", "tooltip"]);
@@ -70,20 +71,22 @@ export default function PostDetail({ onNavigate, state }) {
         <div className="bg-background sticky top-0 z-50">
           {/* Header Title Bar */}
           <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
-            <Tooltip label={t("tooltip:back")}>
-              <div className="flex w-10 justify-center transition ease-in">
-                {window.history.length > 1 && (
-                  <CircleArrowLeft
-                    className="cursor-pointer hover:scale-110"
-                    onClick={() =>
-                      state?.isDeck ? onNavigate("Home") : navigate(-1)
-                    }
-                    strokeWidth={1}
-                  />
-                )}
-              </div>
-            </Tooltip>
-            <span className="text-foreground text-[15px] font-bold">
+            <MotionButton>
+              <Tooltip label={t("tooltip:back")}>
+                <div className="flex w-10 justify-center">
+                  {window.history.length > 1 && (
+                    <CircleArrowLeft
+                      className="cursor-pointer hover:scale-110"
+                      onClick={() =>
+                        state?.isDeck ? onNavigate("Home") : navigate(-1)
+                      }
+                      strokeWidth={1}
+                    />
+                  )}
+                </div>
+              </Tooltip>
+            </MotionButton>
+            <span className="text-foreground px-4 py-3 text-[15px] font-bold">
               {t("user:threads")}
             </span>
             <div className="w-10 px-4 py-3"></div>

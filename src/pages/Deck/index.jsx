@@ -34,8 +34,6 @@ import { Grid2X2Plus } from "lucide-react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
-// --- IMPORT CÁC PAGE CỦA BẠN ---
-// TODO: Thay đổi đường dẫn import cho phù hợp với cấu trúc project của bạn
 import Home from "@pages/Home";
 import PostDetail from "@pages/PostDetail";
 import UserProfile from "@pages/UserProfile";
@@ -46,95 +44,6 @@ import GhostPosts from "@/pages/GhostPosts";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { Tooltip } from "@/components/Common/Tooltip";
-// ... các page khác
-
-// --- PLACEHOLDER COMPONENTS (XÓA KHI ĐÃ IMPORT ĐÚNG) ---
-// const Posts = ({ onNavigate, state }) => (
-//   <div>
-//     <h3 className="mb-4 text-lg font-bold">📝 Posts</h3>
-//     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((id) => (
-//       <div
-//         key={id}
-//         className="mb-3 cursor-pointer rounded border p-3 hover:bg-gray-50"
-//         onClick={() => onNavigate("PostDetail", { postId: id })}
-//       >
-//         <h4 className="font-semibold">Post Title {id}</h4>
-//         <p className="text-sm text-gray-600">Click to view detail...</p>
-//       </div>
-//     ))}
-//   </div>
-// );
-
-// const PostDetail = ({ onNavigate, state }) => (
-//   <div>
-//     <button
-//       onClick={() => onNavigate("Posts")}
-//       className="mb-4 text-sm text-blue-600 hover:underline"
-//     >
-//       ← Back to Posts
-//     </button>
-//     <h3 className="mb-4 text-lg font-bold">📄 Post Detail #{state?.postId}</h3>
-//     <div className="mb-4 rounded border p-3">
-//       <p className="mb-2">Post content here...</p>
-//       <p className="text-sm text-gray-600">Author: John Doe</p>
-//     </div>
-//     <button
-//       onClick={() =>
-//         onNavigate("UserProfile", { userId: 123, userName: "John Doe" })
-//       }
-//       className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-//     >
-//       View Author Profile
-//     </button>
-//   </div>
-// );
-
-// const UserProfile = ({ onNavigate, state }) => (
-//   <div>
-//     <h3 className="mb-4 text-lg font-bold">👤 User Profile</h3>
-//     {state && (
-//       <div className="mb-4 rounded border border-blue-200 bg-blue-50 p-3">
-//         <p className="font-semibold">User ID: {state.userId}</p>
-//         <p className="font-semibold">Name: {state.userName}</p>
-//       </div>
-//     )}
-//     <div className="space-y-2">
-//       <p>
-//         Email: {state?.userName?.toLowerCase().replace(" ", ".")}@example.com
-//       </p>
-//       <p>Bio: Software developer and content creator</p>
-//     </div>
-//     <button
-//       onClick={() => onNavigate("Posts")}
-//       className="mt-4 rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
-//     >
-//       View Posts
-//     </button>
-//   </div>
-// );
-
-// const Search = ({ onNavigate, state }) => (
-//   <div>
-//     <h3 className="mb-4 text-lg font-bold">🔍 Search</h3>
-//     <input
-//       type="text"
-//       placeholder="Search..."
-//       className="mb-4 w-full rounded border px-3 py-2"
-//     />
-//     <div className="space-y-2">
-//       {[1, 2, 3].map((id) => (
-//         <div
-//           key={id}
-//           className="cursor-pointer rounded border p-2 hover:bg-gray-50"
-//           onClick={() => onNavigate("PostDetail", { postId: id + 100 })}
-//         >
-//           Search Result {id}
-//         </div>
-//       ))}
-//     </div>
-//   </div>
-// );
-// --- END PLACEHOLDER COMPONENTS ---
 
 // --- 1. CONFIG & UTILS ---
 // Định nghĩa các loại column và component khởi tạo của chúng
@@ -317,20 +226,22 @@ const SortableColumn = React.memo(
 
 // --- 4. COMPONENT NÚT THÊM (+) & MENU ---
 const AddColumnButton = ({ onAdd }) => {
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(["common", "tooltip"]);
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <span className="size-4">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8 cursor-pointer rounded-full border-2 border-gray-300 text-gray-300 hover:border-black hover:text-black"
-          >
-            <Grid2X2Plus className="size-4" />
-          </Button>
-        </span>
+        <Tooltip label={t("tooltip:addColumn")}>
+          <span className="size-4">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 cursor-pointer rounded-full border-2 border-gray-300 text-gray-300 hover:border-black hover:text-black"
+            >
+              <Grid2X2Plus className="size-4" />
+            </Button>
+          </span>
+        </Tooltip>
       </DropdownMenuTrigger>
       <DropdownMenuContent className={"w-fit rounded-3xl border-2 p-2"}>
         <DropdownMenuGroup>
@@ -403,8 +314,6 @@ const AddColumnButton = ({ onAdd }) => {
 
 // --- 5. COMPONENT CHÍNH (APP) ---
 export default function Deck() {
-  const { t } = useTranslation(["tooltip"]);
-
   const location = useLocation();
   const pageType = location?.state?.pageType ?? "activity";
 
@@ -598,11 +507,9 @@ export default function Deck() {
               </DragOverlay>
             </DndContext>
 
-            <Tooltip label={t("tooltip:addColumn")}>
-              <div className="ml-1.5">
-                <AddColumnButton onAdd={handleAddColumn} />
-              </div>
-            </Tooltip>
+            <div className="ml-1.5">
+              <AddColumnButton onAdd={handleAddColumn} />
+            </div>
           </div>
         </SimpleBar>
       </div>

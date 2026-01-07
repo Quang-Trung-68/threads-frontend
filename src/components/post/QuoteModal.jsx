@@ -26,17 +26,18 @@ import { useTranslation } from "react-i18next";
 import { useAutoResizeTextarea } from "@/hooks/useAutoResizeTextarea";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import { useTheme } from "next-themes";
+import { useQuotePostMutation } from "@/services/postService";
+import { notifySooner } from "@/utils/notifySooner";
+import { useNavigate } from "react-router";
 
-const Modal = NiceModal.create(({ user, content, updated_at }) => {
+const Modal = NiceModal.create(({ user, content, id: postId, updated_at }) => {
   const { t } = useTranslation(["common", "post"]);
+  const [quotePostApi, { isLoading: isQuotePostLoading }] =
+    useQuotePostMutation();
   const modal = useModal();
   const { resolvedTheme } = useTheme();
 
   const handleCancel = () => {
-    modal.hide();
-  };
-
-  const handlePost = () => {
     modal.hide();
   };
 
@@ -45,12 +46,56 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
   const avatarUrlAuth = userInfo.avatar_url;
   const { username } = user;
 
-  const [replyQuote, setReplyQuote] = useState("anyone");
+  const [replyQuote, setReplyQuote] = useState("everyone");
   const [reviewApprove, setReviewApprove] = useState(false);
   const [textQuote, setTextQuote] = useState("");
 
   const textareaContentRef = useRef(null);
   useAutoResizeTextarea(textareaContentRef, content);
+
+  const navigate = useNavigate();
+  const handlePostDetail = (user, id) => {
+    navigate(`/@${user.username}/post/${id}`, {
+      state: {
+        id,
+      },
+    });
+  };
+
+  const handlePost = async () => {
+    if (content.trim() && content.length <= 500) {
+      try {
+        const createPromise = quotePostApi({
+          postId,
+          data: {
+            content: textQuote,
+            reply_permission: replyQuote,
+            requires_reply_approval: reviewApprove,
+          },
+        }).unwrap();
+
+        const quotePostResponse = await createPromise;
+        const { data } = quotePostResponse;
+        const { id, user } = data;
+
+        notifySooner.promise(createPromise, {
+          loading: t("common:loading"),
+          error: t("common:error"),
+          success: () => ({
+            message: t("post:postCreated"),
+            action: {
+              label: t("post:view"),
+              onClick: () => handlePostDetail(user, id),
+            },
+          }),
+        });
+        setTextQuote("");
+        modal.hide();
+      } catch (error) {
+        console.error("Quote post failed:", error);
+      }
+    }
+  };
 
   // Select emoji
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -266,7 +311,11 @@ const Modal = NiceModal.create(({ user, content, updated_at }) => {
           <Button
             className="cursor-pointer rounded-full bg-black px-6 py-2 text-sm font-semibold text-white hover:bg-gray-800"
             onClick={handlePost}
-            // disabled={isCreateQuoteLoading || textQuote.trim() === "" || textQuote.length > 500}
+            disabled={
+              isQuotePostLoading ||
+              textQuote.trim() === "" ||
+              textQuote.length > 500
+            }
           >
             {t("common:post")}
           </Button>

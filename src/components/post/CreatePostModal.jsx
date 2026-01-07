@@ -49,6 +49,7 @@ const Modal = NiceModal.create(({ username: propUsername, onSuccess }) => {
   const [reviewApprove, setReviewApprove] = useState(false);
 
   const navigate = useNavigate();
+
   const handlePostDetail = (user, id) => {
     navigate(`/@${user.username}/post/${id}`, {
       state: {
