@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import useAuth from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@/components/Common/Tooltip";
+import { useAutoResizeTextarea } from "@/hooks/useAutoResizeTextarea";
 
 function CommentItem({
   user,
@@ -41,6 +42,9 @@ function CommentItem({
       },
     });
   };
+
+  const textareaRef = useRef(null);
+  useAutoResizeTextarea(textareaRef, content);
 
   return (
     <div className="flex flex-col p-3 md:p-6">
@@ -87,7 +91,14 @@ function CommentItem({
                   <TimeTooltip dateString={updated_at} />
                 </div>
               </div>
-              {content && <div className="body mt-1">{content}</div>}
+              {content && (
+                <textarea
+                  ref={textareaRef}
+                  readOnly
+                  value={content}
+                  className="w-full resize-none overflow-hidden border-0 focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                ></textarea>
+              )}
             </div>
             <div>
               <MoreIcon className="size-5 text-gray-500" />
