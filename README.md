@@ -11,12 +11,10 @@ This project is a mid-level clone of the popular social media application **Thre
 
 ## 📸 2. Demo / Preview
 
-- **Demo Link:** [threads-ui-eta.vercel.app](https://threads-ui-eta.vercel.app)
+- **Demo Link:** [threads-frontend-eight.vercel.app](https://threads-frontend-eight.vercel.app/)
 - **Test Account:**
   - Email: `trungdang.dqt@gmail.com`
   - Password: `12345678`
-
-![App Screenshot](https://via.placeholder.com/800x400?text=App+Screenshot+Placeholder)
 
 ## ✨ 3. Features
 
@@ -73,8 +71,8 @@ src/
 1.  **Clone the repository**
 
     ```bash
-    git clone https://github.com/Quang-Trung-68/threads-ui.git
-    cd threads-ui
+    git clone https://github.com/Quang-Trung-68/threads-frontend.git
+    cd threads-frontend
     ```
 
 2.  **Install dependencies**
