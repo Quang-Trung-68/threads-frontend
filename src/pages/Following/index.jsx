@@ -91,6 +91,32 @@ export default function Following({
     rootMargin: "0px 0px 800px 0px",
   });
 
+  // Scroll position to manage header styles
+  const [isAtTop, setIsAtTop] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsAtTop(window.scrollY === 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleRefreshPosts = async () => {
+    if (!isAtTop) {
+      // Click lần 1 → kéo về top
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+    // Click lần 2 (đã ở top)
+    // Goi api
+    setPage(1);
+    refetch();
+  };
+
   return (
     <div className="bg-background relative flex min-h-screen w-full flex-col">
       <div className="flex w-full flex-col">
@@ -108,6 +134,7 @@ export default function Following({
               canRemove={canRemove}
               onRemoveColumn={onRemoveColumn}
               onNavigate={onNavigate}
+              handleRefreshPosts={handleRefreshPosts}
             />
           ) : (
             <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
@@ -173,7 +200,7 @@ export default function Following({
 
           {/* Avatar + post button if logged in */}
           {user && (
-            <div className="bg-background flex items-center justify-between border-2 p-5">
+            <div className="bg-background flex items-center justify-between border p-5">
               <div className="flex flex-1 items-center gap-2">
                 <div>
                   <UserAvatar user={user} className={"size-9"} />
@@ -196,6 +223,16 @@ export default function Following({
                   {t("common:post")}
                 </Button>
               </div>
+            </div>
+          )}
+
+          {isFetching && (
+            <div className="flex flex-col items-center justify-center gap-4">
+              {/* Separator */}
+              <div className="bg-border h-px w-full" />
+              <Spinner />
+              {/* Separator */}
+              <div className="bg-border h-px w-full" />
             </div>
           )}
 

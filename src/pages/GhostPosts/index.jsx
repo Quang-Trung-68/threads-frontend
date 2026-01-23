@@ -81,6 +81,32 @@ export default function GhostPosts({
     rootMargin: "0px 0px 800px 0px",
   });
 
+  // Scroll position to manage header styles
+  const [isAtTop, setIsAtTop] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsAtTop(window.scrollY === 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleRefreshPosts = async () => {
+    if (!isAtTop) {
+      // Click lần 1 → kéo về top
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      return;
+    }
+    // Click lần 2 (đã ở top)
+    // Goi api
+    setPage(1);
+    refetch();
+  };
+
   return (
     <div className="bg-background relative flex min-h-screen w-full flex-col">
       <div className="flex w-full flex-col">
@@ -98,6 +124,7 @@ export default function GhostPosts({
               canRemove={canRemove}
               onRemoveColumn={onRemoveColumn}
               onNavigate={onNavigate}
+              handleRefreshPosts={handleRefreshPosts}
             />
           ) : (
             <div className="flex items-center justify-between px-2 py-2 text-lg font-bold">
@@ -156,6 +183,16 @@ export default function GhostPosts({
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}
           <div className="bg-border absolute top-0 right-0 bottom-0 z-10 w-px" />
+
+          {isFetching && (
+            <div className="flex flex-col items-center justify-center gap-4">
+              {/* Separator */}
+              <div className="bg-border h-px w-full" />
+              <Spinner />
+              {/* Separator */}
+              <div className="bg-border h-px w-full" />
+            </div>
+          )}
 
           <div className="relative flex flex-col">
             {isLoading && posts.length === 0 ? (

@@ -20,11 +20,10 @@ import MotionButton from "../Common/MotionButon";
 
 export default function FeedHeader({
   idColumn,
-  type,
   onNavigate,
   onRemoveColumn,
   canRemove,
-  state,
+  handleRefreshPosts,
 }) {
   const { t } = useTranslation(["feed", "common", "tooltip"]);
 
@@ -41,7 +40,10 @@ export default function FeedHeader({
             <NavLink
               to={PATHS.HOME}
               className={({ isActive }) => "flex-1 md:flex-none"}
-              onPointerDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                handleRefreshPosts();
+              }}
             >
               {({ isActive }) => (
                 <Button
@@ -59,7 +61,10 @@ export default function FeedHeader({
             <NavLink
               to={PATHS.FOLLOWING}
               className={({ isActive }) => "flex-1 md:flex-none"}
-              onPointerDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                handleRefreshPosts();
+              }}
             >
               {({ isActive }) => (
                 <Button
@@ -77,7 +82,10 @@ export default function FeedHeader({
             <NavLink
               to={PATHS.GHOST_POSTS}
               className={({ isActive }) => "hidden md:block"}
-              onPointerDown={(e) => e.stopPropagation()}
+              onPointerDown={(e) => {
+                e.stopPropagation();
+                handleRefreshPosts();
+              }}
             >
               {({ isActive }) => (
                 <Button

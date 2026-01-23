@@ -14,6 +14,12 @@ function App() {
         richColors
         position="bottom-center"
         toastOptions={{
+          style: {
+            width: "fit-content",
+            maxWidth: "448px",
+            marginLeft: "50%",
+            transform: "translateX(-50%)",
+          },
           classNames: {
             title: "text-[15px] font-medium",
             description: "text-lg text-muted-foreground",
@@ -29,8 +35,11 @@ function App() {
           // If layout has a basePath, use it as the parent path
           if (basePath) {
             return (
-              <Route key={index} path={basePath} element={<Layout {...layoutProps} />}>
-
+              <Route
+                key={index}
+                path={basePath}
+                element={<Layout {...layoutProps} />}
+              >
                 {router.children.map((child, childIndex) => {
                   const Element = child.element;
                   const isPrivate = child.private;
@@ -38,7 +47,7 @@ function App() {
                   if (!Element) return null;
 
                   // Use relative path (remove leading /)
-                  const relativePath = child.path.startsWith('/')
+                  const relativePath = child.path.startsWith("/")
                     ? child.path.substring(1)
                     : child.path;
 

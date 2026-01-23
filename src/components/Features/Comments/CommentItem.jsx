@@ -10,6 +10,7 @@ import useAuth from "@/hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "@/components/Common/Tooltip";
 import { useAutoResizeTextarea } from "@/hooks/useAutoResizeTextarea";
+import ContentDisplay from "@/components/post/ContentDisplay";
 
 function CommentItem({
   user,
@@ -70,7 +71,7 @@ function CommentItem({
 
         <div className="flex flex-1 flex-col gap-2">
           <div className="content flex justify-between">
-            <div className="flex-1">
+            <div className="flex flex-1 flex-col gap-1">
               <div className="username flex items-center gap-1">
                 <UserHoverCard {...user}>
                   <div
@@ -91,14 +92,7 @@ function CommentItem({
                   <TimeTooltip dateString={updated_at} />
                 </div>
               </div>
-              {content && (
-                <textarea
-                  ref={textareaRef}
-                  readOnly
-                  value={content}
-                  className="w-full resize-none overflow-hidden border-0 focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                ></textarea>
-              )}
+              <div>{content && <ContentDisplay content={content} />}</div>
             </div>
             <div>
               <MoreIcon className="size-5 text-gray-500" />

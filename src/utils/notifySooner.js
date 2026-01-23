@@ -2,7 +2,7 @@ import { toast } from "sonner";
 
 export const notifySooner = {
   success(message, options = {}) {
-    toast.success(message, {
+    toast(message, {
       duration: 2500,
       ...options,
     });
