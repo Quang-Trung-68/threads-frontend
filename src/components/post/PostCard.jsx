@@ -138,7 +138,7 @@ function PostCard({
 
   if (!userAuth)
     return (
-      <div className="border-border flex flex-col p-3 md:p-6">
+      <div className="bg-[var(--home-content)] border-border flex flex-col p-3 md:p-6">
         <div>
           <div className="flex gap-4">
             <div className="flex flex-col items-center gap-2">
@@ -273,7 +273,7 @@ function PostCard({
     );
   } else if (userAuth && !is_quote)
     return (
-      <div className="border-border flex flex-col p-3 md:p-6">
+      <div className="bg-[var(--home-content)] border-border flex flex-col p-3 md:p-6">
         <div>
           <div className="flex gap-4">
             <div className="flex flex-col items-center gap-2">
@@ -382,7 +382,7 @@ function PostCard({
     );
   else if (userAuth && is_quote) {
     return (
-      <div className="border-border flex flex-col p-3 md:p-6">
+      <div className="bg-[var(--home-content)] border-border flex flex-col p-3 md:p-6">
         <div>
           <div className="flex gap-4">
             <div className="flex flex-col items-center gap-2">

@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import ContentDisplay from "./ContentDisplay";
 import {
   Dialog,
   DialogContent,
@@ -119,8 +120,7 @@ const Modal = NiceModal.create(({ id, user, content, updated_at }) => {
     };
   }, [openEmoji]);
 
-  const textareaContentRef = useRef(null);
-  useAutoResizeTextarea(textareaContentRef, content, modal.visible);
+
 
   return (
     <Dialog open={modal.visible} onOpenChange={handleCancel}>
@@ -188,12 +188,7 @@ const Modal = NiceModal.create(({ id, user, content, updated_at }) => {
 
               {/* Original Post Content */}
               <div className="mb-3">
-                <textarea
-                  ref={textareaContentRef}
-                  readOnly
-                  value={content}
-                  className="min-h-30 w-full resize-none border-0 bg-transparent p-0 outline-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                ></textarea>
+                <ContentDisplay content={content} className="bg-transparent" />
               </div>
 
               {/* Reply Section */}

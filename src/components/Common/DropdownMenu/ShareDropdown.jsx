@@ -9,6 +9,7 @@ import {
 import { copyToClipboard } from "@/utils/copyToClipboard";
 import { CopyAsImageModal } from "@/components/post/CopyAsImageModal";
 import { EmbedModal } from "@/components/post/EmbedModal";
+import { useTranslation } from "react-i18next";
 
 const ShareDropdown = ({
   id,
@@ -21,6 +22,8 @@ const ShareDropdown = ({
   onOpenChange,
   children,
 }) => {
+  const { t } = useTranslation(["post", "common"]);
+
   const handleCopyLink = () => {
     const postLink = `${location.origin}/@${user.username}/post/${id}`;
     copyToClipboard(postLink);
@@ -62,7 +65,7 @@ const ShareDropdown = ({
               showIcon={false}
               onClick={() => handleCopyLink()}
             >
-              <span>Copy link</span>
+              <span>{t("post:copyLink")}</span>
               <span>
                 <LinkIcon className="size-5" />
               </span>
@@ -74,7 +77,7 @@ const ShareDropdown = ({
               showIcon={false}
               onClick={() => handleCopyAsImageModal()}
             >
-              <span>Copy as image</span>
+              <span>{t("post:copyAsImage")}</span>
               <span>
                 <Images className="size-5" />
               </span>
@@ -86,7 +89,7 @@ const ShareDropdown = ({
               showIcon={false}
               onClick={handleEmbedModal}
             >
-              <span>Get embed code</span>
+              <span>{t("post:embed")}</span>
               <span>
                 <FileCodeIcon className="size-5" />
               </span>

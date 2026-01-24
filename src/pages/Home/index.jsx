@@ -196,7 +196,7 @@ export default React.memo(function Home({
         </div>
 
         {/* Main Content - Flows naturally with window scroll */}
-        <div className="bg-background relative z-0 flex min-h-screen w-full flex-col">
+        <div className="bg-[var(--home-content)] relative z-0 flex min-h-screen w-full flex-col">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}
@@ -204,7 +204,7 @@ export default React.memo(function Home({
 
           {/* Avatar + post button if logged in */}
           {user && (
-            <div className="bg-background flex items-center justify-between border p-5">
+            <div className="bg-[var(--home-content)] flex items-center justify-between border p-5">
               <div className="flex flex-1 items-center gap-2">
                 <div>
                   <UserAvatar user={user} className={"size-9"} />

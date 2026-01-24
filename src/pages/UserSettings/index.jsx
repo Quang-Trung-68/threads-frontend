@@ -100,9 +100,10 @@ export default function UserSettings() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-8">
-      {/* Header */}
-      <div className="mb-8 flex items-center gap-4">
+    <div className="bg-[var(--home-content)] min-h-screen w-full">
+      <div className="mx-auto max-w-2xl px-4 py-8">
+        {/* Header */}
+        <div className="mb-8 flex items-center gap-4">
         <MotionButton>
           <Tooltip label={t("tooltip:back")}>
             {window.history.length > 1 && (
@@ -229,6 +230,7 @@ export default function UserSettings() {
           {t("common:done")}
         </Button>
       </form>
+      </div>
     </div>
   );
 }

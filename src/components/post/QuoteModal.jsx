@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import ContentDisplay from "./ContentDisplay";
 import {
   Dialog,
   DialogContent,
@@ -50,8 +51,7 @@ const Modal = NiceModal.create(({ user, content, id: postId, updated_at }) => {
   const [reviewApprove, setReviewApprove] = useState(false);
   const [textQuote, setTextQuote] = useState("");
 
-  const textareaContentRef = useRef(null);
-  useAutoResizeTextarea(textareaContentRef, content);
+
 
   const navigate = useNavigate();
   const handlePostDetail = (user, id) => {
@@ -164,7 +164,7 @@ const Modal = NiceModal.create(({ user, content, id: postId, updated_at }) => {
         </DialogHeader>
 
         {/* --- Body (Scrollable) --- */}
-        <ScrollArea className="flex-1">
+        <ScrollArea className="flex-1" style={{ overflowY: "auto" }}>
           <div className="flex gap-3 px-4 py-4">
             {/* Cột trái: Avatar + Đường kẻ nối */}
             <div className="flex shrink-0 flex-col items-center">
@@ -263,12 +263,7 @@ const Modal = NiceModal.create(({ user, content, id: postId, updated_at }) => {
 
                 {/* Quoted Text */}
                 <div className="text-sm leading-relaxed">
-                  <textarea
-                    ref={textareaContentRef}
-                    readOnly
-                    value={content}
-                    className="text-foreground min-h-28 w-full resize-none border-0 bg-transparent p-0 outline-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  ></textarea>
+                  <ContentDisplay content={content} className="bg-transparent" />
                 </div>
               </div>
               {/* End Quoted Post */}

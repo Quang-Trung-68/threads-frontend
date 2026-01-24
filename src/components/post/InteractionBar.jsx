@@ -333,9 +333,9 @@ const InteractionBar = ({
                 }
               >
                 {interactionsCount.is_reposted_by_auth ? (
-                  <span className="text-red-500">Remove</span>
+                  <span className="text-red-500">{t("common:remove")}</span>
                 ) : (
-                  <span>Reposts</span>
+                  <span>{t("common:repost")}</span>
                 )}
                 <span
                   className={`${interactionsCount.is_reposted_by_auth ? "text-red-500" : ""}`}
@@ -349,7 +349,7 @@ const InteractionBar = ({
                 }
                 onClick={handleQuote}
               >
-                <span>Quote</span>
+                <span>{t("common:quote")}</span>
                 <QuoteIcon className="size-4.5 font-normal" />
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>

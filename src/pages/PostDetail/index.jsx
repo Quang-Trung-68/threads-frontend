@@ -118,7 +118,8 @@ export default function PostDetail({ onNavigate, state }) {
         </div>
 
         {/* Main Content */}
-        <div className="bg-background relative z-0 flex min-h-screen w-full flex-col">
+        {/* Main Content */}
+        <div className="bg-[var(--home-content)] relative z-0 flex min-h-screen w-full flex-col">
           {/* Left Border Line */}
           <div className="bg-border absolute top-0 bottom-0 left-0 z-10 w-px" />
           {/* Right Border Line */}

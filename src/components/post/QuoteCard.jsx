@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import ContentDisplay from "./ContentDisplay";
 import UserAvatar from "@/components/Common/ui/UserAvatar";
 import { CirclePlus as FollowIcon, Plus, BadgeCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -47,8 +48,7 @@ function QuoteCard({
   };
 
   // Auto resize textarea theo content
-  const textareaRef = useRef(null);
-  useAutoResizeTextarea(textareaRef, content);
+
 
   return (
     <div className="border-border flex flex-col rounded-2xl border-2 p-1 drop-shadow-2xl md:p-2">
@@ -97,13 +97,9 @@ function QuoteCard({
                   </div>
                 </div>
                 {content && (
-                  <textarea
-                    ref={textareaRef}
-                    readOnly
-                    onClick={handlePostDetail}
-                    className="w-full cursor-pointer resize-none overflow-hidden border-0 focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                    value={content}
-                  ></textarea>
+                  <div onClick={handlePostDetail}>
+                    <ContentDisplay content={content} className="bg-transparent" />
+                  </div>
                 )}
               </div>
             </div>
